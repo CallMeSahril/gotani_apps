@@ -18,7 +18,7 @@ class CartScreen extends GetView<CartController> {
               () => ListView.builder(
                 itemCount: controller.cartItems.length,
                 itemBuilder: (context, index) {
-                  final item = controller.cartItems[index];
+                  final item = controller.cartItems.value[index];
                   return ListTile(
                     leading: Row(
                       mainAxisSize: MainAxisSize.min,

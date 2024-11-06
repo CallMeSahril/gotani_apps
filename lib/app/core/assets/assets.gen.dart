@@ -14,6 +14,16 @@ import 'package:vector_graphics/vector_graphics.dart' as _vg;
 
 class $AssetsIconsGen {
   const $AssetsIconsGen();
+  SvgGenImage get alatTani => const SvgGenImage('assets/images/alat_tani.svg');
+
+  /// File path: assets/icons/back.svg
+  SvgGenImage get bibit => const SvgGenImage('assets/images/bibit.svg');
+
+  /// File path: assets/icons/calendar.svg
+  SvgGenImage get pupuk => const SvgGenImage('assets/images/pupuk.svg');
+
+  /// File path: assets/icons/email.svg
+  SvgGenImage get racun => const SvgGenImage('assets/icons/racun.svg');
 
   /// File path: assets/icons/attendance.svg
   SvgGenImage get attendance =>
@@ -52,6 +62,10 @@ class $AssetsIconsGen {
 
   /// List of all assets
   List<SvgGenImage> get values => [
+        pupuk,
+        racun,
+        bibit,
+        alatTani,
         attendance,
         back,
         calendar,

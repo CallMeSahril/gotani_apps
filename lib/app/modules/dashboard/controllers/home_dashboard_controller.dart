@@ -1,9 +1,10 @@
 import 'package:get/get.dart';
+import 'package:gotani_apps/app/core/assets/assets.gen.dart';
 
 class HomeDashboardController extends GetxController {
   RxList listCategori = [
     {
-      "icon": "icon",
+      "icon": Assets.images.logo.path,
       "name": "Bibit",
     },
     {

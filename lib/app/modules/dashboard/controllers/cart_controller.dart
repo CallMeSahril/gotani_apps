@@ -1,18 +1,56 @@
 import 'package:get/get.dart';
+import 'package:gotani_apps/app/data/model/cart_item.dart';
 
 class CartController extends GetxController {
-  @override
-  void onInit() {
-    super.onInit();
+  var cartItems = <CartItem>[
+    CartItem(
+      imageUrl:
+          'https://smexpo.pertamina.com/data-smexpo/images/products/3282/galleries/2023051413095776932_1715080735.jpg',
+      name: 'Pembasmi Rumput',
+      price: 36000,
+    ),
+    CartItem(
+      imageUrl:
+          'https://smexpo.pertamina.com/data-smexpo/images/products/3282/galleries/2023051413095776932_1715080735.jpg',
+      name: 'Arit',
+      price: 50000,
+    ),
+    CartItem(
+      imageUrl:
+          'https://smexpo.pertamina.com/data-smexpo/images/products/3282/galleries/2023051413095776932_1715080735.jpg',
+      name: 'Cangkul',
+      price: 30000,
+    ),
+    CartItem(
+      imageUrl:
+          'https://smexpo.pertamina.com/data-smexpo/images/products/3282/galleries/2023051413095776932_1715080735.jpg',
+      name: 'Racun Keong',
+      price: 50000,
+    ),
+  ].obs;
+
+  int get shippingFee => 15000;
+
+  int get subtotal => cartItems
+      .where((item) => item.isSelected)
+      .fold(0, (sum, item) => sum + (item.price * item.quantity));
+
+  int get total => subtotal + shippingFee;
+
+  void toggleSelection(int index) {
+    cartItems[index].isSelected = !cartItems[index].isSelected;
+    cartItems.refresh();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  void incrementQuantity(int index) {
+    cartItems[index].quantity++;
+    cartItems.refresh();
   }
 
-  @override
-  void onClose() {
-    super.onClose();
+  void decrementQuantity(int index) {
+    if (cartItems[index].quantity > 1) {
+      cartItems[index].quantity--;
+      cartItems.refresh();
+    }
   }
 }

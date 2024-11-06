@@ -16,6 +16,7 @@ class HomeDashboardScreen extends GetView<HomeDashboardController> {
         // await controller.refreshData();
       },
       child: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
           child: Stack(
@@ -31,7 +32,7 @@ class HomeDashboardScreen extends GetView<HomeDashboardController> {
                 ),
               ),
               Positioned(
-                top: 50,
+                top: 10.h,
                 left: 16,
                 right: 16,
                 child: Text(
@@ -46,7 +47,7 @@ class HomeDashboardScreen extends GetView<HomeDashboardController> {
               Positioned(
                 right: 16,
                 left: 16,
-                top: 100,
+                top: 15.5.h,
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.white,

@@ -14,67 +14,53 @@ import 'package:vector_graphics/vector_graphics.dart' as _vg;
 
 class $AssetsIconsGen {
   const $AssetsIconsGen();
-  SvgGenImage get alatTani => const SvgGenImage('assets/images/alat_tani.svg');
 
-  /// File path: assets/icons/back.svg
-  SvgGenImage get bibit => const SvgGenImage('assets/images/bibit.svg');
+  // /// File path: assets/icons/attendance.svg
+  // SvgGenImage get attendance =>
+  //     const SvgGenImage('assets/icons/attendance.svg');
 
-  /// File path: assets/icons/calendar.svg
-  SvgGenImage get pupuk => const SvgGenImage('assets/images/pupuk.svg');
+  // /// File path: assets/icons/back.svg
+  // SvgGenImage get back => const SvgGenImage('assets/icons/back.svg');
 
-  /// File path: assets/icons/email.svg
-  SvgGenImage get racun => const SvgGenImage('assets/icons/racun.svg');
-
-  /// File path: assets/icons/attendance.svg
-  SvgGenImage get attendance =>
-      const SvgGenImage('assets/icons/attendance.svg');
-
-  /// File path: assets/icons/back.svg
-  SvgGenImage get back => const SvgGenImage('assets/icons/back.svg');
-
-  /// File path: assets/icons/calendar.svg
+  // /// File path: assets/icons/calendar.svg
   SvgGenImage get calendar => const SvgGenImage('assets/icons/calendar.svg');
 
-  /// File path: assets/icons/email.svg
-  SvgGenImage get email => const SvgGenImage('assets/icons/email.svg');
+  // /// File path: assets/icons/email.svg
+  // SvgGenImage get email => const SvgGenImage('assets/icons/email.svg');
 
-  /// File path: assets/icons/image.svg
-  SvgGenImage get image => const SvgGenImage('assets/icons/image.svg');
+  // /// File path: assets/icons/image.svg
+  // SvgGenImage get image => const SvgGenImage('assets/icons/image.svg');
 
-  /// File path: assets/icons/location.svg
-  SvgGenImage get location => const SvgGenImage('assets/icons/location.svg');
+  // /// File path: assets/icons/location.svg
+  // SvgGenImage get location => const SvgGenImage('assets/icons/location.svg');
 
-  /// Directory path: assets/icons/menu
-  $AssetsIconsMenuGen get menu => const $AssetsIconsMenuGen();
+  // /// Directory path: assets/icons/menu
+  // $AssetsIconsMenuGen get menu => const $AssetsIconsMenuGen();
 
-  /// Directory path: assets/icons/nav
-  $AssetsIconsNavGen get nav => const $AssetsIconsNavGen();
+  // /// Directory path: assets/icons/nav
+  // $AssetsIconsNavGen get nav => const $AssetsIconsNavGen();
 
-  /// File path: assets/icons/notification_rounded.svg
-  SvgGenImage get notificationRounded =>
-      const SvgGenImage('assets/icons/notification_rounded.svg');
+  // /// File path: assets/icons/notification_rounded.svg
+  // SvgGenImage get notificationRounded =>
+  //     const SvgGenImage('assets/icons/notification_rounded.svg');
 
-  /// File path: assets/icons/password.svg
-  SvgGenImage get password => const SvgGenImage('assets/icons/password.svg');
+  // /// File path: assets/icons/password.svg
+  // SvgGenImage get password => const SvgGenImage('assets/icons/password.svg');
 
-  /// File path: assets/icons/reverse.svg
-  SvgGenImage get reverse => const SvgGenImage('assets/icons/reverse.svg');
+  // /// File path: assets/icons/reverse.svg
+  // SvgGenImage get reverse => const SvgGenImage('assets/icons/reverse.svg');
 
   /// List of all assets
   List<SvgGenImage> get values => [
-        pupuk,
-        racun,
-        bibit,
-        alatTani,
-        attendance,
-        back,
+        // attendance,
+        // back,
         calendar,
-        email,
-        image,
-        location,
-        notificationRounded,
-        password,
-        reverse
+        // email,
+        // image,
+        // location,
+        // notificationRounded,
+        // password,
+        // reverse
       ];
 }
 

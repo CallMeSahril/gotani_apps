@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:gotani_apps/app/core/assets/assets.gen.dart';
 import 'package:gotani_apps/app/core/components/custom_text_field.dart';
 import 'package:gotani_apps/app/modules/dashboard/controllers/home_dashboard_controller.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -73,14 +75,19 @@ class HomeDashboardScreen extends GetView<HomeDashboardController> {
                     itemBuilder: (context, index) {
                       return Container(
                         width: 25.w,
-                        color: Colors.pink,
                         margin: EdgeInsets.symmetric(horizontal: 8),
                         child: Center(
                           child: Column(
                             children: [
                               Container(
                                 height: 10.h,
-                                color: Colors.amber,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: Colors.white,
+                                    image: DecorationImage(
+                                        image: AssetImage(
+                                      controller.listCategori[index]['icon'],
+                                    ))),
                               ),
                               Text(
                                 'Item ${controller.listCategori[index]['name']}',
@@ -118,30 +125,73 @@ class HomeDashboardScreen extends GetView<HomeDashboardController> {
                         itemCount: controller.listCategori.length,
                         itemBuilder: (context, index) {
                           return Container(
-                            color: Colors.pink,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.white,
+                            ),
                             margin: EdgeInsets.symmetric(horizontal: 8),
                             child: Center(
-                              child: Column(
+                              child: Stack(
                                 children: [
-                                  Container(
-                                    height: 10.h,
-                                    color: Colors.amber,
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      'Pupuk Urea',
-                                      style: TextStyle(color: Colors.black),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
+                                  Positioned(
+                                    right: 4,
+                                    child: Container(
+                                      padding: EdgeInsets.all(4),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.only(
+                                          bottomLeft: Radius.circular(8),
+                                          topRight: Radius.circular(8),
+                                        ),
+                                      ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Icon(
+                                            Icons.star,
+                                            color: Colors.yellow,
+                                            size: 16,
+                                          ),
+                                          Text(
+                                            '4.5',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                  Expanded(
-                                    child: Text(
-                                      '250.000 - 250.000',
-                                      style: TextStyle(color: Colors.black),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        height: 10.h,
+                                        color: Colors.amber,
+                                      ),
+                                      Icon(
+                                        Icons.location_on,
+                                        color: Colors.green,
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          'Pupuk Urea',
+                                          style: TextStyle(color: Colors.black),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          '250.000 - 250.000',
+                                          style: TextStyle(color: Colors.black),
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
@@ -167,7 +217,7 @@ class HomeDashboardScreen extends GetView<HomeDashboardController> {
                         itemCount: controller.listCategori.length,
                         itemBuilder: (context, index) {
                           return Container(
-                            color: Colors.pink,
+                            color: Colors.white,
                             margin: EdgeInsets.symmetric(horizontal: 8),
                             child: Center(
                               child: Column(
@@ -185,11 +235,28 @@ class HomeDashboardScreen extends GetView<HomeDashboardController> {
                                     ),
                                   ),
                                   Expanded(
-                                    child: Text(
-                                      '250.000 - 250.000',
-                                      style: TextStyle(color: Colors.black),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          '250.000',
+                                          style: TextStyle(color: Colors.black),
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        SizedBox(
+                                          width: 4.w,
+                                        ),
+                                        GestureDetector(
+                                            onTap: () {
+                                              // Add your onPressed code here!
+                                            },
+                                            child: Icon(
+                                              Icons.add_circle,
+                                              color: Color(0xff0E803C),
+                                            )),
+                                      ],
                                     ),
                                   ),
                                 ],

@@ -45,4 +45,6 @@ class AppColors {
 
   /// stroke = #DBDBDB
   static const Color stroke = Color(0xffDBDBDB);
+
+  static const Color blue = Color(0xff0B37A9);
 }

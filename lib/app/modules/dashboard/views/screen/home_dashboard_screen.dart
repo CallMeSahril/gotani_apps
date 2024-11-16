@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:gotani_apps/app/core/assets/assets.gen.dart';
 import 'package:gotani_apps/app/core/components/custom_text_field.dart';
 import 'package:gotani_apps/app/modules/dashboard/controllers/home_dashboard_controller.dart';
+import 'package:gotani_apps/app/routes/app_pages.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class HomeDashboardScreen extends GetView<HomeDashboardController> {
@@ -216,50 +217,55 @@ class HomeDashboardScreen extends GetView<HomeDashboardController> {
                         scrollDirection: Axis.horizontal,
                         itemCount: controller.listCategori.length,
                         itemBuilder: (context, index) {
-                          return Container(
-                            color: Colors.white,
-                            margin: EdgeInsets.symmetric(horizontal: 8),
-                            child: Center(
-                              child: Column(
-                                children: [
-                                  Container(
-                                    height: 10.h,
-                                    color: Colors.amber,
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      'Pupuk Urea',
-                                      style: TextStyle(color: Colors.black),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
+                          return GestureDetector(
+                            onTap: () => Get.toNamed(Routes.DETAIL_PRODUCT,
+                                arguments: controller.listCategori[index]),
+                            child: Container(
+                              color: Colors.white,
+                              margin: EdgeInsets.symmetric(horizontal: 8),
+                              child: Center(
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      height: 10.h,
+                                      color: Colors.amber,
                                     ),
-                                  ),
-                                  Expanded(
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          '250.000',
-                                          style: TextStyle(color: Colors.black),
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                        SizedBox(
-                                          width: 4.w,
-                                        ),
-                                        GestureDetector(
-                                            onTap: () {
-                                              // Add your onPressed code here!
-                                            },
-                                            child: Icon(
-                                              Icons.add_circle,
-                                              color: Color(0xff0E803C),
-                                            )),
-                                      ],
+                                    Expanded(
+                                      child: Text(
+                                        'Pupuk Urea',
+                                        style: TextStyle(color: Colors.black),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                    Expanded(
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            '250.000',
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          SizedBox(
+                                            width: 4.w,
+                                          ),
+                                          GestureDetector(
+                                              onTap: () {
+                                                // Add your onPressed code here!
+                                              },
+                                              child: Icon(
+                                                Icons.add_circle,
+                                                color: Color(0xff0E803C),
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           );

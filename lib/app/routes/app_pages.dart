@@ -7,6 +7,8 @@ import '../modules/components/views/components_view.dart';
 import '../modules/dashboard/bindings/dashboard_binding.dart';
 import '../modules/dashboard/views/dashboard_view.dart';
 import '../modules/dashboard/views/screen/detail_product_screen.dart';
+import '../modules/delivery/bindings/delivery_binding.dart';
+import '../modules/delivery/views/delivery_view.dart';
 import '../modules/detail_product/bindings/detail_product_binding.dart';
 import '../modules/detail_product/views/detail_product_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -72,6 +74,11 @@ class AppPages {
       name: _Paths.ADDRESS,
       page: () => AddressView(),
       binding: AddressBinding(),
+    ),
+    GetPage(
+      name: _Paths.DELIVERY,
+      page: () => const DeliveryView(),
+      binding: DeliveryBinding(),
     ),
   ];
 }

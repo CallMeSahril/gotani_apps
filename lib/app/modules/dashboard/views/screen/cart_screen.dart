@@ -2,23 +2,86 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gotani_apps/app/modules/dashboard/controllers/cart_controller.dart';
 
+import '../../../../routes/app_pages.dart';
+import 'address_screen.dart';
+
 class CartScreen extends GetView<CartController> {
   const CartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Keranjang Saya'),
       ),
       body: Column(
         children: [
+          Container(
+            width: width,
+            padding: EdgeInsets.all(width * 0.05),
+            alignment: Alignment.centerRight,
+            child: Column(
+              children: [
+                InkWell(
+                  onTap: () {
+                    Get.toNamed(Routes.ADDRESS);
+                  },
+                  child: Row(
+                    children: [
+                      Text(
+                        controller.address.address ?? "Pilih Alamat",
+                        style: TextStyle(
+                          color: Color(0xff0E803C),
+                          fontSize: 16,
+                        ),
+                      ),
+                      SizedBox(
+                        width: width * 0.04,
+                      ),
+                      Icon(
+                        Icons.navigate_next_outlined,
+                        size: width * 0.05,
+                        color: Color(0xff0E803C),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: width * 0.04,
+                ),
+                InkWell(
+                  onTap: () {},
+                  child: Row(
+                    children: [
+                      Text(
+                        controller.address.address ?? "Pilih Pengiriman",
+                        style: TextStyle(
+                          color: Color(0xff0E803C),
+                          fontSize: 16,
+                        ),
+                      ),
+                      SizedBox(
+                        width: width * 0.04,
+                      ),
+                      Icon(
+                        Icons.navigate_next_outlined,
+                        size: width * 0.05,
+                        color: Color(0xff0E803C),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
           Expanded(
             child: Obx(
               () => ListView.builder(
                 itemCount: controller.cartItems.length,
                 itemBuilder: (context, index) {
-                  final item = controller.cartItems.value[index];
+                  final item = controller.cartItems[index];
                   return ListTile(
                     leading: Row(
                       mainAxisSize: MainAxisSize.min,

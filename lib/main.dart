@@ -5,6 +5,9 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'app/routes/app_pages.dart';
 
+// main url
+String mainUrl = "https://gotani.entitas.biz.id/api";
+
 void main() {
   runApp(
     ResponsiveSizer(builder: (context, orientation, screenType) {

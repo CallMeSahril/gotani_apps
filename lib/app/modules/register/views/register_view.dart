@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:get/get.dart';
 import 'package:gotani_apps/app/core/assets/assets.gen.dart';
@@ -6,12 +9,36 @@ import 'package:gotani_apps/app/core/components/buttons.dart';
 import 'package:gotani_apps/app/core/components/custom_text_field.dart';
 import 'package:gotani_apps/app/core/components/spaces.dart';
 import 'package:gotani_apps/app/routes/app_pages.dart';
+import 'package:gotani_apps/main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../controllers/register_controller.dart';
 
 class RegisterView extends GetView<RegisterController> {
-  const RegisterView({super.key});
+  RegisterView({super.key});
+  final TextEditingController _controllerName = TextEditingController();
+  final TextEditingController _controllerEmail = TextEditingController();
+  final TextEditingController _controllerPass = TextEditingController();
+
+  save() async {
+    if (_controllerEmail.text == "" ||
+        _controllerPass.text == "" ||
+        _controllerName.text == "") {
+      Get.snackbar("Warning", "Mohon Isi Seluruh Kolom Yang Ada.");
+    }
+    final response = await http.post(Uri.parse("$mainUrl/register"), body: {
+      "email": _controllerEmail.text,
+      "password": _controllerPass.text,
+      "name": _controllerName.text
+    });
+    print(response.body);
+    if (response.statusCode == 200) {
+      Get.offAll(Routes.LOGIN);
+    } else {
+      Get.snackbar("Warning", "Gagal Mendaftarkan Akun.");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,17 +61,17 @@ class RegisterView extends GetView<RegisterController> {
             ),
             SpaceHeight(10),
             CustomTextField(
-              controller: TextEditingController(),
+              controller: _controllerName,
               label: "Username",
             ),
             SpaceHeight(10),
             CustomTextField(
-              controller: TextEditingController(),
+              controller: _controllerEmail,
               label: "Email",
             ),
             SpaceHeight(10),
             Obx(() => CustomTextField(
-                  controller: TextEditingController(),
+                  controller: _controllerPass,
                   label: "Password",
                   obscureText: true,
                   suffixIcon: IconButton(
@@ -61,8 +88,10 @@ class RegisterView extends GetView<RegisterController> {
             SpaceHeight(10),
             Button.filled(
               color: Color(0xff00AA13),
-              onPressed: () {},
-              label: "Login",
+              onPressed: () {
+                save();
+              },
+              label: "Register",
             ),
             SpaceHeight(10),
             Row(

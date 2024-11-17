@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:gotani_apps/app/core/assets/assets.gen.dart';
 
+import '../model/model_product.dart';
+
 class HomeDashboardController extends GetxController {
   RxList<Map<String, dynamic>> listCategori = [
     {
@@ -20,14 +22,21 @@ class HomeDashboardController extends GetxController {
       "name": "Alat Tani",
     }
   ].obs;
+
+  RxList<ModelProduct> listProduct = <ModelProduct>[].obs;
+
   @override
   void onInit() {
     super.onInit();
   }
 
   @override
-  void onReady() {
+  Future<void> onReady() async {
     super.onReady();
+    await ModelProduct.fetchRecords().then((value) {
+      listProduct.value = value;
+      listProduct.refresh();
+    });
   }
 
   @override

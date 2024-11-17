@@ -51,42 +51,51 @@ class DeliveryView extends GetView<DeliveryController> {
               itemCount: controller.listCourier.length,
               itemBuilder: (context, index) {
                 var courier = controller.listCourier[index];
-                return Container(
-                  width: width,
-                  padding: EdgeInsets.all(width * 0.03),
-                  margin: EdgeInsets.only(bottom: width * 0.05),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(width * 0.05),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        blurRadius: 10,
-                        offset: const Offset(4, 4),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          controller.fetchDeliveryType();
-                        },
-                        child: Text(
+                return InkWell(
+                  onTap: () {
+                    controller.courier.value = courier;
+                    controller.fetchDeliveryType();
+                  },
+                  child: Container(
+                    width: width,
+                    padding: EdgeInsets.all(width * 0.03),
+                    margin: EdgeInsets.only(
+                      bottom: width * 0.05,
+                      left: width * 0.05,
+                      right: width * 0.05,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(width * 0.05),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 10,
+                          offset: const Offset(4, 4),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        Text(
                           courier,
                           style: TextStyle(
                             color: Colors.black87,
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                           ),
-                        ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
                 );
               },
             ),
+            SizedBox(
+              height: width * 0.04,
+            ),
+            Divider(),
             SizedBox(
               height: width * 0.04,
             ),
@@ -100,7 +109,11 @@ class DeliveryView extends GetView<DeliveryController> {
                   return Container(
                     width: width,
                     padding: EdgeInsets.all(width * 0.03),
-                    margin: EdgeInsets.only(bottom: width * 0.05),
+                    margin: EdgeInsets.only(
+                      bottom: width * 0.05,
+                      left: width * 0.05,
+                      right: width * 0.05,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       border: Border.all(color: Colors.grey),

@@ -60,6 +60,7 @@ class ModelDeliveryType {
       },
     );
     print(response.statusCode);
+    print(response.body);
     var respon = jsonDecode(response.body);
     print(respon);
     if (response.statusCode == 200) {

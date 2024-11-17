@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../model/model_profile.dart';
+
 class AccountController extends GetxController {
   // Sample data, replace with actual data fetching logic
   var name = 'Annisa'.obs;
@@ -7,13 +9,18 @@ class AccountController extends GetxController {
   var phoneStatus = 'Belum Verifikasi'.obs;
   var genderStatus = 'Belum Verifikasi'.obs;
   var birthDateStatus = 'Belum Verifikasi'.obs;
+  var profile = ModelProfile().obs;
 
   void fetchData() {
-    // Logic to fetch data from API or local storage can go here
+    ModelProfile.fetchProfile().then((value) {
+      profile.value = value;
+    });
   }
+
   @override
   void onInit() {
     super.onInit();
+    fetchData();
   }
 
   @override

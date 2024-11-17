@@ -254,21 +254,16 @@ class CartScreen extends GetView<CartController> {
                       groupValue: controller.selectedPaymentMethod.value,
                       onChanged: (value) {
                         controller.updatePaymentMethod(value!);
+                        final selectedMethod =
+                            controller.selectedPaymentMethod.value;
+                        Get.snackbar(
+                          "Metode Pembayaran",
+                          "Metode yang dipilih: $selectedMethod",
+                          snackPosition: SnackPosition.BOTTOM,
+                        );
                       },
                     ),
                   )),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  final selectedMethod = controller.selectedPaymentMethod.value;
-                  Get.snackbar(
-                    "Metode Pembayaran",
-                    "Metode yang dipilih: $selectedMethod",
-                    snackPosition: SnackPosition.BOTTOM,
-                  );
-                },
-                child: Text("Konfirmasi Pembayaran"),
-              ),
             ],
           ),
           Container(
@@ -330,9 +325,11 @@ class CartScreen extends GetView<CartController> {
                             .length >
                         1) {
                       Get.snackbar("Warning", "Pilih maksimal 1 keranjang");
+                    } else if (controller.deliveryType.value.service == null) {
+                      Get.snackbar("Warning", "Pilih Pengiriman");
                     } else {
                       final response = await http.post(
-                        Uri.parse("$mainUrl/cart-items"),
+                        Uri.parse("$mainUrl/transaction"),
                         body: {
                           "product_id": controller.cartItems
                               .firstWhere((item) => item.isSelected == true)
@@ -354,10 +351,18 @@ class CartScreen extends GetView<CartController> {
                       var body = jsonDecode(response.body);
                       if (body['status'] == "success" &&
                           response.statusCode == 200) {
-                        Get.snackbar("Info", "Berhasil menambahkan Keranjang.");
-                        Get.back();
+                        Get.snackbar("Info", "Berhasil Melakukan Checkout.");
+                        Get.toNamed(Routes.TRANSACTION_SUCCESS);
+                        final response = await http.delete(
+                          Uri.parse(
+                              "$mainUrl/cart-items/${controller.cartItems.firstWhere((item) => item.isSelected == true).id}"),
+                          headers: {
+                            HttpHeaders.authorizationHeader:
+                                "Bearer ${prefs.getString("token")}",
+                          },
+                        );
                       } else {
-                        Get.snackbar("Info", "Gagal Menambahkan Keranjang.");
+                        Get.snackbar("Info", "Gagal Melakukan Checkout.");
                       }
                     }
                   },

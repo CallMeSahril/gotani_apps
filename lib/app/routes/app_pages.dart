@@ -23,6 +23,8 @@ import '../modules/splashhome/bindings/splashhome_binding.dart';
 import '../modules/splashhome/views/splashhome_view.dart';
 import '../modules/transaction/bindings/transaction_binding.dart';
 import '../modules/transaction/views/transaction_view.dart';
+import '../modules/transaction_success/bindings/transaction_success_binding.dart';
+import '../modules/transaction_success/views/transaction_success_view.dart';
 
 part 'app_routes.dart';
 
@@ -86,6 +88,11 @@ class AppPages {
       name: _Paths.TRANSACTION,
       page: () => const TransactionView(),
       binding: TransactionBinding(),
+    ),
+    GetPage(
+      name: _Paths.TRANSACTION_SUCCESS,
+      page: () => const TransactionSuccessView(),
+      binding: TransactionSuccessBinding(),
     ),
   ];
 }

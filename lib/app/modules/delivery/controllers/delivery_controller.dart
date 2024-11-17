@@ -19,7 +19,7 @@ class DeliveryController extends GetxController {
   void fetchproductDetail() {
     ModelProduct.fetchDetailsRecords(id: idProduct.value).then((value) {
       product.value = value;
-      origin.value = value.user!.storeCityId;
+      destination.value = value.user!.storeCityId;
       weight.value = (value.weight! * qty.value).toString();
     });
   }

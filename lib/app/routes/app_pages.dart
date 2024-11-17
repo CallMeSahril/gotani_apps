@@ -10,6 +10,12 @@ import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/product_admin/detail_product_admin/bindings/detail_product_admin_binding.dart';
+import '../modules/product_admin/detail_product_admin/views/detail_product_admin_view.dart';
+import '../modules/product_admin/form_product/bindings/form_product_binding.dart';
+import '../modules/product_admin/form_product/views/form_product_view.dart';
+import '../modules/product_admin/product/bindings/product_binding.dart';
+import '../modules/product_admin/product/views/product_view.dart';
 import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
@@ -64,6 +70,21 @@ class AppPages {
       name: _Paths.DETAIL_PRODUCT,
       page: () => const DetailProductView(),
       binding: DetailProductBinding(),
+    ),
+    GetPage(
+      name: _Paths.PRODUCT,
+      page: () => const ProductView(),
+      binding: ProductBinding(),
+    ),
+    GetPage(
+      name: _Paths.FORM_PRODUCT,
+      page: () => const FormProductView(),
+      binding: FormProductBinding(),
+    ),
+    GetPage(
+      name: _Paths.DETAIL_PRODUCT_ADMIN,
+      page: () => const DetailProductAdminView(),
+      binding: DetailProductAdminBinding(),
     ),
   ];
 }

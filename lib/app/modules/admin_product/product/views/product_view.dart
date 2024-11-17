@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:gotani_apps/app/core/constants/colors.dart';
-import 'package:gotani_apps/app/modules/product_admin/product/controllers/product_controller.dart';
+import 'package:gotani_apps/app/modules/admin_product/product/controllers/product_controller.dart';
 import 'package:gotani_apps/app/routes/app_pages.dart';
 
 class ProductView extends GetView<ProductController> {

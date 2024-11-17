@@ -19,6 +19,8 @@ abstract class Routes {
   static const DETAIL_PRODUCT_ADMIN = _Paths.DETAIL_PRODUCT_ADMIN;
   static const CATEGORY_LIST = _Paths.CATEGORY_LIST;
   static const CATEGORY_FORM = _Paths.CATEGORY_FORM;
+  static const ADMIN_NOTIFICATIONS = _Paths.ADMIN_NOTIFICATIONS;
+  static const ADMIN_DETAIL_NOTIFICATIONS = _Paths.ADMIN_DETAIL_NOTIFICATIONS;
 }
 
 abstract class _Paths {
@@ -39,4 +41,6 @@ abstract class _Paths {
   static const DETAIL_PRODUCT_ADMIN = '/detail-product-admin';
   static const CATEGORY_LIST = '/category-list';
   static const CATEGORY_FORM = '/category-form';
+  static const ADMIN_NOTIFICATIONS = '/admin-notifications';
+  static const ADMIN_DETAIL_NOTIFICATIONS = '/admin-detail-notifications';
 }

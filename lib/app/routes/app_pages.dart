@@ -1,9 +1,19 @@
 import 'package:get/get.dart';
 
-import '../modules/category_admin/category_form/bindings/category_form_binding.dart';
-import '../modules/category_admin/category_form/views/category_form_view.dart';
-import '../modules/category_admin/category_list/bindings/category_list_binding.dart';
-import '../modules/category_admin/category_list/views/category_list_view.dart';
+import '../modules/admin_category/category_form/bindings/category_form_binding.dart';
+import '../modules/admin_category/category_form/views/category_form_view.dart';
+import '../modules/admin_category/category_list/bindings/category_list_binding.dart';
+import '../modules/admin_category/category_list/views/category_list_view.dart';
+import '../modules/admin_notification/admin_detail_notifications/bindings/admin_detail_notifications_binding.dart';
+import '../modules/admin_notification/admin_detail_notifications/views/admin_detail_notifications_view.dart';
+import '../modules/admin_notification/admin_notifications/bindings/admin_notifications_binding.dart';
+import '../modules/admin_notification/admin_notifications/views/admin_notifications_view.dart';
+import '../modules/admin_product/detail_product_admin/bindings/detail_product_admin_binding.dart';
+import '../modules/admin_product/detail_product_admin/views/detail_product_admin_view.dart';
+import '../modules/admin_product/form_product/bindings/form_product_binding.dart';
+import '../modules/admin_product/form_product/views/form_product_view.dart';
+import '../modules/admin_product/product/bindings/product_binding.dart';
+import '../modules/admin_product/product/views/product_view.dart';
 import '../modules/components/bindings/components_binding.dart';
 import '../modules/components/views/components_view.dart';
 import '../modules/dashboard/bindings/dashboard_binding.dart';
@@ -14,12 +24,6 @@ import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
-import '../modules/product_admin/detail_product_admin/bindings/detail_product_admin_binding.dart';
-import '../modules/product_admin/detail_product_admin/views/detail_product_admin_view.dart';
-import '../modules/product_admin/form_product/bindings/form_product_binding.dart';
-import '../modules/product_admin/form_product/views/form_product_view.dart';
-import '../modules/product_admin/product/bindings/product_binding.dart';
-import '../modules/product_admin/product/views/product_view.dart';
 import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
@@ -99,6 +103,16 @@ class AppPages {
       name: _Paths.CATEGORY_FORM,
       page: () => const CategoryFormView(),
       binding: CategoryFormBinding(),
+    ),
+    GetPage(
+      name: _Paths.ADMIN_NOTIFICATIONS,
+      page: () => const AdminNotificationsView(),
+      binding: AdminNotificationsBinding(),
+    ),
+    GetPage(
+      name: _Paths.ADMIN_DETAIL_NOTIFICATIONS,
+      page: () => const AdminDetailNotificationsView(),
+      binding: AdminDetailNotificationsBinding(),
     ),
   ];
 }

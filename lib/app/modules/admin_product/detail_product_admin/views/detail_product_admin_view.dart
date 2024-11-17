@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import 'package:gotani_apps/app/core/components/buttons.dart';
 import 'package:gotani_apps/app/core/constants/colors.dart';
 import 'package:gotani_apps/app/core/helper/format_currency.dart';
-import 'package:gotani_apps/app/modules/product_admin/detail_product_admin/controllers/detail_product_admin_controller.dart';
-import 'package:gotani_apps/app/modules/product_admin/product/controllers/product_controller.dart';
+import 'package:gotani_apps/app/modules/admin_product/detail_product_admin/controllers/detail_product_admin_controller.dart';
+import 'package:gotani_apps/app/modules/admin_product/product/controllers/product_controller.dart';
 
 class DetailProductAdminView extends GetView<DetailProductAdminController> {
   const DetailProductAdminView({super.key});

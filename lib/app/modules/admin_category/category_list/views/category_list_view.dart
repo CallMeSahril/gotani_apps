@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:gotani_apps/app/core/constants/colors.dart';
-import 'package:gotani_apps/app/modules/admin_category/category_list/controllers/category_list_controller.dart';
 import 'package:gotani_apps/app/modules/admin_category/category_list/widgets/category_card.dart';
 import 'package:gotani_apps/app/routes/app_pages.dart';
+
+import '../controllers/category_list_controller.dart';
 
 class CategoryListView extends GetView<CategoryListController> {
   const CategoryListView({super.key});

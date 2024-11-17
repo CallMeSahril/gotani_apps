@@ -15,20 +15,29 @@ class HomeView extends GetView<HomeController> {
         centerTitle: true,
       ),
       body: Center(
-          child: Column(
-        children: [
-          ElevatedButton(
-              onPressed: () {
-                Get.toNamed(Routes.CATEGORY_LIST);
-              },
-              child: const Text('category')),
-          ElevatedButton(
-              onPressed: () {
-                Get.toNamed(Routes.PRODUCT);
-              },
-              child: const Text('product')),
-        ],
-      )),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text('This is Admin Dashboard'),
+            ElevatedButton(
+                onPressed: () {
+                  Get.toNamed(Routes.CATEGORY_LIST);
+                },
+                child: const Text('category')),
+            ElevatedButton(
+                onPressed: () {
+                  Get.toNamed(Routes.PRODUCT);
+                },
+                child: const Text('product')),
+            ElevatedButton(
+                onPressed: () {
+                  Get.toNamed(Routes.ADMIN_NOTIFICATIONS);
+                },
+                child: const Text('Notification')),
+          ],
+        ),
+      ),
     );
   }
 }

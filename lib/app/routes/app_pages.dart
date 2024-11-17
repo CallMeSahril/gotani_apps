@@ -14,12 +14,19 @@ import '../modules/admin_product/form_product/bindings/form_product_binding.dart
 import '../modules/admin_product/form_product/views/form_product_view.dart';
 import '../modules/admin_product/product/bindings/product_binding.dart';
 import '../modules/admin_product/product/views/product_view.dart';
+import '../modules/address/bindings/address_binding.dart';
+import '../modules/address/views/address_view.dart';
 import '../modules/components/bindings/components_binding.dart';
 import '../modules/components/views/components_view.dart';
 import '../modules/dashboard/bindings/dashboard_binding.dart';
 import '../modules/dashboard/views/dashboard_view.dart';
 import '../modules/detail.product/bindings/detail_product_binding.dart';
 import '../modules/detail.product/views/detail_product_view.dart';
+import '../modules/dashboard/views/screen/detail_product_screen.dart';
+import '../modules/delivery/bindings/delivery_binding.dart';
+import '../modules/delivery/views/delivery_view.dart';
+import '../modules/detail_product/bindings/detail_product_binding.dart';
+import '../modules/detail_product/views/detail_product_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
@@ -56,7 +63,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.REGISTER,
-      page: () => const RegisterView(),
+      page: () => RegisterView(),
       binding: RegisterBinding(),
     ),
     GetPage(
@@ -66,7 +73,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.LOGIN,
-      page: () => const LoginView(),
+      page: () => LoginView(),
       binding: LoginBinding(),
     ),
     GetPage(
@@ -74,10 +81,20 @@ class AppPages {
       page: () => const DashboardView(),
       binding: DashboardBinding(),
     ),
+    // GetPage(
+    //   name: _Paths.DETAIL_PRODUCT,
+    //   page: () => const DetailProductView(),
+    //   binding: DetailProductBinding(),
+    // ),
     GetPage(
-      name: _Paths.DETAIL_PRODUCT,
-      page: () => const DetailProductView(),
-      binding: DetailProductBinding(),
+      name: _Paths.ADDRESS,
+      page: () => AddressView(),
+      binding: AddressBinding(),
+    ),
+    GetPage(
+      name: _Paths.DELIVERY,
+      page: () => const DeliveryView(),
+      binding: DeliveryBinding(),
     ),
     GetPage(
       name: _Paths.PRODUCT,

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -6,10 +8,15 @@ import 'package:gotani_apps/app/core/components/custom_text_field.dart';
 import 'package:gotani_apps/app/core/components/spaces.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
-  const LoginView({super.key});
+  LoginView({super.key});
+  final TextEditingController _controllerEmail = TextEditingController();
+  final TextEditingController _controllerPass = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,13 +43,15 @@ class LoginView extends GetView<LoginController> {
           SpaceHeight(10),
           CustomTextField(
             controller: controller.emailController,
+            // controller: _controllerEmail,
             label: "Username",
           ),
           SpaceHeight(10),
           Obx(() => CustomTextField(
                 controller: controller.passwordController,
+                // controller: _controllerPass,
                 label: "Password",
-                obscureText: true,
+                obscureText: controller.isEyes.value,
                 suffixIcon: IconButton(
                   icon: Icon(
                     controller.isEyes.value
@@ -73,6 +82,34 @@ class LoginView extends GetView<LoginController> {
             color: Color(0xff5A64EA),
             onPressed: () {
               controller.login();
+              // onPressed: () async {
+              //   if (_controllerEmail.text == "" || _controllerPass.text == "") {
+              //     Get.snackbar("Warning", "Mohon Isi Seluruh Kolom Yang Ada.");
+              //     return;
+              //   }
+              //   final response = await http.post(
+              //     Uri.parse("$mainUrl/login"),
+              //     body: {
+              //       "email": _controllerEmail.text,
+              //       "password": _controllerPass.text
+              //     },
+              //   );
+              //   debugPrint(response.statusCode.toString());
+              //   var body = jsonDecode(response.body);
+              //   switch (response.statusCode) {
+              //     case 401:
+              //       debugPrint("failed login");
+              //       Get.snackbar("Warning", "Wrong Email or Password");
+              //       break;
+              //     case 200:
+              //       debugPrint("success login");
+              //       var pref = await SharedPreferences.getInstance();
+              //       pref.setString("token", body["data"]["token"]);
+              //       pref.setBool("login", true);
+              //       Get.snackbar("Info", "Success Login");
+              //       Get.offAllNamed(Routes.DASHBOARD);
+              //       break;
+              //   }
             },
             label: "Login",
           ),

@@ -1,6 +1,10 @@
 import 'package:get/get.dart';
 import 'package:gotani_apps/app/data/model/cart_item.dart';
 
+import '../model/model_address.dart';
+import '../model/model_kabupaten.dart';
+import '../model/model_province.dart';
+
 class CartController extends GetxController {
   var cartItems = <CartItem>[
     CartItem(
@@ -29,7 +33,8 @@ class CartController extends GetxController {
     ),
   ].obs;
 
-  int get shippingFee => 15000;
+  int get shippingFee => 0;
+  ModelAddress get address => ModelAddress();
 
   int get subtotal => cartItems
       .where((item) => item.isSelected)
@@ -52,5 +57,10 @@ class CartController extends GetxController {
       cartItems[index].quantity--;
       cartItems.refresh();
     }
+  }
+
+  @override
+  Future<void> onReady() async {
+    super.onReady();
   }
 }

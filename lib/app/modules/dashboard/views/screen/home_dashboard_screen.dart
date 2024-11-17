@@ -7,6 +7,9 @@ import 'package:gotani_apps/app/modules/dashboard/controllers/home_dashboard_con
 import 'package:gotani_apps/app/routes/app_pages.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../../../routes/app_pages.dart';
+import 'detail_product_screen.dart';
+
 class HomeDashboardScreen extends GetView<HomeDashboardController> {
   const HomeDashboardScreen({
     super.key,
@@ -121,84 +124,88 @@ class HomeDashboardScreen extends GetView<HomeDashboardController> {
                     ),
                     SizedBox(
                       height: 18.h,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: controller.listCategori.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: Colors.white,
-                            ),
-                            margin: EdgeInsets.symmetric(horizontal: 8),
-                            child: Center(
-                              child: Stack(
-                                children: [
-                                  Positioned(
-                                    right: 4,
-                                    child: Container(
-                                      padding: EdgeInsets.all(4),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.only(
-                                          bottomLeft: Radius.circular(8),
-                                          topRight: Radius.circular(8),
+                      child: Obx(
+                        () => ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: controller.listCategori.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: Colors.white,
+                              ),
+                              margin: EdgeInsets.symmetric(horizontal: 8),
+                              child: Center(
+                                child: Stack(
+                                  children: [
+                                    Positioned(
+                                      right: 4,
+                                      child: Container(
+                                        padding: EdgeInsets.all(4),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.only(
+                                            bottomLeft: Radius.circular(8),
+                                            topRight: Radius.circular(8),
+                                          ),
                                         ),
-                                      ),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Icon(
-                                            Icons.star,
-                                            color: Colors.yellow,
-                                            size: 16,
-                                          ),
-                                          Text(
-                                            '4.5',
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 12,
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Icon(
+                                              Icons.star,
+                                              color: Colors.yellow,
+                                              size: 16,
                                             ),
-                                          ),
-                                        ],
+                                            Text(
+                                              '4.5',
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        height: 10.h,
-                                        color: Colors.amber,
-                                      ),
-                                      Icon(
-                                        Icons.location_on,
-                                        color: Colors.green,
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          'Pupuk Urea',
-                                          style: TextStyle(color: Colors.black),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          height: 10.h,
+                                          color: Colors.amber,
                                         ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          '250.000 - 250.000',
-                                          style: TextStyle(color: Colors.black),
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
+                                        Icon(
+                                          Icons.location_on,
+                                          color: Colors.green,
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                        Expanded(
+                                          child: Text(
+                                            'Pupuk Urea',
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            '250.000 - 250.000',
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          );
-                        },
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ],
@@ -213,26 +220,42 @@ class HomeDashboardScreen extends GetView<HomeDashboardController> {
                   children: [
                     SizedBox(
                       height: 18.h,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: controller.listCategori.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () => Get.toNamed(Routes.DETAIL_PRODUCT,
-                                arguments: controller.listCategori[index]),
-                            child: Container(
+                      child: Obx(
+                        () => ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: controller.listProduct.length < 6
+                              ? controller.listProduct.length
+                              : 6,
+                          itemBuilder: (context, index) {
+                            return Container(
                               color: Colors.white,
                               margin: EdgeInsets.symmetric(horizontal: 8),
                               child: Center(
                                 child: Column(
                                   children: [
-                                    Container(
-                                      height: 10.h,
-                                      color: Colors.amber,
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Container(
+                                        height: 10.h,
+                                        color: Colors.amber,
+                                        child: Image.network(
+                                          controller.listProduct[index]
+                                                  .imageUrl ??
+                                              "-",
+                                          fit: BoxFit.contain,
+                                          errorBuilder:
+                                              (context, error, stackTrace) =>
+                                                  Icon(
+                                            Icons.warning,
+                                            size: 8.h,
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                     Expanded(
                                       child: Text(
-                                        'Pupuk Urea',
+                                        controller.listProduct[index].name ??
+                                            "-",
                                         style: TextStyle(color: Colors.black),
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
@@ -244,7 +267,8 @@ class HomeDashboardScreen extends GetView<HomeDashboardController> {
                                             CrossAxisAlignment.center,
                                         children: [
                                           Text(
-                                            '250.000',
+                                            controller.listProduct[index].price
+                                                .toString(),
                                             style:
                                                 TextStyle(color: Colors.black),
                                             maxLines: 2,
@@ -256,6 +280,10 @@ class HomeDashboardScreen extends GetView<HomeDashboardController> {
                                           GestureDetector(
                                               onTap: () {
                                                 // Add your onPressed code here!
+                                                Get.toNamed(
+                                                    Routes.DETAIL_PRODUCT,
+                                                    arguments: controller
+                                                        .listProduct[index]);
                                               },
                                               child: Icon(
                                                 Icons.add_circle,
@@ -267,9 +295,9 @@ class HomeDashboardScreen extends GetView<HomeDashboardController> {
                                   ],
                                 ),
                               ),
-                            ),
-                          );
-                        },
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ],

@@ -29,4 +29,15 @@ class CategoryFormController extends GetxController {
     stockController.dispose();
     super.onClose();
   }
+
+  @override
+  void onInit() {
+    super.onInit();
+    final arguments = Get.arguments;
+    if (arguments != null) {
+      nameController.text = arguments['name'] ?? '';
+      stockController.text = arguments['stock']?.toString() ?? '';
+      selectedImage.value = arguments['image'] ?? 'Choose File';
+    }
+  }
 }

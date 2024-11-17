@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
+import 'package:gotani_apps/app/core/services/auth.service.dart';
+import 'package:gotani_apps/app/routes/app_pages.dart';
 
 class CategoryListController extends GetxController {
   final List<Map<String, dynamic>> categories = [
@@ -31,4 +35,23 @@ class CategoryListController extends GetxController {
       'warning': false,
     },
   ];
+
+  Map user = {};
+
+  void fetchProfile() {
+    final authService = AuthService();
+    authService.getProfile().then((value) {
+      if (value != null) {
+        user.addAll(value);
+        update();
+      }
+      log(value.toString());
+    }).catchError((error) {
+      print('Error fetching profile: $error');
+    });
+  }
+
+  listTap(Map category) {
+    Get.toNamed(Routes.CATEGORY_FORM, arguments: category);
+  }
 }

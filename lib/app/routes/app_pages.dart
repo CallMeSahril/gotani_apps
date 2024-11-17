@@ -1,5 +1,9 @@
 import 'package:get/get.dart';
 
+import '../modules/category_admin/category_form/bindings/category_form_binding.dart';
+import '../modules/category_admin/category_form/views/category_form_view.dart';
+import '../modules/category_admin/category_list/bindings/category_list_binding.dart';
+import '../modules/category_admin/category_list/views/category_list_view.dart';
 import '../modules/components/bindings/components_binding.dart';
 import '../modules/components/views/components_view.dart';
 import '../modules/dashboard/bindings/dashboard_binding.dart';
@@ -85,6 +89,16 @@ class AppPages {
       name: _Paths.DETAIL_PRODUCT_ADMIN,
       page: () => const DetailProductAdminView(),
       binding: DetailProductAdminBinding(),
+    ),
+    GetPage(
+      name: _Paths.CATEGORY_LIST,
+      page: () => const CategoryListView(),
+      binding: CategoryListBinding(),
+    ),
+    GetPage(
+      name: _Paths.CATEGORY_FORM,
+      page: () => const CategoryFormView(),
+      binding: CategoryFormBinding(),
     ),
   ];
 }

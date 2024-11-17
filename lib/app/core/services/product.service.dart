@@ -1,11 +1,12 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gotani_apps/app/core/services/dio.h.dart';
 
 class ProductService {
-  final Dio dio = Dio();
+  ProductService() {
+    configureDioWithToken();
+  }
 
   Future<List> getProduct(int productId) async {
     try {

@@ -23,6 +23,24 @@ class FormProductController extends GetxController {
   XFile? image;
   String? imagePath;
 
+  @override
+  void onInit() {
+    super.onInit();
+    final arguments = Get.arguments;
+    if (arguments != null) {
+      final product = arguments['product'];
+      if (product != null) {
+        namaBarang.text = product['name'];
+        harga.text = product['price'].toString();
+        category.text = product['category_id'].toString();
+        deskripsi.text = product['description'];
+        stok.text = product['stock'].toString();
+        weight.text = product['weight'].toString();
+        imagePath = product['image_url'];
+      }
+    }
+  }
+
   // Fungsi untuk memilih gambar
   Future<void> pickImage() async {
     final ImagePicker picker = ImagePicker();

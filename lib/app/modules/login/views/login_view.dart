@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 import 'package:gotani_apps/app/core/components/buttons.dart';
 import 'package:gotani_apps/app/core/components/custom_text_field.dart';
 import 'package:gotani_apps/app/core/components/spaces.dart';
-import 'package:gotani_apps/app/routes/app_pages.dart';
-import 'package:gotani_apps/main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../controllers/login_controller.dart';
@@ -37,12 +35,12 @@ class LoginView extends GetView<LoginController> {
           ),
           SpaceHeight(10),
           CustomTextField(
-            controller: TextEditingController(),
+            controller: controller.emailController,
             label: "Username",
           ),
           SpaceHeight(10),
           Obx(() => CustomTextField(
-                controller: TextEditingController(),
+                controller: controller.passwordController,
                 label: "Password",
                 obscureText: true,
                 suffixIcon: IconButton(
@@ -74,7 +72,7 @@ class LoginView extends GetView<LoginController> {
           Button.filled(
             color: Color(0xff5A64EA),
             onPressed: () {
-              Get.offAllNamed(Routes.DASHBOARD);
+              controller.login();
             },
             label: "Login",
           ),

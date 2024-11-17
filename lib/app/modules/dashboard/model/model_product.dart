@@ -14,6 +14,12 @@ List<ModelProduct> modelProductFromJson(String str) => List<ModelProduct>.from(
 String modelProductToJson(List<ModelProduct> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
+ModelProduct modelProductDetailFromJson(String str) =>
+    ModelProduct.fromJson(json.decode(str));
+
+String modelProductDetailToJson(ModelProduct data) =>
+    json.encode(data.toJson());
+
 class ModelProduct {
   int? id;
   int? userId;
@@ -114,6 +120,27 @@ class ModelProduct {
       String orders = json.encode(jsonResponse['data']);
       // print(orders);
       var hasil = modelProductFromJson(orders);
+      return hasil;
+    } else {
+      throw Exception('Failed to load products');
+    }
+  }
+
+  static Future<ModelProduct> fetchDetailsRecords({required String id}) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final response = await http.get(
+      Uri.parse("$mainUrl/products/$id"),
+      headers: {
+        HttpHeaders.authorizationHeader: "Bearer ${prefs.getString("token")}",
+      },
+    );
+    print(response.statusCode);
+    var respon = jsonDecode(response.body);
+    print(respon);
+    if (response.statusCode == 200) {
+      Map<String, dynamic> jsonResponse = json.decode(response.body);
+      String orders = json.encode(jsonResponse['data']);
+      var hasil = modelProductDetailFromJson(orders);
       return hasil;
     } else {
       throw Exception('Failed to load products');

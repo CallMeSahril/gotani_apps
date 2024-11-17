@@ -100,12 +100,16 @@ class LoginView extends GetView<LoginController> {
                   Get.snackbar("Warning", "Wrong Email or Password");
                   break;
                 case 200:
-                  debugPrint("success login");
-                  var pref = await SharedPreferences.getInstance();
-                  pref.setString("token", body["data"]["token"]);
-                  pref.setBool("login", true);
-                  Get.snackbar("Info", "Success Login");
-                  Get.offAllNamed(Routes.DASHBOARD);
+                  if (body["status"] == "success") {
+                    var pref = await SharedPreferences.getInstance();
+                    pref.setString("token", body["data"]["token"]);
+                    pref.setBool("login", true);
+                    Get.snackbar("Info", "Success Login");
+                    Get.offAllNamed(Routes.DASHBOARD);
+                  } else {
+                    Get.snackbar("Info", "Failed Login");
+                  }
+
                   break;
               }
             },

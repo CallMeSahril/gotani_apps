@@ -42,9 +42,9 @@ class ModelDeliveryType {
 
   static Future<List<ModelDeliveryType>> fetchDeliveryType({
     required String courier,
-    required int origin,
-    required int destination,
-    required int weight,
+    required String origin,
+    required String destination,
+    required String weight,
   }) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final response = await http.post(

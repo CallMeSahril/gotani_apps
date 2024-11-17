@@ -78,15 +78,33 @@ class CartScreen extends GetView<CartController> {
                           "Info", "Mohon pilih alamat terlebih dahulu");
                       return;
                     } else if (controller.cartItems
-                        .any((item) => item.isSelected == true)) {
-                      Get.snackbar("Info", "Mohon pilih item terlebih dahulu");
-                      return;
+                        .where((item) => item.isSelected == true)
+                        .isEmpty) {
+                      Get.snackbar("Warning", "Pilih 1 keranjang");
+                    } else if (controller.cartItems
+                            .where((item) => item.isSelected == true)
+                            .length >
+                        1) {
+                      Get.snackbar("Warning", "Pilih maksimal 1 keranjang");
                     } else {
-                      final result = await Get.toNamed(Routes.ADDRESS);
+                      final result =
+                          await Get.toNamed(Routes.DELIVERY, arguments: [
+                        controller.cartItems
+                            .where((item) => item.isSelected == true)
+                            .first
+                            .productId
+                            .toString(),
+                        controller.cartItems
+                            .where((item) => item.isSelected == true)
+                            .first
+                            .quantity,
+                        controller.address.value.cityId
+                      ]);
 
                       if (result != null && result is ModelDeliveryType) {
                         controller.deliveryType.value = result;
                         controller.deliveryType.refresh();
+                        controller.shippingFee.value = result.cost![0].value!;
                         print(
                             "Selected Delivery: ${controller.address.value.address}");
                       } else {
@@ -212,6 +230,47 @@ class CartScreen extends GetView<CartController> {
               ),
             ),
           ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Pilih Metode Pembayaran",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              Obx(() => ListTile(
+                    title: Text("Dana"),
+                    leading: Radio<String>(
+                      value: "Dana",
+                      groupValue: controller.selectedPaymentMethod.value,
+                      onChanged: (value) {
+                        controller.updatePaymentMethod(value!);
+                      },
+                    ),
+                  )),
+              Obx(() => ListTile(
+                    title: Text("COD"),
+                    leading: Radio<String>(
+                      value: "COD",
+                      groupValue: controller.selectedPaymentMethod.value,
+                      onChanged: (value) {
+                        controller.updatePaymentMethod(value!);
+                      },
+                    ),
+                  )),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  final selectedMethod = controller.selectedPaymentMethod.value;
+                  Get.snackbar(
+                    "Metode Pembayaran",
+                    "Metode yang dipilih: $selectedMethod",
+                    snackPosition: SnackPosition.BOTTOM,
+                  );
+                },
+                child: Text("Konfirmasi Pembayaran"),
+              ),
+            ],
+          ),
           Container(
             padding: const EdgeInsets.all(10),
             color: Colors.white,
@@ -258,7 +317,50 @@ class CartScreen extends GetView<CartController> {
                 ),
                 const SizedBox(height: 10),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+
+                    if (controller.cartItems
+                        .where((item) => item.isSelected == true)
+                        .isEmpty) {
+                      Get.snackbar("Warning", "Pilih 1 keranjang");
+                    } else if (controller.cartItems
+                            .where((item) => item.isSelected == true)
+                            .length >
+                        1) {
+                      Get.snackbar("Warning", "Pilih maksimal 1 keranjang");
+                    } else {
+                      final response = await http.post(
+                        Uri.parse("$mainUrl/cart-items"),
+                        body: {
+                          "product_id": controller.cartItems
+                              .firstWhere((item) => item.isSelected == true)
+                              .productId
+                              .toString(),
+                          "quantity": controller.cartItems
+                              .firstWhere((item) => item.isSelected == true)
+                              .quantity
+                              .toString(),
+                          "total": controller.total.toString(),
+                          "payment_method":
+                              controller.selectedPaymentMethod.value
+                        },
+                        headers: {
+                          HttpHeaders.authorizationHeader:
+                              "Bearer ${prefs.getString("token")}",
+                        },
+                      );
+                      var body = jsonDecode(response.body);
+                      if (body['status'] == "success" &&
+                          response.statusCode == 200) {
+                        Get.snackbar("Info", "Berhasil menambahkan Keranjang.");
+                        Get.back();
+                      } else {
+                        Get.snackbar("Info", "Gagal Menambahkan Keranjang.");
+                      }
+                    }
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
                   ),

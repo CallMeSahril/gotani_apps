@@ -67,11 +67,11 @@ class AppPages {
       page: () => const DashboardView(),
       binding: DashboardBinding(),
     ),
-    GetPage(
-      name: _Paths.DETAIL_PRODUCT,
-      page: () => const DetailProductView(),
-      binding: DetailProductBinding(),
-    ),
+    // GetPage(
+    //   name: _Paths.DETAIL_PRODUCT,
+    //   page: () => const DetailProductView(),
+    //   binding: DetailProductBinding(),
+    // ),
     GetPage(
       name: _Paths.ADDRESS,
       page: () => AddressView(),

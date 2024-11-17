@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:gotani_apps/app/modules/dashboardpenjual/bindings/dashboardpenjual_binding.dart';
+import 'package:gotani_apps/app/modules/dashboardpenjual/views/dashboardpenjual_view.dart';
 
 import '../modules/admin_category/category_form/bindings/category_form_binding.dart';
 import '../modules/admin_category/category_form/views/category_form_view.dart';
@@ -137,6 +139,11 @@ class AppPages {
       name: _Paths.TRANSACTION,
       page: () => const TransactionView(),
       binding: TransactionBinding(),
-    )
+    ),
+    GetPage(
+      name: _Paths.DASHBOARDPENJUAL,
+      page: () => const DashboardpenjualView(),
+      binding: DashboardpenjualBinding(),
+    ),
   ];
 }

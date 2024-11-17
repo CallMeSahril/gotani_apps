@@ -1,6 +1,8 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:gotani_apps/app/core/services/dio.h.dart';
 
 class ProductService {
@@ -13,12 +15,61 @@ class ProductService {
       final response = await dioCustom.get('products/$productId');
 
       if (response.statusCode == 200) {
+        print(response.data['data']);
         return response.data['data'];
       } else {
         return [];
       }
     } catch (e) {
       print('Error while fetching product: $e');
+      return [];
+    }
+  }
+
+  Future<List> postProduct({
+    required int productCategoryId,
+    required String name,
+    required int stock,
+    required String description,
+    required String imagePath,
+    required int price,
+    required int weight,
+    required BuildContext context,
+  }) async {
+    try {
+      // Konversi imagePath menjadi File
+      File imageFile = File(imagePath);
+
+      // Membuat FormData untuk mengirim data termasuk file
+      FormData formData = FormData.fromMap({
+        'product_category_id': productCategoryId.toString(),
+        'name': name,
+        'stock': stock.toString(),
+        'description': description,
+        'price': price.toString(),
+        'weight': weight.toString(),
+        'gambar':
+            await MultipartFile.fromFile(imageFile.path, filename: 'image.jpg'),
+      });
+
+      // Melakukan POST request
+      final response = await dioCustom.post('products', data: formData);
+
+      if (response.statusCode == 200) {
+        if (response.data['message'] != 'success create data') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(response.data['message'].toString())),
+          );
+
+          return ['error'];
+        } else {
+          return ['berhasil'];
+        }
+      } else {
+        return [];
+      }
+    } catch (e) {
+      print('Error while posting product: $e');
       return [];
     }
   }

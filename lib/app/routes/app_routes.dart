@@ -24,6 +24,7 @@ abstract class Routes {
   static const ADMIN_NOTIFICATIONS = _Paths.ADMIN_NOTIFICATIONS;
   static const ADMIN_DETAIL_NOTIFICATIONS = _Paths.ADMIN_DETAIL_NOTIFICATIONS;
   static const TRANSACTION = _Paths.TRANSACTION;
+  static const DASHBOARDPENJUAL = _Paths.DASHBOARDPENJUAL;
 }
 
 abstract class _Paths {
@@ -49,4 +50,5 @@ abstract class _Paths {
   static const ADMIN_NOTIFICATIONS = '/admin-notifications';
   static const ADMIN_DETAIL_NOTIFICATIONS = '/admin-detail-notifications';
   static const TRANSACTION = '/transaction';
+  static const DASHBOARDPENJUAL = '/dashboardpenjual';
 }

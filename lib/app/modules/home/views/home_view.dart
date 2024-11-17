@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:gotani_apps/app/core/constants/colors.dart';
+import 'package:gotani_apps/app/modules/dashboard/views/screen/home_dashboard_screen.dart';
 import 'package:gotani_apps/app/routes/app_pages.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -11,81 +13,81 @@ class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(),
-          child: Column(
-            children: [
-              Stack(
-                children: [
-                  Container(
-                    width: Get.width,
-                    height: Get.height * 20 / 100,
-                    decoration: BoxDecoration(
-                      color: AppColors.primary,
-                      borderRadius: const BorderRadius.only(
-                        bottomLeft: Radius.circular(20),
-                        bottomRight: Radius.circular(20),
-                      ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(25),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Hai admin Gotani, layanan terbaik untuk hasil yang lebih baik',
-                            style: TextStyle(
-                                color: AppColors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ],
-                      ),
+    return SafeArea(
+      child: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
+        child: Column(
+          children: [
+            Stack(
+              children: [
+                Container(
+                  width: Get.width,
+                  height: Get.height * 20 / 100,
+                  decoration: BoxDecoration(
+                    color: AppColors.primary,
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(20),
+                      bottomRight: Radius.circular(20),
                     ),
                   ),
-                  Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(25),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          height: Get.height * 10 / 100,
+                        Text(
+                          'Hai admin Gotani, layanan terbaik untuk hasil yang lebih baik',
+                          style: TextStyle(
+                              color: AppColors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600),
                         ),
-                        Container(
-                          width: Get.width * 92 / 100,
-                          height: 102,
-                          decoration: BoxDecoration(
-                            color: AppColors.white,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(right: 25, top: 10),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Icon(
-                                      Icons.circle,
-                                      color: AppColors.primary,
-                                      size: 9,
+                      ],
+                    ),
+                  ),
+                ),
+                Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: Get.height * 10 / 100,
+                      ),
+                      Container(
+                        width: Get.width * 92 / 100,
+                        height: 102,
+                        decoration: BoxDecoration(
+                          color: AppColors.white,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(right: 25, top: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Icon(
+                                    Icons.circle,
+                                    color: AppColors.primary,
+                                    size: 9,
+                                  ),
+                                  SizedBox(
+                                    width: 8,
+                                  ),
+                                  Text(
+                                    'Go Tani',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
                                     ),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                    Text(
-                                      'Go Tani',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                              ListTile(
+                            ),
+                            Expanded(
+                              child: ListTile(
                                 leading: ClipRRect(
                                   borderRadius: BorderRadius.circular(50),
                                   child: CachedNetworkImage(
@@ -131,42 +133,44 @@ class HomeView extends GetView<HomeController> {
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: Get.height * 23 / 100,
                       ),
-                      Padding(
-                        padding: EdgeInsets.all(16),
-                        child: Card(
-                          elevation: 4,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.all(16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Total Penjualan',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                    ],
+                  ),
+                ),
+                Column(
+                  children: [
+                    SizedBox(
+                      height: Get.height * 23 / 100,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Card(
+                        elevation: 4,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Total Penjualan',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                    SizedBox(width: 10),
-                                    Text(
+                                  ),
+                                  SizedBox(width: 10),
+                                  Expanded(
+                                    child: Text(
                                       'Rp. 10.000.000',
                                       style: TextStyle(
                                         fontSize: 24,
@@ -174,156 +178,141 @@ class HomeView extends GetView<HomeController> {
                                         color: Colors.green,
                                       ),
                                     ),
-                                  ],
-                                ),
-                                SizedBox(height: 10),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Jumlah Produk',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 10),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Jumlah Produk',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                    SizedBox(width: 10),
-                                    Text(
-                                      '100',
-                                      style: TextStyle(
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.green,
-                                      ),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    '100',
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.green,
                                     ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Pesanan Baru',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Pesanan Baru',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                    SizedBox(width: 10),
-                                    Text(
-                                      '20',
-                                      style: TextStyle(
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.green,
-                                      ),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    '20',
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.green,
                                     ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.all(16),
-                        child: Card(
-                          elevation: 4,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.all(16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Analytics',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Card(
+                        elevation: 4,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Analytics',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                    Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 12, vertical: 6),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.grey),
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Text('This Week'),
-                                          Icon(Icons.arrow_drop_down),
-                                        ],
-                                      ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 6),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.grey),
+                                      borderRadius: BorderRadius.circular(20),
                                     ),
-                                  ],
-                                ),
-                                SizedBox(height: 20),
-                                // Bar Chart
-                                SizedBox(
-                                  height: 200,
-                                  child: Obx(() => Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: controller.analytics.entries
-                                            .map((entry) {
-                                          return Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              Text('${entry.value.toInt()}%'),
-                                              Container(
-                                                width: 40,
-                                                height: entry.value * 2,
-                                                color: Colors.blue,
-                                                margin: EdgeInsets.symmetric(
-                                                    horizontal: 8),
-                                              ),
-                                              SizedBox(height: 8),
-                                              Text(entry.key),
-                                            ],
-                                          );
-                                        }).toList(),
-                                      )),
-                                ),
-                              ],
-                            ),
+                                    child: Row(
+                                      children: [
+                                        Text('This Week'),
+                                        Icon(Icons.arrow_drop_down),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 20),
+                              // Bar Chart
+                              SizedBox(
+                                height: 210.px,
+                                child: Obx(() => Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: controller.analytics.entries
+                                          .map((entry) {
+                                        return Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Text('${entry.value.toInt()}%'),
+                                            Container(
+                                              width: 40,
+                                              height: entry.value * 2,
+                                              color: Colors.blue,
+                                              margin: EdgeInsets.symmetric(
+                                                  horizontal: 8),
+                                            ),
+                                            SizedBox(height: 8),
+                                            Text(entry.key),
+                                          ],
+                                        );
+                                      }).toList(),
+                                    )),
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                      ElevatedButton(
-                          onPressed: () {
-                            Get.toNamed(Routes.ADMIN_NOTIFICATIONS);
-                          },
-                          child: Text(Routes.ADMIN_NOTIFICATIONS)),
-                      ElevatedButton(
-                          onPressed: () {
-                            Get.toNamed(Routes.PRODUCT);
-                          },
-                          child: Text(Routes.PRODUCT)),
-                      ElevatedButton(
-                          onPressed: () {
-                            Get.toNamed(Routes.CATEGORY_LIST);
-                          },
-                          child: Text(Routes.CATEGORY_LIST)),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

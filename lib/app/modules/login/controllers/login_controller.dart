@@ -29,10 +29,12 @@ class LoginController extends GetxController {
           .then((val) {
         tokenManager.saveToken(val['token']);
         roleManager.saveRole(val['role']);
-        if (val['role'] == 'seller') {
+        if (val['role'] == 'seller' &&
+            emailController.text == 'penjual@gmail.com') {
           log('Goto dashboard admin');
-          Get.offAllNamed(Routes.HOME);
-        } else if (val['role'] == 'customer') {
+          Get.offAllNamed(Routes.DASHBOARDPENJUAL);
+        } else if (val['role'] == 'seller' &&
+            emailController.text == 'pembeli@gmail.com') {
           log('Goto dashboard customer');
           Get.offAllNamed(Routes.DASHBOARD);
         } else {

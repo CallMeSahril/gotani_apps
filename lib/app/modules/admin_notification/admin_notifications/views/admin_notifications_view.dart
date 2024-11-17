@@ -9,12 +9,8 @@ class AdminNotificationsView extends GetView<AdminNotificationsController> {
   const AdminNotificationsView({super.key});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Notifikasi'),
-      ),
-      backgroundColor: Colors.grey[100],
-      body: Padding(
+    return SafeArea(
+      child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

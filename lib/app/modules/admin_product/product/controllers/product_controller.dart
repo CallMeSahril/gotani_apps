@@ -10,7 +10,7 @@ class ProductController extends GetxController {
 
   List products = [];
 
-  final user = {};
+  Map user = {};
   bool isLoading = true;
 
   bool isAvailable = true;
@@ -18,7 +18,8 @@ class ProductController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getData();
+    fetchAllProductsAdmin();
+    fetchProfile();
   }
 
   getData() {

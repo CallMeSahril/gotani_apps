@@ -51,7 +51,7 @@ class LoginView extends GetView<LoginController> {
           Obx(() => CustomTextField(
                 controller: _controllerPass,
                 label: "Password",
-                obscureText: true,
+                obscureText: controller.isEyes.value,
                 suffixIcon: IconButton(
                   icon: Icon(
                     controller.isEyes.value

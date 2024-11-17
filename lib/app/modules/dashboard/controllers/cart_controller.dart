@@ -9,18 +9,19 @@ import '../model/model_delivery_type.dart';
 
 class CartController extends GetxController {
   var cartItems = <ModelCart>[].obs;
+  Rx<ModelAddress> address = ModelAddress().obs;
+  Rx<ModelDeliveryType> deliveryType = ModelDeliveryType().obs;
+  var selectedPaymentMethod = "Dana".obs;
+
   Timer? _debounce;
 
-  Rx<ModelDeliveryType> deliveryType = ModelDeliveryType().obs;
-
-  int get shippingFee => 0;
-  Rx<ModelAddress> address = ModelAddress().obs;
+  RxInt shippingFee = 0.obs;
 
   int get subtotal => cartItems
       .where((item) => item.isSelected)
       .fold(0, (sum, item) => sum + (item.price ?? 0 * item.quantity!));
 
-  int get total => subtotal + shippingFee;
+  int get total => subtotal + shippingFee.value;
 
   void toggleSelection(int index) {
     cartItems[index].isSelected = !cartItems[index].isSelected;
@@ -60,6 +61,10 @@ class CartController extends GetxController {
       cartItems.value = value;
       cartItems.refresh();
     });
+  }
+
+  void updatePaymentMethod(String method) {
+    selectedPaymentMethod.value = method;
   }
 
   void updateAddress() {}

@@ -44,25 +44,6 @@ class DeliveryView extends GetView<DeliveryController> {
           SizedBox(
             height: width * 0.04,
           ),
-          InkWell(
-            onTap: () {},
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Color(0xff0E803C),
-                  borderRadius: BorderRadius.circular(width * 0.03)),
-              padding: EdgeInsets.all(width * 0.03),
-              child: Expanded(
-                child: Text(
-                  "Add Address",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-          ),
           ListView.builder(
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
@@ -75,6 +56,7 @@ class DeliveryView extends GetView<DeliveryController> {
                 padding: EdgeInsets.all(width * 0.03),
                 margin: EdgeInsets.only(bottom: width * 0.05),
                 decoration: BoxDecoration(
+                  color: Colors.white,
                   border: Border.all(color: Colors.grey),
                   borderRadius: BorderRadius.circular(width * 0.05),
                   boxShadow: [

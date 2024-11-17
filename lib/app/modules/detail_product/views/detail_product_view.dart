@@ -1,7 +1,13 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../main.dart';
 import '../controllers/detail_product_controller.dart';
 
 class DetailProductView extends GetView<DetailProductController> {
@@ -31,23 +37,23 @@ class DetailProductView extends GetView<DetailProductController> {
                   ),
                 ),
               ),
-              SizedBox(
-                width: width,
-                height: height * 0.4,
-                child: Center(
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(width * 0.05)),
-                    child: Image.network(
-                      controller.product.value.imageUrl ?? "-",
-                      errorBuilder: (context, error, stackTrace) => Icon(
-                        Icons.warning,
-                        size: width * 0.5,
-                      ),
-                    ),
+              Container(
+                width: width * 0.8,
+                padding: EdgeInsets.all(width * 0.05),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(width * 0.05)),
+                child: Image.network(
+                  controller.product.value.imageUrl ?? "-",
+                  fit: BoxFit.contain,
+                  errorBuilder: (context, error, stackTrace) => Icon(
+                    Icons.warning,
+                    size: width * 0.5,
                   ),
                 ),
+              ),
+              SizedBox(
+                height: width * 0.1,
               ),
               Container(
                 padding: EdgeInsets.all(width * 0.1),
@@ -118,7 +124,8 @@ class DetailProductView extends GetView<DetailProductController> {
                               icon: Icon(Icons.remove_circle_outline),
                               onPressed: () => controller.decrementQuantity(),
                             ),
-                            Text(controller.quantityProductDetail.toString()),
+                            Obx(() => Text(
+                                controller.quantityProductDetail.toString())),
                             IconButton(
                               icon: Icon(Icons.add_circle_outline),
                               onPressed: () => controller.incrementQuantity(),
@@ -201,21 +208,51 @@ class DetailProductView extends GetView<DetailProductController> {
                             ),
                           ),
                         ),
-                        Container(
-                          decoration: BoxDecoration(
-                              color: Color(0xff0E803C),
-                              borderRadius:
-                                  BorderRadius.circular(width * 0.03)),
-                          padding: EdgeInsets.all(width * 0.03),
-                          child: SizedBox(
-                            height: width * 0.1,
-                            child: Expanded(
-                              child: Text(
-                                "Add To Cart",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.bold,
+                        InkWell(
+                          onTap: () async {
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            final response = await http.post(
+                              Uri.parse("$mainUrl/cart-items"),
+                              body: {
+                                "product_id":
+                                    controller.product.value.id.toString(),
+                                "quantity": controller
+                                    .quantityProductDetail.value
+                                    .toString()
+                              },
+                              headers: {
+                                HttpHeaders.authorizationHeader:
+                                    "Bearer ${prefs.getString("token")}",
+                              },
+                            );
+                            var body = jsonDecode(response.body);
+                            if (body['status'] == "success" &&
+                                response.statusCode == 200) {
+                              Get.snackbar(
+                                  "Info", "Berhasil menambahkan Keranjang.");
+                              Get.back();
+                            } else {
+                              Get.snackbar(
+                                  "Info", "Gagal Menambahkan Keranjang.");
+                            }
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Color(0xff0E803C),
+                                borderRadius:
+                                    BorderRadius.circular(width * 0.03)),
+                            padding: EdgeInsets.all(width * 0.03),
+                            child: SizedBox(
+                              height: width * 0.1,
+                              child: Expanded(
+                                child: Text(
+                                  "Add To Cart",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                             ),

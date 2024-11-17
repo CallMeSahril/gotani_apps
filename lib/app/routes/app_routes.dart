@@ -23,6 +23,7 @@ abstract class Routes {
   static const CATEGORY_FORM = _Paths.CATEGORY_FORM;
   static const ADMIN_NOTIFICATIONS = _Paths.ADMIN_NOTIFICATIONS;
   static const ADMIN_DETAIL_NOTIFICATIONS = _Paths.ADMIN_DETAIL_NOTIFICATIONS;
+  static const TRANSACTION = _Paths.TRANSACTION;
 }
 
 abstract class _Paths {
@@ -47,4 +48,5 @@ abstract class _Paths {
   static const CATEGORY_FORM = '/category-form';
   static const ADMIN_NOTIFICATIONS = '/admin-notifications';
   static const ADMIN_DETAIL_NOTIFICATIONS = '/admin-detail-notifications';
+  static const TRANSACTION = '/transaction';
 }

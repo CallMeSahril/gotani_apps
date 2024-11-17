@@ -37,6 +37,8 @@ import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
 import '../modules/splashhome/bindings/splashhome_binding.dart';
 import '../modules/splashhome/views/splashhome_view.dart';
+import '../modules/transaction/bindings/transaction_binding.dart';
+import '../modules/transaction/views/transaction_view.dart';
 
 part 'app_routes.dart';
 
@@ -131,5 +133,10 @@ class AppPages {
       page: () => const AdminDetailNotificationsView(),
       binding: AdminDetailNotificationsBinding(),
     ),
+    GetPage(
+      name: _Paths.TRANSACTION,
+      page: () => const TransactionView(),
+      binding: TransactionBinding(),
+    )
   ];
 }

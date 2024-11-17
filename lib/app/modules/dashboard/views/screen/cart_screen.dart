@@ -1,9 +1,18 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:gotani_apps/app/modules/dashboard/controllers/cart_controller.dart';
 
+import '../../../../../main.dart';
 import '../../../../routes/app_pages.dart';
-import 'address_screen.dart';
+import '../../model/model_address.dart';
+import '../../model/model_delivery_type.dart';
 
 class CartScreen extends GetView<CartController> {
   const CartScreen({super.key});
@@ -25,16 +34,27 @@ class CartScreen extends GetView<CartController> {
             child: Column(
               children: [
                 InkWell(
-                  onTap: () {
-                    Get.toNamed(Routes.ADDRESS);
+                  onTap: () async {
+                    final result = await Get.toNamed(Routes.ADDRESS);
+
+                    if (result != null && result is ModelAddress) {
+                      controller.address.value = result;
+                      controller.address.refresh();
+                      print(
+                          "Selected Address: ${controller.address.value.address}");
+                    } else {
+                      print("No address selected");
+                    }
                   },
                   child: Row(
                     children: [
-                      Text(
-                        controller.address.address ?? "Pilih Alamat",
-                        style: TextStyle(
-                          color: Color(0xff0E803C),
-                          fontSize: 16,
+                      Obx(
+                        () => Text(
+                          controller.address.value.address ?? "Pilih Alamat",
+                          style: TextStyle(
+                            color: Color(0xff0E803C),
+                            fontSize: 16,
+                          ),
                         ),
                       ),
                       SizedBox(
@@ -52,14 +72,38 @@ class CartScreen extends GetView<CartController> {
                   height: width * 0.04,
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () async {
+                    if (controller.address.value.address == null) {
+                      Get.snackbar(
+                          "Info", "Mohon pilih alamat terlebih dahulu");
+                      return;
+                    } else if (controller.cartItems
+                        .any((item) => item.isSelected == true)) {
+                      Get.snackbar("Info", "Mohon pilih item terlebih dahulu");
+                      return;
+                    } else {
+                      final result = await Get.toNamed(Routes.ADDRESS);
+
+                      if (result != null && result is ModelDeliveryType) {
+                        controller.deliveryType.value = result;
+                        controller.deliveryType.refresh();
+                        print(
+                            "Selected Delivery: ${controller.address.value.address}");
+                      } else {
+                        print("No Delivery selected");
+                      }
+                    }
+                  },
                   child: Row(
                     children: [
-                      Text(
-                        controller.address.address ?? "Pilih Pengiriman",
-                        style: TextStyle(
-                          color: Color(0xff0E803C),
-                          fontSize: 16,
+                      Obx(
+                        () => Text(
+                          controller.deliveryType.value.service ??
+                              "Pilih Pengiriman",
+                          style: TextStyle(
+                            color: Color(0xff0E803C),
+                            fontSize: 16,
+                          ),
                         ),
                       ),
                       SizedBox(
@@ -91,23 +135,76 @@ class CartScreen extends GetView<CartController> {
                           onChanged: (value) =>
                               controller.toggleSelection(index),
                         ),
-                        Image.network(item.imageUrl, width: 50),
+                        Image.network(item.product!.imageUrl ?? "", width: 50),
                       ],
                     ),
-                    title: Text(item.name),
-                    subtitle: Text('Rp ${item.price.toString()}'),
+                    title: Text(item.product!.name ?? ""),
+                    subtitle: Text('Rp ${item.product!.price.toString()}'),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
                           icon: Icon(Icons.remove_circle_outline),
-                          onPressed: () => controller.decrementQuantity(index),
+                          onPressed: () => controller.decrementQuantity(
+                            index,
+                            () async {
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              final response = await http.put(
+                                Uri.parse("$mainUrl/cart-items/${item.cartId}"),
+                                body: {"quantity": item.quantity.toString()},
+                                headers: {
+                                  HttpHeaders.authorizationHeader:
+                                      "Bearer ${prefs.getString("token")}",
+                                },
+                              );
+                            },
+                          ),
                         ),
                         Text(item.quantity.toString()),
                         IconButton(
                           icon: Icon(Icons.add_circle_outline),
-                          onPressed: () => controller.incrementQuantity(index),
+                          onPressed: () => controller.incrementQuantity(
+                            index,
+                            () async {
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              final response = await http.put(
+                                Uri.parse("$mainUrl/cart-items/${item.cartId}"),
+                                body: {"quantity": item.quantity.toString()},
+                                headers: {
+                                  HttpHeaders.authorizationHeader:
+                                      "Bearer ${prefs.getString("token")}",
+                                },
+                              );
+                            },
+                          ),
                         ),
+                        IconButton(
+                          onPressed: () async {
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            final response = await http.delete(
+                              Uri.parse("$mainUrl/cart-items/${item.id}"),
+                              headers: {
+                                HttpHeaders.authorizationHeader:
+                                    "Bearer ${prefs.getString("token")}",
+                              },
+                            );
+
+                            print(response.body);
+                            var body = jsonDecode(response.body);
+                            if (body['status'] == "success") {
+                              Get.snackbar(
+                                  "Info", "Berhasil Menghapus Keranjang.");
+                              controller.fetchCart();
+                            } else {
+                              Get.snackbar(
+                                  "Info", "Gagal Menghapus Keranjang.");
+                            }
+                          },
+                          icon: Icon(Icons.delete),
+                        )
                       ],
                     ),
                   );

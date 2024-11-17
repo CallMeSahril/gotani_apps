@@ -6,49 +6,42 @@ import 'package:http/http.dart' as http;
 
 import '../../../../main.dart';
 
-List<ModelAddress> modelAddressFromJson(String str) => List<ModelAddress>.from(
-    json.decode(str).map((x) => ModelAddress.fromJson(x)));
+List<ModelTransaction> modelTransactionFromJson(String str) =>
+    List<ModelTransaction>.from(
+        json.decode(str).map((x) => ModelTransaction.fromJson(x)));
 
-String modelAddressToJson(List<ModelAddress> data) =>
+String modelTransactionToJson(List<ModelTransaction> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class ModelAddress {
+class ModelTransaction {
   int? id;
-  int? userId;
-  String? name;
-  String? phone;
-  String? address;
-  String? province;
-  String? provinceId;
-  String? city;
-  String? cityId;
+  int? customerId;
+  int? sellerId;
+  String? orderId;
+  int? total;
+  String? status;
   DateTime? createdAt;
   DateTime? updatedAt;
 
-  ModelAddress({
+  ModelTransaction({
     this.id,
-    this.userId,
-    this.name,
-    this.phone,
-    this.address,
-    this.province,
-    this.provinceId,
-    this.city,
-    this.cityId,
+    this.customerId,
+    this.sellerId,
+    this.orderId,
+    this.total,
+    this.status,
     this.createdAt,
     this.updatedAt,
   });
 
-  factory ModelAddress.fromJson(Map<String, dynamic> json) => ModelAddress(
+  factory ModelTransaction.fromJson(Map<String, dynamic> json) =>
+      ModelTransaction(
         id: json["id"],
-        userId: json["user_id"],
-        name: json["name"],
-        phone: json["phone"],
-        address: json["address"],
-        province: json["province"],
-        provinceId: json["province_id"],
-        city: json["city"],
-        cityId: json["city_id"],
+        customerId: json["customer_id"],
+        sellerId: json["seller_id"],
+        orderId: json["order_id"],
+        total: json["total"],
+        status: json["status"],
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(json["created_at"]),
@@ -59,22 +52,19 @@ class ModelAddress {
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "user_id": userId,
-        "name": name,
-        "phone": phone,
-        "address": address,
-        "province": province,
-        "province_id": provinceId,
-        "city": city,
-        "city_id": cityId,
+        "customer_id": customerId,
+        "seller_id": sellerId,
+        "order_id": orderId,
+        "total": total,
+        "status": status,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
       };
 
-  static Future<List<ModelAddress>> fetchAddress() async {
+  static Future<List<ModelTransaction>> fetchTransactions() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final response = await http.get(
-      Uri.parse("$mainUrl/addresses"),
+      Uri.parse("$mainUrl/transaction"),
       headers: {
         HttpHeaders.authorizationHeader: "Bearer ${prefs.getString("token")}",
       },
@@ -84,8 +74,9 @@ class ModelAddress {
     print(respon);
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonResponse = json.decode(response.body);
-      String data = json.encode(jsonResponse['data']);
-      var hasil = modelAddressFromJson(data);
+      String transaction = json.encode(jsonResponse['data']);
+      // print(orders);
+      var hasil = modelTransactionFromJson(transaction);
       return hasil;
     } else {
       throw Exception('Failed to load products');

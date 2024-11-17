@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../dashboard/model/model_address.dart';
@@ -11,6 +12,10 @@ class AddressController extends GetxController {
   RxList<ModelKabupaten> listKabupaten = <ModelKabupaten>[].obs;
   Rx<ModelProvince> provinsi = ModelProvince().obs;
   Rx<ModelKabupaten> kabupaten = ModelKabupaten().obs;
+
+  final TextEditingController _controllerAddress = TextEditingController();
+  final TextEditingController _controllerName = TextEditingController();
+  final TextEditingController _controllerPhone = TextEditingController();
 
   final count = 0.obs;
   @override

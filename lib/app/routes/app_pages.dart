@@ -1,6 +1,10 @@
 import 'package:get/get.dart';
 import 'package:gotani_apps/app/modules/dashboardpenjual/bindings/dashboardpenjual_binding.dart';
 import 'package:gotani_apps/app/modules/dashboardpenjual/views/dashboardpenjual_view.dart';
+import 'package:gotani_apps/app/modules/detail.product/bindings/detail_product_binding.dart';
+import 'package:gotani_apps/app/modules/detail.product/views/detail_product_view.dart';
+import 'package:gotani_apps/app/modules/detail_product/bindings/detail_product_binding.dart';
+import 'package:gotani_apps/app/modules/detail_product/views/detail_product_view.dart';
 
 import '../modules/admin_category/category_form/bindings/category_form_binding.dart';
 import '../modules/admin_category/category_form/views/category_form_view.dart';
@@ -22,13 +26,10 @@ import '../modules/components/bindings/components_binding.dart';
 import '../modules/components/views/components_view.dart';
 import '../modules/dashboard/bindings/dashboard_binding.dart';
 import '../modules/dashboard/views/dashboard_view.dart';
-import '../modules/detail.product/bindings/detail_product_binding.dart';
-import '../modules/detail.product/views/detail_product_view.dart';
-import '../modules/dashboard/views/screen/detail_product_screen.dart';
+
 import '../modules/delivery/bindings/delivery_binding.dart';
 import '../modules/delivery/views/delivery_view.dart';
-import '../modules/detail_product/bindings/detail_product_binding.dart';
-import '../modules/detail_product/views/detail_product_view.dart';
+
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
@@ -85,11 +86,16 @@ class AppPages {
       page: () => const DashboardView(),
       binding: DashboardBinding(),
     ),
-    // GetPage(
-    //   name: _Paths.DETAIL_PRODUCT,
-    //   page: () => const DetailProductView(),
-    //   binding: DetailProductBinding(),
-    // ),
+    GetPage(
+      name: _Paths.DETAIL_PRODUCT,
+      page: () => const DetailProductView(),
+      binding: DetailProductBinding(),
+    ),
+    GetPage(
+      name: _Paths.DETAIL_PRODUCT_PENJUAL,
+      page: () => const DetailProductPenjualView(),
+      binding: DetailProductPenjualBinding(),
+    ),
     GetPage(
       name: _Paths.ADDRESS,
       page: () => AddressView(),

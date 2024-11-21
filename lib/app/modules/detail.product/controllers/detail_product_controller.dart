@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-class DetailProductController extends GetxController {
+class DetailProductPenjualController extends GetxController {
   final data = Get.arguments;
 
   @override

@@ -6,12 +6,12 @@ import 'package:gotani_apps/app/core/constants/colors.dart';
 
 import '../controllers/detail_product_controller.dart';
 
-class DetailProductView extends GetView<DetailProductController> {
-  const DetailProductView({super.key});
+class DetailProductPenjualView extends GetView<DetailProductPenjualController> {
+  const DetailProductPenjualView({super.key});
   @override
   Widget build(BuildContext context) {
     return GetBuilder(
-        init: DetailProductController(),
+        init: DetailProductPenjualController(),
         builder: (controller) {
           return Scaffold(
             backgroundColor: Colors.white,

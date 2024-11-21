@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:gotani_apps/app/core/constants/colors.dart';
-import 'package:gotani_apps/app/modules/dashboard/views/screen/home_dashboard_screen.dart';
-import 'package:gotani_apps/app/routes/app_pages.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../controllers/home_controller.dart';
@@ -37,10 +35,7 @@ class HomeView extends GetView<HomeController> {
                       children: [
                         Text(
                           'Hai admin Gotani, layanan terbaik untuk hasil yang lebih baik',
-                          style: TextStyle(
-                              color: AppColors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600),
+                          style: TextStyle(color: AppColors.white, fontSize: 16, fontWeight: FontWeight.w600),
                         ),
                       ],
                     ),
@@ -63,8 +58,7 @@ class HomeView extends GetView<HomeController> {
                         child: Column(
                           children: [
                             Padding(
-                              padding:
-                                  const EdgeInsets.only(right: 25, top: 10),
+                              padding: const EdgeInsets.only(right: 25, top: 10),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -94,20 +88,15 @@ class HomeView extends GetView<HomeController> {
                                     width: 50,
                                     height: 50,
                                     fit: BoxFit.cover,
-                                    imageUrl:
-                                        'https://images.unsplash.com/photo-1587691592099-24045742c181?q=80&w=1173&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                                    progressIndicatorBuilder:
-                                        (context, url, downloadProgress) =>
-                                            Center(
+                                    imageUrl: 'https://images.unsplash.com/photo-1587691592099-24045742c181?q=80&w=1173&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                                    progressIndicatorBuilder: (context, url, downloadProgress) => Center(
                                       child: SizedBox(
                                         width: 24,
                                         height: 24,
-                                        child: CircularProgressIndicator(
-                                            value: downloadProgress.progress),
+                                        child: CircularProgressIndicator(value: downloadProgress.progress),
                                       ),
                                     ),
-                                    errorWidget: (context, url, error) =>
-                                        Icon(Icons.error),
+                                    errorWidget: (context, url, error) => Icon(Icons.error),
                                   ),
                                 ),
                                 title: Text(
@@ -121,9 +110,7 @@ class HomeView extends GetView<HomeController> {
                                 subtitle: Text(
                                   'UD APOTEK TANI  ',
                                   maxLines: 2,
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700),
+                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                                 ),
                                 trailing: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -158,8 +145,7 @@ class HomeView extends GetView<HomeController> {
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Total Penjualan',
@@ -168,23 +154,19 @@ class HomeView extends GetView<HomeController> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  SizedBox(width: 10),
-                                  Expanded(
-                                    child: Text(
-                                      'Rp. 10.000.000',
-                                      style: TextStyle(
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.green,
-                                      ),
+                                  Text(
+                                    'Rp. 10.000.000',
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.green,
                                     ),
                                   ),
                                 ],
                               ),
                               SizedBox(height: 10),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Jumlah Produk',
@@ -208,8 +190,7 @@ class HomeView extends GetView<HomeController> {
                                 height: 10,
                               ),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Pesanan Baru',
@@ -247,8 +228,7 @@ class HomeView extends GetView<HomeController> {
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     'Analytics',
@@ -258,8 +238,7 @@ class HomeView extends GetView<HomeController> {
                                     ),
                                   ),
                                   Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 12, vertical: 6),
+                                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                                     decoration: BoxDecoration(
                                       border: Border.all(color: Colors.grey),
                                       borderRadius: BorderRadius.circular(20),
@@ -278,23 +257,18 @@ class HomeView extends GetView<HomeController> {
                               SizedBox(
                                 height: 210.px,
                                 child: Obx(() => Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: controller.analytics.entries
-                                          .map((entry) {
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: controller.analytics.entries.map((entry) {
                                         return Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
+                                          mainAxisAlignment: MainAxisAlignment.end,
                                           children: [
                                             Text('${entry.value.toInt()}%'),
                                             Container(
                                               width: 40,
                                               height: entry.value * 2,
                                               color: Colors.blue,
-                                              margin: EdgeInsets.symmetric(
-                                                  horizontal: 8),
+                                              margin: EdgeInsets.symmetric(horizontal: 8),
                                             ),
                                             SizedBox(height: 8),
                                             Text(entry.key),

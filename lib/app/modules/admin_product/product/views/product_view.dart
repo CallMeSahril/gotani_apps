@@ -169,7 +169,7 @@ class ProductView extends GetView<ProductController> {
                                   // Price Range
                                   Expanded(
                                     child: Text(
-                                      'Rp ${controller.products[index]['price']}',
+                                      'Rp ${controller.products[index]['price'].toString().replaceAll(RegExp(r'\B(?=(\d{3})+(?!\d))'), ".")}',
                                       style: const TextStyle(
                                         fontSize: 12,
                                         color: Colors.grey,

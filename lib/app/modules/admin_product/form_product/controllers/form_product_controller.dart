@@ -1,5 +1,6 @@
 import 'dart:io';
-
+import 'dart:typed_data';
+import 'package:image/image.dart' as img;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gotani_apps/app/core/services/product.service.dart';
@@ -46,11 +47,32 @@ class FormProductController extends GetxController {
 
     if (pickedFile != null) {
       imageFile = File(pickedFile.path);
-      image = pickedFile;
-      imagePath = pickedFile.path;
+
+      File compressedImage = await compressImage(imageFile!);
+      imageFile = compressedImage;
+
+      imagePath = compressedImage.path;
       update();
     } else {
       print('No image selected.');
+    }
+  }
+
+  Future<File> compressImage(File file) async {
+    Uint8List imageBytes = await file.readAsBytes();
+    img.Image? image = img.decodeImage(imageBytes);
+
+    if (image != null) {
+      img.Image resizedImage = img.copyResize(image, width: 600);
+
+      Uint8List compressedBytes = Uint8List.fromList(img.encodeJpg(resizedImage, quality: 80));
+
+      File compressedFile = File('${file.parent.path}/compressed_${file.path.split('/').last}');
+      await compressedFile.writeAsBytes(compressedBytes);
+
+      return compressedFile;
+    } else {
+      return file;
     }
   }
 
@@ -68,7 +90,6 @@ class FormProductController extends GetxController {
       print(harga.text);
 
       var response = await productService.postProduct(
-        context: Get.context!,
         productCategoryId: int.parse(category.text),
         name: namaBarang.text,
         stock: int.parse(stok.text),

@@ -27,7 +27,6 @@ class ProductService {
   }
 
   Future<List<dynamic>> postProduct({
-    required BuildContext context,
     required int productCategoryId,
     required String name,
     required int stock,
@@ -44,9 +43,10 @@ class ProductService {
         'stock': stock,
         'description': description,
         'price': price,
-        'image': await MultipartFile.fromFile(imagePath, filename: fileName),
+        'gambar': await MultipartFile.fromFile(imagePath, filename: fileName),
+        'weight': 0,
       });
-
+      log('imagepath : $imagePath, fileName : $fileName');
       Response response = await dioCustom.post(
         'products',
         data: formData,
@@ -58,6 +58,7 @@ class ProductService {
       );
 
       if (response.statusCode == 200) {
+        log(response.data.toString());
         return [
           'berhasil'
         ];
@@ -71,55 +72,6 @@ class ProductService {
       rethrow;
     }
   }
-
-  // Future<List> postProduct({
-  //   required int productCategoryId,
-  //   required String name,
-  //   required int stock,
-  //   required String description,
-  //   required String imagePath,
-  //   required int price,
-  //   required BuildContext context,
-  // }) async {
-  //   try {
-  //     // Konversi imagePath menjadi File
-  //     File imageFile = File(imagePath);
-
-  //     // Membuat FormData untuk mengirim data termasuk file
-  //     FormData formData = FormData.fromMap({
-  //       'product_category_id': productCategoryId.toString(),
-  //       'name': name,
-  //       'stock': stock.toString(),
-  //       'description': description,
-  //       'price': price.toString(),
-  //       'gambar': await MultipartFile.fromFile(imageFile.path, filename: 'image.jpg'),
-  //     });
-
-  //     // Melakukan POST request
-  //     final response = await dioCustom.post('products', data: formData);
-
-  //     if (response.statusCode == 200) {
-  //       if (response.data['message'] != 'success create data') {
-  //         ScaffoldMessenger.of(context).showSnackBar(
-  //           SnackBar(content: Text(response.data['message'].toString())),
-  //         );
-
-  //         return [
-  //           'error'
-  //         ];
-  //       } else {
-  //         return [
-  //           'berhasil'
-  //         ];
-  //       }
-  //     } else {
-  //       return [];
-  //     }
-  //   } catch (e) {
-  //     print('Error while posting product: $e');
-  //     return [];
-  //   }
-  // }
 
   Future<List> getAllProducts() async {
     try {

@@ -12,7 +12,6 @@ class FormProductController extends GetxController {
   final TextEditingController category = TextEditingController();
   final TextEditingController deskripsi = TextEditingController();
   final TextEditingController stok = TextEditingController();
-  final TextEditingController weight = TextEditingController();
 
   final ProductService productService = ProductService();
 
@@ -36,17 +35,14 @@ class FormProductController extends GetxController {
         category.text = product['category_id'].toString();
         deskripsi.text = product['description'];
         stok.text = product['stock'].toString();
-        weight.text = product['weight'].toString();
         imagePath = product['image_url'];
       }
     }
   }
 
-  // Fungsi untuk memilih gambar
   Future<void> pickImage() async {
     final ImagePicker picker = ImagePicker();
-    final XFile? pickedFile =
-        await picker.pickImage(source: ImageSource.gallery);
+    final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       imageFile = File(pickedFile.path);
@@ -60,16 +56,17 @@ class FormProductController extends GetxController {
 
   Future<void> submitProduct() async {
     isLoading = true;
-    print('submit');
     update();
+
     try {
+      print('Submitting product:');
       print(category.text);
       print(namaBarang.text);
       print(stok.text);
       print(deskripsi.text);
       print(imagePath);
       print(harga.text);
-      print(weight.text);
+
       var response = await productService.postProduct(
         context: Get.context!,
         productCategoryId: int.parse(category.text),
@@ -78,19 +75,20 @@ class FormProductController extends GetxController {
         description: deskripsi.text,
         imagePath: imagePath!,
         price: int.parse(harga.text),
-        weight: int.parse(weight.text),
       );
+
       if (response[0] == 'berhasil') {
         Get.back();
         Get.snackbar('Success', 'Product uploaded successfully');
-        final controller = Get.find<ProductController>();
-        controller.fetchAllProductsAdmin();
+
+        final productController = Get.find<ProductController>();
+        productController.fetchAllProductsAdmin();
       } else {
         Get.snackbar('Error', 'Failed to upload product');
       }
     } catch (e) {
       Get.snackbar('Error', e.toString());
-      print(e);
+      print('Error during product upload: $e');
     } finally {
       isLoading = false;
       update();

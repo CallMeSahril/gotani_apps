@@ -26,53 +26,100 @@ class ProductService {
     }
   }
 
-  Future<List> postProduct({
+  Future<List<dynamic>> postProduct({
+    required BuildContext context,
     required int productCategoryId,
     required String name,
     required int stock,
     required String description,
     required String imagePath,
     required int price,
-    required int weight,
-    required BuildContext context,
   }) async {
     try {
-      // Konversi imagePath menjadi File
-      File imageFile = File(imagePath);
+      String fileName = imagePath.split('/').last;
 
-      // Membuat FormData untuk mengirim data termasuk file
       FormData formData = FormData.fromMap({
-        'product_category_id': productCategoryId.toString(),
+        'product_category_id': productCategoryId,
         'name': name,
-        'stock': stock.toString(),
+        'stock': stock,
         'description': description,
-        'price': price.toString(),
-        'weight': weight.toString(),
-        'gambar':
-            await MultipartFile.fromFile(imageFile.path, filename: 'image.jpg'),
+        'price': price,
+        'image': await MultipartFile.fromFile(imagePath, filename: fileName),
       });
 
-      // Melakukan POST request
-      final response = await dioCustom.post('products', data: formData);
+      Response response = await dioCustom.post(
+        'products',
+        data: formData,
+        options: Options(
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        ),
+      );
 
       if (response.statusCode == 200) {
-        if (response.data['message'] != 'success create data') {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(response.data['message'].toString())),
-          );
-
-          return ['error'];
-        } else {
-          return ['berhasil'];
-        }
+        return [
+          'berhasil'
+        ];
       } else {
-        return [];
+        return [
+          'gagal'
+        ];
       }
     } catch (e) {
-      print('Error while posting product: $e');
-      return [];
+      print('Error uploading product: $e');
+      rethrow;
     }
   }
+
+  // Future<List> postProduct({
+  //   required int productCategoryId,
+  //   required String name,
+  //   required int stock,
+  //   required String description,
+  //   required String imagePath,
+  //   required int price,
+  //   required BuildContext context,
+  // }) async {
+  //   try {
+  //     // Konversi imagePath menjadi File
+  //     File imageFile = File(imagePath);
+
+  //     // Membuat FormData untuk mengirim data termasuk file
+  //     FormData formData = FormData.fromMap({
+  //       'product_category_id': productCategoryId.toString(),
+  //       'name': name,
+  //       'stock': stock.toString(),
+  //       'description': description,
+  //       'price': price.toString(),
+  //       'gambar': await MultipartFile.fromFile(imageFile.path, filename: 'image.jpg'),
+  //     });
+
+  //     // Melakukan POST request
+  //     final response = await dioCustom.post('products', data: formData);
+
+  //     if (response.statusCode == 200) {
+  //       if (response.data['message'] != 'success create data') {
+  //         ScaffoldMessenger.of(context).showSnackBar(
+  //           SnackBar(content: Text(response.data['message'].toString())),
+  //         );
+
+  //         return [
+  //           'error'
+  //         ];
+  //       } else {
+  //         return [
+  //           'berhasil'
+  //         ];
+  //       }
+  //     } else {
+  //       return [];
+  //     }
+  //   } catch (e) {
+  //     print('Error while posting product: $e');
+  //     return [];
+  //   }
+  // }
 
   Future<List> getAllProducts() async {
     try {
@@ -98,7 +145,6 @@ class ProductService {
         List<dynamic> data = response.data['data'];
         return data;
       } else {
-        log(response.statusCode.toString());
         return [];
       }
     } catch (e) {

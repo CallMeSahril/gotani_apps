@@ -1,28 +1,22 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
+import 'package:gotani_apps/app/core/services/auth.service.dart';
 
 class AccountController extends GetxController {
-  // Sample data, replace with actual data fetching logic
-  var name = 'Annisa'.obs;
-  var email = '@gmail.com'.obs;
-  var phoneStatus = 'Belum Verifikasi'.obs;
-  var genderStatus = 'Belum Verifikasi'.obs;
-  var birthDateStatus = 'Belum Verifikasi'.obs;
+  bool isLoading = false;
+  Map user = {};
 
-  void fetchData() {
-    // Logic to fetch data from API or local storage can go here
-  }
-  @override
-  void onInit() {
-    super.onInit();
-  }
+  void fetchProfile() async {
+    final authService = AuthService();
+    await authService.getProfile().then((value) {
+      if (value != null) {
+        user.addAll(value);
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
+        update();
+      }
+    }).catchError((error) {
+      print('Error fetching profile: $error');
+    });
   }
 }

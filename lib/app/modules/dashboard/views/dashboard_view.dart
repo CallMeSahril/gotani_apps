@@ -11,7 +11,9 @@ import 'package:gotani_apps/app/modules/home/views/home_view.dart';
 import '../controllers/dashboard_controller.dart';
 
 class DashboardView extends GetView<DashboardController> {
-  const DashboardView({super.key});
+  DashboardView({super.key});
+  @override
+  final controller = Get.put(DashboardController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,14 +37,10 @@ class DashboardView extends GetView<DashboardController> {
             controller.selectedIndex.value = index;
           },
           backgroundColor: Colors.white,
-          selectedItemColor:
-              Color(0xff1F6751), // Set the color for the selected item
+          selectedItemColor: Color(0xff1F6751), // Set the color for the selected item
           unselectedItemColor: Colors.grey,
           items: [
-            BottomNavigationBarItem(
-                icon: Icon(Icons.home_outlined),
-                label: 'Home',
-                activeIcon: Icon(Icons.home)),
+            BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: 'Home', activeIcon: Icon(Icons.home)),
             BottomNavigationBarItem(
               icon: Icon(Icons.message_outlined),
               label: 'Messages',

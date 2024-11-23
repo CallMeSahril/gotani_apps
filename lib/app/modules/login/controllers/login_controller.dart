@@ -11,7 +11,7 @@ class LoginController extends GetxController {
   TextEditingController passwordController = TextEditingController();
   AuthService authService = AuthService();
   var isEyes = true.obs;
-
+  var isLoading = false.obs;
   TokenManager tokenManager = TokenManager();
   RoleManager roleManager = RoleManager();
 
@@ -22,27 +22,31 @@ class LoginController extends GetxController {
     passwordController.text = "penjual123";
   }
 
-  login() {
+  login() async {
     try {
-      authService
-          .login(emailController.text, passwordController.text)
-          .then((val) {
-        tokenManager.saveToken(val['token']);
-        roleManager.saveRole(val['role']);
-        if (val['role'] == 'seller' &&
-            emailController.text == 'penjual@gmail.com') {
-          log('Goto dashboard admin');
-          Get.offAllNamed(Routes.DASHBOARDPENJUAL);
-        } else if (val['role'] == 'seller' &&
-            emailController.text == 'pembeli@gmail.com') {
-          log('Goto dashboard customer');
-          Get.offAllNamed(Routes.DASHBOARD);
+      isLoading.value = true;
+      await authService.login(emailController.text, passwordController.text).then((val) {
+        if (val != null) {
+          tokenManager.saveToken(val['token']);
+          roleManager.saveRole(val['role']);
+          if (val['role'] == 'seller' || emailController.text == 'penjual1@gmail.com') {
+            isLoading.value = false;
+            Get.offAllNamed(Routes.DASHBOARDPENJUAL);
+          } else if (val['role'] == 'seller' || emailController.text == 'pembeli@gmail.com') {
+            log('Goto dashboard customer');
+            Get.offAllNamed(Routes.DASHBOARD);
+          } else {
+            log('role not found');
+          }
         } else {
-          log('role not found');
+          isLoading.value = false;
+          Get.snackbar('Error', val.toString());
         }
       });
     } catch (e) {
-      // Handle error
+      log(e.toString());
+    } finally {
+      isLoading.value = false;
     }
   }
 }

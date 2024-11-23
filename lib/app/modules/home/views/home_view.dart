@@ -8,7 +8,9 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
-  const HomeView({super.key});
+  HomeView({super.key});
+  @override
+  final controller = Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -231,23 +233,10 @@ class HomeView extends GetView<HomeController> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Analytics',
+                                    'Laporan Bulanan',
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.grey),
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Text('This Week'),
-                                        Icon(Icons.arrow_drop_down),
-                                      ],
                                     ),
                                   ),
                                 ],

@@ -9,7 +9,9 @@ import 'package:gotani_apps/app/routes/app_pages.dart';
 import '../controllers/category_list_controller.dart';
 
 class CategoryListView extends GetView<CategoryListController> {
-  const CategoryListView({super.key});
+  CategoryListView({super.key});
+  @override
+  final controller = Get.put(CategoryListController());
   @override
   Widget build(BuildContext context) {
     return GetBuilder(
@@ -28,8 +30,7 @@ class CategoryListView extends GetView<CategoryListController> {
                     children: [
                       Text(
                         'Category',
-                        style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold),
+                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 16),
                       Expanded(

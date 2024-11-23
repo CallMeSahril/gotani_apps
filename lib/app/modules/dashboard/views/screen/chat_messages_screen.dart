@@ -3,8 +3,9 @@ import 'package:get/get.dart';
 import '../../controllers/chat_messages_controller.dart';
 
 class ChatMessagesScreen extends GetView<ChatMessagesController> {
-  const ChatMessagesScreen({super.key});
-
+  ChatMessagesScreen({super.key});
+  @override
+  final controller = Get.put(ChatMessagesController());
   @override
   Widget build(BuildContext context) {
     final TextEditingController messageController = TextEditingController();
@@ -32,8 +33,7 @@ class ChatMessagesScreen extends GetView<ChatMessagesController> {
                   final isUser = message['sender'] == 'user';
 
                   return Align(
-                    alignment:
-                        isUser ? Alignment.centerRight : Alignment.centerLeft,
+                    alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
                     child: Container(
                       margin: EdgeInsets.only(
                         top: 4.0,
@@ -52,18 +52,13 @@ class ChatMessagesScreen extends GetView<ChatMessagesController> {
                         borderRadius: BorderRadius.only(
                           topLeft: const Radius.circular(12.0),
                           topRight: const Radius.circular(12.0),
-                          bottomLeft: isUser
-                              ? const Radius.circular(12.0)
-                              : Radius.zero,
-                          bottomRight: isUser
-                              ? Radius.zero
-                              : const Radius.circular(12.0),
+                          bottomLeft: isUser ? const Radius.circular(12.0) : Radius.zero,
+                          bottomRight: isUser ? Radius.zero : const Radius.circular(12.0),
                         ),
                       ),
                       child: Text(
                         message['message'] ?? '',
-                        style:
-                            const TextStyle(fontSize: 16, color: Colors.black),
+                        style: const TextStyle(fontSize: 16, color: Colors.black),
                       ),
                     ),
                   );

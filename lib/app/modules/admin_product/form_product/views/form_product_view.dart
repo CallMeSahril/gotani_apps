@@ -5,9 +5,7 @@ import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
 import 'package:gotani_apps/app/core/constants/colors.dart';
-import 'package:intl/intl.dart';
-
-import '../controllers/form_product_controller.dart';
+import 'package:gotani_apps/app/modules/admin_product/form_product/controllers/form_product_controller.dart';
 
 class FormProductView extends GetView<FormProductController> {
   const FormProductView({super.key});
@@ -25,10 +23,7 @@ class FormProductView extends GetView<FormProductController> {
               elevation: 0,
               title: Text(
                 'Tambah Product',
-                style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.black),
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w400, color: AppColors.black),
               ),
             ),
             resizeToAvoidBottomInset: true,
@@ -52,8 +47,7 @@ class FormProductView extends GetView<FormProductController> {
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),
                             child: Form(
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
                               child: SingleChildScrollView(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,26 +64,20 @@ class FormProductView extends GetView<FormProductController> {
                                       child: Container(
                                         height: 54,
                                         width: double.infinity,
-                                        margin: const EdgeInsets.symmetric(
-                                            vertical: 8),
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8),
+                                        margin: const EdgeInsets.symmetric(vertical: 8),
+                                        padding: const EdgeInsets.symmetric(horizontal: 8),
                                         decoration: BoxDecoration(
                                           color: AppColors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
+                                          borderRadius: BorderRadius.circular(8),
                                         ),
                                         child: Align(
                                           alignment: Alignment.centerLeft,
                                           child: controller.image == null
                                               ? Container(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(horizontal: 8),
+                                                  padding: const EdgeInsets.symmetric(horizontal: 8),
                                                   decoration: BoxDecoration(
                                                     color: AppColors.grey,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8),
+                                                    borderRadius: BorderRadius.circular(8),
                                                   ),
                                                   child: Text(
                                                     'Choose file',
@@ -101,12 +89,9 @@ class FormProductView extends GetView<FormProductController> {
                                               : Row(
                                                   children: [
                                                     ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8),
+                                                      borderRadius: BorderRadius.circular(8),
                                                       child: Image.file(
-                                                        File(controller
-                                                            .image!.path),
+                                                        File(controller.image!.path),
                                                         height: 32,
                                                         width: 32,
                                                         fit: BoxFit.cover,
@@ -115,9 +100,7 @@ class FormProductView extends GetView<FormProductController> {
                                                     const SizedBox(width: 8),
                                                     const Text(
                                                       'File selected',
-                                                      style: TextStyle(
-                                                          color:
-                                                              AppColors.black),
+                                                      style: TextStyle(color: AppColors.black),
                                                     ),
                                                   ],
                                                 ),
@@ -156,12 +139,7 @@ class FormProductView extends GetView<FormProductController> {
                                     ),
                                     TextFormField(
                                       controller: controller.harga,
-                                      decoration: InputDecoration(
-                                          prefixText: 'Rp. ',
-                                          hintText: '40.000,00',
-                                          fillColor: Colors.white,
-                                          filled: true,
-                                          border: border),
+                                      decoration: InputDecoration(prefixText: 'Rp. ', hintText: '0', fillColor: Colors.white, filled: true, border: border),
                                       keyboardType: TextInputType.number,
                                       inputFormatters: [
                                         FilteringTextInputFormatter.digitsOnly,
@@ -223,30 +201,6 @@ class FormProductView extends GetView<FormProductController> {
                                     ),
                                     const SizedBox(height: 16),
                                     const Text(
-                                      'Weight',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      controller: controller.weight,
-                                      decoration: InputDecoration(
-                                        hintText: '0',
-                                        fillColor: Colors.white,
-                                        filled: true,
-                                        border: border,
-                                      ),
-                                      keyboardType: TextInputType.number,
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Please enter Weight';
-                                        }
-                                        return null;
-                                      },
-                                    ),
-                                    const SizedBox(height: 16),
-                                    const Text(
                                       'Deskripsi',
                                       style: TextStyle(
                                         fontSize: 16,
@@ -278,8 +232,7 @@ class FormProductView extends GetView<FormProductController> {
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor: Colors.green,
                                             foregroundColor: Colors.white,
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 24, vertical: 12),
+                                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                                           ),
                                           child: const Text('Simpan'),
                                         ),
@@ -291,8 +244,7 @@ class FormProductView extends GetView<FormProductController> {
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor: Colors.red,
                                             foregroundColor: Colors.white,
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 24, vertical: 12),
+                                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                                           ),
                                           child: const Text('Back'),
                                         ),

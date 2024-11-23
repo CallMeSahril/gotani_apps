@@ -53,7 +53,7 @@ class AppPages {
   static final routes = [
     GetPage(
       name: _Paths.HOME,
-      page: () => const HomeView(),
+      page: () => HomeView(),
       binding: HomeBinding(),
     ),
     GetPage(
@@ -83,7 +83,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.DASHBOARD,
-      page: () => const DashboardView(),
+      page: () => DashboardView(),
       binding: DashboardBinding(),
     ),
     GetPage(
@@ -91,11 +91,11 @@ class AppPages {
       page: () => const DetailProductView(),
       binding: DetailProductBinding(),
     ),
-    GetPage(
-      name: _Paths.DETAIL_PRODUCT_PENJUAL,
-      page: () => const DetailProductPenjualView(),
-      binding: DetailProductPenjualBinding(),
-    ),
+    // GetPage(
+    //   name: _Paths.DETAIL_PRODUCT_PENJUAL,
+    //   page: () => const DetailProductPenjualView(),
+    //   binding: DetailProductPenjualBinding(),
+    // ),
     GetPage(
       name: _Paths.ADDRESS,
       page: () => AddressView(),
@@ -108,7 +108,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.PRODUCT,
-      page: () => const ProductView(),
+      page: () => ProductView(),
       binding: ProductBinding(),
     ),
     GetPage(
@@ -123,7 +123,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.CATEGORY_LIST,
-      page: () => const CategoryListView(),
+      page: () => CategoryListView(),
       binding: CategoryListBinding(),
     ),
     GetPage(
@@ -133,7 +133,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.ADMIN_NOTIFICATIONS,
-      page: () => const AdminNotificationsView(),
+      page: () => AdminNotificationsView(),
       binding: AdminNotificationsBinding(),
     ),
     GetPage(

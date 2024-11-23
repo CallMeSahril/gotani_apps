@@ -10,4 +10,10 @@ class HomeController extends GetxController {
     'Pupuk': 80.0,
     'Racun': 50.0,
   }.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    // get token from storage
+  }
 }

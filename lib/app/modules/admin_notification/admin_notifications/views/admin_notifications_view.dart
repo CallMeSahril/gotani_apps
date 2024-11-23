@@ -6,7 +6,9 @@ import 'package:gotani_apps/app/routes/app_pages.dart';
 import '../controllers/admin_notifications_controller.dart';
 
 class AdminNotificationsView extends GetView<AdminNotificationsController> {
-  const AdminNotificationsView({super.key});
+  AdminNotificationsView({super.key});
+  @override
+  final controller = Get.put(AdminNotificationsController());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -105,9 +107,7 @@ class AdminNotificationsView extends GetView<AdminNotificationsController> {
                                       notification.status,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                        color: notification.status == 'Baru'
-                                            ? Colors.blue
-                                            : Colors.orange,
+                                        color: notification.status == 'Baru' ? Colors.blue : Colors.orange,
                                       ),
                                     ),
                                   ),

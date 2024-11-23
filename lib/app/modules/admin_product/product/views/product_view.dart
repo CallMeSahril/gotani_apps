@@ -7,7 +7,9 @@ import 'package:gotani_apps/app/modules/admin_product/product/controllers/produc
 import 'package:gotani_apps/app/routes/app_pages.dart';
 
 class ProductView extends GetView<ProductController> {
-  const ProductView({super.key});
+  ProductView({super.key});
+  @override
+  final controller = Get.put(ProductController());
   @override
   Widget build(BuildContext context) {
     controller.fetchAllProductsAdmin();
@@ -52,7 +54,7 @@ class ProductView extends GetView<ProductController> {
                 Expanded(
                   child: RefreshIndicator(
                     onRefresh: () async {
-                      controller.getData();
+                      await controller.getData();
                       print('refresh');
                     },
                     child: GridView.builder(

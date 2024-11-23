@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -59,6 +60,23 @@ class FormProductView extends GetView<FormProductController> {
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
+                                    Text(
+                                      '${(controller.compressionProgress.value * 100).toInt()}%',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    ValueListenableBuilder<double>(
+                                      valueListenable: controller.compressionProgress,
+                                      builder: (context, value, child) {
+                                        return LinearProgressIndicator(
+                                          value: value,
+                                          backgroundColor: Colors.grey,
+                                          valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                                        );
+                                      },
+                                    ),
                                     GestureDetector(
                                       onTap: controller.pickImage,
                                       child: Container(
@@ -72,7 +90,7 @@ class FormProductView extends GetView<FormProductController> {
                                         ),
                                         child: Align(
                                           alignment: Alignment.centerLeft,
-                                          child: controller.image == null
+                                          child: controller.imagePath == null
                                               ? Container(
                                                   padding: const EdgeInsets.symmetric(horizontal: 8),
                                                   decoration: BoxDecoration(
@@ -90,12 +108,19 @@ class FormProductView extends GetView<FormProductController> {
                                                   children: [
                                                     ClipRRect(
                                                       borderRadius: BorderRadius.circular(8),
-                                                      child: Image.file(
-                                                        File(controller.image!.path),
-                                                        height: 32,
-                                                        width: 32,
-                                                        fit: BoxFit.cover,
-                                                      ),
+                                                      child: controller.imagePath!.startsWith('https')
+                                                          ? CachedNetworkImage(
+                                                              imageUrl: controller.imagePath!,
+                                                              fit: BoxFit.cover,
+                                                              height: 32,
+                                                              width: 32,
+                                                            )
+                                                          : Image.file(
+                                                              File(controller.imagePath!),
+                                                              height: 32,
+                                                              width: 32,
+                                                              fit: BoxFit.cover,
+                                                            ),
                                                     ),
                                                     const SizedBox(width: 8),
                                                     const Text(
@@ -234,6 +259,16 @@ class FormProductView extends GetView<FormProductController> {
                                       },
                                     ),
                                     const SizedBox(height: 24),
+                                    ValueListenableBuilder<double>(
+                                      valueListenable: controller.compressionProgress,
+                                      builder: (context, progress, child) {
+                                        if (progress < 1.0) {
+                                          return LinearProgressIndicator(value: progress);
+                                        } else {
+                                          return SizedBox.shrink();
+                                        }
+                                      },
+                                    ),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [

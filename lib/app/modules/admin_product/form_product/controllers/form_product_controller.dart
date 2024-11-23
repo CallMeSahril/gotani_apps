@@ -21,8 +21,10 @@ class FormProductController extends GetxController {
   bool isLoading = false;
 
   File? imageFile;
-  XFile? image;
+
   String? imagePath;
+
+  ValueNotifier<double> compressionProgress = ValueNotifier<double>(0.0);
 
   @override
   void onInit() {
@@ -65,7 +67,11 @@ class FormProductController extends GetxController {
     if (image != null) {
       img.Image resizedImage = img.copyResize(image, width: 600);
 
+      compressionProgress.value = 0.01;
+
       Uint8List compressedBytes = Uint8List.fromList(img.encodeJpg(resizedImage, quality: 80));
+
+      compressionProgress.value = 1.0;
 
       File compressedFile = File('${file.parent.path}/compressed_${file.path.split('/').last}');
       await compressedFile.writeAsBytes(compressedBytes);

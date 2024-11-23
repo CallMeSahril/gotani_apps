@@ -138,12 +138,22 @@ class FormProductView extends GetView<FormProductController> {
                                       ),
                                     ),
                                     TextFormField(
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.digitsOnly,
+                                        TextInputFormatter.withFunction((oldValue, newValue) {
+                                          final newString = newValue.text;
+                                          if (newString.isEmpty) return newValue;
+                                          final number = int.parse(newString);
+                                          final newStringWithCommas = number.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (match) => '${match[1]},');
+                                          return TextEditingValue(
+                                            text: newStringWithCommas,
+                                            selection: TextSelection.collapsed(offset: newStringWithCommas.length),
+                                          );
+                                        }),
+                                      ],
                                       controller: controller.harga,
                                       decoration: InputDecoration(prefixText: 'Rp. ', hintText: '0', fillColor: Colors.white, filled: true, border: border),
                                       keyboardType: TextInputType.number,
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.digitsOnly,
-                                      ],
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
                                           return 'Please enter price';

@@ -95,7 +95,7 @@ class FormProductController extends GetxController {
         stock: int.parse(stok.text),
         description: deskripsi.text,
         imagePath: imagePath!,
-        price: int.parse(harga.text),
+        price: int.parse(harga.text.replaceAll(',', '')),
       );
 
       if (response[0] == 'berhasil') {

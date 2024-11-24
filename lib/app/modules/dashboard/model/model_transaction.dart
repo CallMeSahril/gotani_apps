@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../main.dart';
+import '../../../core/helper/shared_preferences_helper.dart';
 
 List<ModelTransaction> modelTransactionFromJson(String str) =>
     List<ModelTransaction>.from(
@@ -62,11 +62,11 @@ class ModelTransaction {
       };
 
   static Future<List<ModelTransaction>> fetchTransactions() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = await TokenManager().getToken();
     final response = await http.get(
       Uri.parse("$mainUrl/transaction"),
       headers: {
-        HttpHeaders.authorizationHeader: "Bearer ${prefs.getString("token")}",
+        HttpHeaders.authorizationHeader: "Bearer $token",
       },
     );
     print(response.statusCode);

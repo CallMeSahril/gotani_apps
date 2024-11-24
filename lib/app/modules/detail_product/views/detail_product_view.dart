@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../main.dart';
+import '../../../core/helper/shared_preferences_helper.dart';
 import '../controllers/detail_product_controller.dart';
 
 class DetailProductView extends GetView<DetailProductController> {
@@ -15,7 +15,6 @@ class DetailProductView extends GetView<DetailProductController> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Color(0xff0E803C),
       body: SafeArea(
@@ -210,8 +209,7 @@ class DetailProductView extends GetView<DetailProductController> {
                         ),
                         InkWell(
                           onTap: () async {
-                            SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
+                            final token = await TokenManager().getToken();
                             final response = await http.post(
                               Uri.parse("$mainUrl/cart-items"),
                               body: {
@@ -223,15 +221,16 @@ class DetailProductView extends GetView<DetailProductController> {
                               },
                               headers: {
                                 HttpHeaders.authorizationHeader:
-                                    "Bearer ${prefs.getString("token")}",
+                                    "Bearer $token",
                               },
                             );
+                            print(response.body);
                             var body = jsonDecode(response.body);
-                            if (body['status'] == "success" &&
-                                response.statusCode == 200) {
+                            print(body['status'] == "success");
+                            if (body['status'] == "success") {
+                              Get.back();
                               Get.snackbar(
                                   "Info", "Berhasil menambahkan Keranjang.");
-                              Get.back();
                             } else {
                               Get.snackbar(
                                   "Info", "Gagal Menambahkan Keranjang.");

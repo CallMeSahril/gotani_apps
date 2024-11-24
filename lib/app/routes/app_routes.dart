@@ -25,6 +25,9 @@ abstract class Routes {
   static const ADMIN_DETAIL_NOTIFICATIONS = _Paths.ADMIN_DETAIL_NOTIFICATIONS;
   static const TRANSACTION = _Paths.TRANSACTION;
   static const DASHBOARDPENJUAL = _Paths.DASHBOARDPENJUAL;
+  static const DETAIL_PRODUCT_SELLER = _Paths.DETAIL_PRODUCT_SELLER;
+  static const TRANSACTION_SUCCESS = _Paths.TRANSACTION_SUCCESS;
+  static const SEARCH_PRODUCTS = _Paths.SEARCH_PRODUCTS;
 }
 
 abstract class _Paths {
@@ -51,4 +54,7 @@ abstract class _Paths {
   static const ADMIN_DETAIL_NOTIFICATIONS = '/admin-detail-notifications';
   static const TRANSACTION = '/transaction';
   static const DASHBOARDPENJUAL = '/dashboardpenjual';
+  static const DETAIL_PRODUCT_SELLER = '/detail-product-seller';
+  static const TRANSACTION_SUCCESS = '/transaction-success';
+  static const SEARCH_PRODUCTS = '/search-products';
 }

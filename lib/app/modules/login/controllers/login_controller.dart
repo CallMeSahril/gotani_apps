@@ -18,8 +18,8 @@ class LoginController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    emailController.text = 'penjual@gmail.com';
-    passwordController.text = "penjual123";
+    emailController.text = 'tajib@gmail.com';
+    passwordController.text = '12345678';
   }
 
   login() {
@@ -27,14 +27,13 @@ class LoginController extends GetxController {
       authService
           .login(emailController.text, passwordController.text)
           .then((val) {
+        debugPrint(val.toString());
         tokenManager.saveToken(val['token']);
         roleManager.saveRole(val['role']);
-        if (val['role'] == 'seller' &&
-            emailController.text == 'penjual@gmail.com') {
+        if (val['role'] == 'seller') {
           log('Goto dashboard admin');
           Get.offAllNamed(Routes.DASHBOARDPENJUAL);
-        } else if (val['role'] == 'seller' &&
-            emailController.text == 'pembeli@gmail.com') {
+        } else if (val['role'] == 'user') {
           log('Goto dashboard customer');
           Get.offAllNamed(Routes.DASHBOARD);
         } else {

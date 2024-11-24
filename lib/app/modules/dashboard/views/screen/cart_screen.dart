@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gotani_apps/app/modules/dashboard/controllers/cart_controller.dart';
 
 import '../../../../../main.dart';
+import '../../../../core/helper/shared_preferences_helper.dart';
 import '../../../../routes/app_pages.dart';
 import '../../model/model_address.dart';
 import '../../model/model_delivery_type.dart';
@@ -105,8 +106,9 @@ class CartScreen extends GetView<CartController> {
                         controller.deliveryType.value = result;
                         controller.deliveryType.refresh();
                         controller.shippingFee.value = result.cost![0].value!;
+                        print("Shipping Price = ${result.cost![0].value!}");
                         print(
-                            "Selected Delivery: ${controller.address.value.address}");
+                            "Selected Delivery: ${controller.deliveryType.value.service}");
                       } else {
                         print("No Delivery selected");
                       }
@@ -166,14 +168,13 @@ class CartScreen extends GetView<CartController> {
                           onPressed: () => controller.decrementQuantity(
                             index,
                             () async {
-                              SharedPreferences prefs =
-                                  await SharedPreferences.getInstance();
+                              final token = await TokenManager().getToken();
                               final response = await http.put(
-                                Uri.parse("$mainUrl/cart-items/${item.cartId}"),
+                                Uri.parse("$mainUrl/cart-items/${item.id}"),
                                 body: {"quantity": item.quantity.toString()},
                                 headers: {
                                   HttpHeaders.authorizationHeader:
-                                      "Bearer ${prefs.getString("token")}",
+                                      "Bearer $token",
                                 },
                               );
                             },
@@ -185,14 +186,13 @@ class CartScreen extends GetView<CartController> {
                           onPressed: () => controller.incrementQuantity(
                             index,
                             () async {
-                              SharedPreferences prefs =
-                                  await SharedPreferences.getInstance();
+                              final token = await TokenManager().getToken();
                               final response = await http.put(
-                                Uri.parse("$mainUrl/cart-items/${item.cartId}"),
+                                Uri.parse("$mainUrl/cart-items/${item.id}"),
                                 body: {"quantity": item.quantity.toString()},
                                 headers: {
                                   HttpHeaders.authorizationHeader:
-                                      "Bearer ${prefs.getString("token")}",
+                                      "Bearer $token",
                                 },
                               );
                             },
@@ -200,16 +200,16 @@ class CartScreen extends GetView<CartController> {
                         ),
                         IconButton(
                           onPressed: () async {
-                            SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
+                            final token = await TokenManager().getToken();
                             final response = await http.delete(
                               Uri.parse("$mainUrl/cart-items/${item.id}"),
                               headers: {
                                 HttpHeaders.authorizationHeader:
-                                    "Bearer ${prefs.getString("token")}",
+                                    "Bearer $token",
                               },
                             );
-
+                            print("$mainUrl/cart-items/${item.id}");
+                            print("Bearer $token");
                             print(response.body);
                             var body = jsonDecode(response.body);
                             if (body['status'] == "success") {
@@ -244,31 +244,32 @@ class CartScreen extends GetView<CartController> {
                       groupValue: controller.selectedPaymentMethod.value,
                       onChanged: (value) {
                         controller.updatePaymentMethod(value!);
+                        Get.snackbar(
+                          "Metode Pembayaran",
+                          "Metode yang dipilih: $value",
+                          snackPosition: SnackPosition.BOTTOM,
+                        );
                       },
                     ),
                   )),
-              Obx(() => ListTile(
-                    title: Text("COD"),
-                    leading: Radio<String>(
-                      value: "COD",
-                      groupValue: controller.selectedPaymentMethod.value,
-                      onChanged: (value) {
-                        controller.updatePaymentMethod(value!);
-                      },
-                    ),
-                  )),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  final selectedMethod = controller.selectedPaymentMethod.value;
-                  Get.snackbar(
-                    "Metode Pembayaran",
-                    "Metode yang dipilih: $selectedMethod",
-                    snackPosition: SnackPosition.BOTTOM,
-                  );
-                },
-                child: Text("Konfirmasi Pembayaran"),
+              Obx(
+                () => ListTile(
+                  title: Text("COD"),
+                  leading: Radio<String>(
+                    value: "COD",
+                    groupValue: controller.selectedPaymentMethod.value,
+                    onChanged: (value) {
+                      controller.updatePaymentMethod(value!);
+                      Get.snackbar(
+                        "Metode Pembayaran",
+                        "Metode yang dipilih: $value",
+                        snackPosition: SnackPosition.BOTTOM,
+                      );
+                    },
+                  ),
+                ),
               ),
+              SizedBox(height: 20),
             ],
           ),
           Container(
@@ -281,7 +282,7 @@ class CartScreen extends GetView<CartController> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text('Biaya Pengiriman'),
-                    Text('Rp ${controller.shippingFee}'),
+                    Obx(() => Text('Rp ${controller.shippingFee}')),
                   ],
                 ),
                 Row(
@@ -330,9 +331,23 @@ class CartScreen extends GetView<CartController> {
                             .length >
                         1) {
                       Get.snackbar("Warning", "Pilih maksimal 1 keranjang");
+                    } else if (controller.selectedPaymentMethod.value == "") {
+                      Get.snackbar("Warning", "Pilih Metode Pembayaran");
                     } else {
+                      print({
+                        "product_id": controller.cartItems
+                            .firstWhere((item) => item.isSelected == true)
+                            .productId
+                            .toString(),
+                        "quantity": controller.cartItems
+                            .firstWhere((item) => item.isSelected == true)
+                            .quantity
+                            .toString(),
+                        "total": controller.total.toString(),
+                        "payment_method": controller.selectedPaymentMethod.value
+                      }.toString());
                       final response = await http.post(
-                        Uri.parse("$mainUrl/cart-items"),
+                        Uri.parse("$mainUrl/transaction"),
                         body: {
                           "product_id": controller.cartItems
                               .firstWhere((item) => item.isSelected == true)
@@ -355,7 +370,7 @@ class CartScreen extends GetView<CartController> {
                       if (body['status'] == "success" &&
                           response.statusCode == 200) {
                         Get.snackbar("Info", "Berhasil menambahkan Keranjang.");
-                        Get.back();
+                        Get.offAllNamed(Routes.TRANSACTION_SUCCESS);
                       } else {
                         Get.snackbar("Info", "Gagal Menambahkan Keranjang.");
                       }

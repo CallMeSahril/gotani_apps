@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../main.dart';
+import '../../../core/helper/shared_preferences_helper.dart';
 
 List<ModelDeliveryType> modelDeliveryTypeFromJson(String str) =>
     List<ModelDeliveryType>.from(
@@ -46,11 +46,11 @@ class ModelDeliveryType {
     required String destination,
     required String weight,
   }) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = await TokenManager().getToken();
     final response = await http.post(
       Uri.parse("$mainUrl/check-shipping-cost"),
       headers: {
-        HttpHeaders.authorizationHeader: "Bearer ${prefs.getString("token")}",
+        HttpHeaders.authorizationHeader: "Bearer $token",
       },
       body: {
         "origin": origin,
@@ -59,12 +59,11 @@ class ModelDeliveryType {
         "courier": courier
       },
     );
-    print(response.statusCode);
+    print(response.body);
     var respon = jsonDecode(response.body);
-    print(respon);
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonResponse = json.decode(response.body);
-      String orders = json.encode(jsonResponse['data']['costs']);
+      String orders = json.encode(jsonResponse['data'][0]['costs']);
       // print(orders);
       var hasil = modelDeliveryTypeFromJson(orders);
       return hasil;

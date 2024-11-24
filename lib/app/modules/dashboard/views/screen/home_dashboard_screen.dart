@@ -11,9 +11,11 @@ import '../../../../routes/app_pages.dart';
 import 'detail_product_screen.dart';
 
 class HomeDashboardScreen extends GetView<HomeDashboardController> {
-  const HomeDashboardScreen({
+  HomeDashboardScreen({
     super.key,
   });
+
+  TextEditingController controllerSearch = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -62,8 +64,14 @@ class HomeDashboardScreen extends GetView<HomeDashboardController> {
                   child: CustomTextField(
                     prefixIcon: Icon(Icons.search),
                     isBorder: false,
-                    controller: TextEditingController(),
+                    controller: controllerSearch,
                     label: "Search",
+                    onEditingComplete: () {
+                      Get.toNamed(
+                        Routes.SEARCH_PRODUCTS,
+                        arguments: controllerSearch.text,
+                      );
+                    },
                   ),
                 ),
               ),

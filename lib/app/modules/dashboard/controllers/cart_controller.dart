@@ -19,7 +19,7 @@ class CartController extends GetxController {
 
   int get subtotal => cartItems
       .where((item) => item.isSelected)
-      .fold(0, (sum, item) => sum + (item.price ?? 0 * item.quantity!));
+      .fold(0, (sum, item) => sum + (item.price! * item.quantity!));
 
   int get total => subtotal + shippingFee.value;
 
@@ -31,6 +31,7 @@ class CartController extends GetxController {
   void incrementQuantity(int index, VoidCallback onTap) {
     cartItems[index].quantity = cartItems[index].quantity! + 1;
     cartItems.refresh();
+    print(subtotal);
     _updateQuantityToAPI(index, onTap);
   }
 
@@ -38,6 +39,7 @@ class CartController extends GetxController {
     if (cartItems[index].quantity! > 1) {
       cartItems[index].quantity = cartItems[index].quantity! - 1;
       cartItems.refresh();
+      print(subtotal);
       _updateQuantityToAPI(index, onTap);
     }
   }

@@ -37,15 +37,7 @@ class ProductService {
     try {
       String fileName = imagePath.split('/').last;
 
-      FormData formData = FormData.fromMap({
-        'product_category_id': productCategoryId,
-        'name': name,
-        'stock': stock,
-        'description': description,
-        'price': price,
-        'gambar': await MultipartFile.fromFile(imagePath, filename: fileName),
-        'weight': 0,
-      });
+      FormData formData;
       if (productId != null) {
         formData = FormData.fromMap({
           'product_category_id': productCategoryId,
@@ -54,9 +46,19 @@ class ProductService {
           'description': description,
           'price': price,
         });
+      } else {
+        formData = FormData.fromMap({
+          'product_category_id': productCategoryId,
+          'name': name,
+          'stock': stock,
+          'description': description,
+          'price': price,
+          'gambar': await MultipartFile.fromFile(imagePath, filename: fileName),
+          'weight': 0,
+        });
       }
 
-      log('imagepath : $imagePath, fileName : $fileName');
+      log(formData.fields.toString());
       Response response = await dioCustom.post(
         productId != null ? 'products/$productId' : 'products',
         data: formData,

@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../main.dart';
+import '../../../core/helper/shared_preferences_helper.dart';
 import 'model_product_category.dart';
 import 'model_seller.dart';
 
@@ -105,11 +105,11 @@ class ModelProduct {
       };
 
   static Future<List<ModelProduct>> fetchRecords() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = await TokenManager().getToken();
     final response = await http.get(
       Uri.parse("$mainUrl/products"),
       headers: {
-        HttpHeaders.authorizationHeader: "Bearer ${prefs.getString("token")}",
+        HttpHeaders.authorizationHeader: "Bearer $token",
       },
     );
     print(response.statusCode);
@@ -126,12 +126,34 @@ class ModelProduct {
     }
   }
 
+  static Future<List<ModelProduct>> searchProduct(String query) async {
+    final token = await TokenManager().getToken();
+    final response =
+        await http.post(Uri.parse("$mainUrl/products/search"), headers: {
+      HttpHeaders.authorizationHeader: "Bearer $token",
+    }, body: {
+      "search": query
+    });
+    print(response.statusCode);
+    var respon = jsonDecode(response.body);
+    print(respon);
+    if (response.statusCode == 200) {
+      Map<String, dynamic> jsonResponse = json.decode(response.body);
+      String orders = json.encode(jsonResponse['data']);
+      // print(orders);
+      var hasil = modelProductFromJson(orders);
+      return hasil;
+    } else {
+      throw Exception('Failed to load products');
+    }
+  }
+
   static Future<ModelProduct> fetchDetailsRecords({required String id}) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = await TokenManager().getToken();
     final response = await http.get(
       Uri.parse("$mainUrl/products/$id"),
       headers: {
-        HttpHeaders.authorizationHeader: "Bearer ${prefs.getString("token")}",
+        HttpHeaders.authorizationHeader: "Bearer $token",
       },
     );
     print(response.statusCode);

@@ -11,7 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../main.dart';
 import '../../../core/components/custom_text_field.dart';
 import '../../../core/components/validation_pop_up.dart';
-import '../../dashboard/model/model_address.dart';
+import '../../../core/helper/shared_preferences_helper.dart';
 import '../../dashboard/model/model_kabupaten.dart';
 import '../../dashboard/model/model_province.dart';
 import '../controllers/address_controller.dart';
@@ -25,160 +25,174 @@ class AddressView extends GetView<AddressController> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SafeArea(
+        child: SingleChildScrollView(
           child: Column(
-        children: [
-          Container(
-            width: width,
-            padding: EdgeInsets.all(width * 0.03),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                InkWell(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: Icon(
-                    Icons.navigate_before_rounded,
-                    size: width * 0.1,
-                  ),
+            children: [
+              Container(
+                width: width,
+                padding: EdgeInsets.all(width * 0.03),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Icon(
+                        Icons.navigate_before_rounded,
+                        size: width * 0.1,
+                      ),
+                    ),
+                    SizedBox(
+                      width: width * 0.04,
+                    ),
+                    Text(
+                      "Pilih Alamat Pengiriman",
+                      style: TextStyle(
+                        fontSize: 24,
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(
-                  width: width * 0.04,
-                ),
-                Text(
-                  "Pilih Alamat Pengiriman",
-                  style: TextStyle(
-                    fontSize: 24,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: width * 0.04,
-          ),
-          InkWell(
-            onTap: () {
-              controllerName.text = "";
-              controllerPhone.text = "";
-              controllerAddress.text = "";
-              _showPersistentBottomSheet(context, null);
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Color(0xff0E803C),
-                  borderRadius: BorderRadius.circular(width * 0.03)),
-              padding: EdgeInsets.all(width * 0.03),
-              child: Expanded(
-                child: Text(
-                  "Add Address",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+              ),
+              SizedBox(
+                height: width * 0.04,
+              ),
+              InkWell(
+                onTap: () {
+                  controllerName.text = "";
+                  controllerPhone.text = "";
+                  controllerAddress.text = "";
+                  controller.provinsi.value = ModelProvince();
+                  controller.kabupaten.value = ModelKabupaten();
+                  _showPersistentBottomSheet(context, null);
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Color(0xff0E803C),
+                      borderRadius: BorderRadius.circular(width * 0.03)),
+                  padding: EdgeInsets.all(width * 0.03),
+                  child: Expanded(
+                    child: Text(
+                      "Add Address",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ),
-          Obx(
-            () => ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: controller.listAddress.length,
-              itemBuilder: (context, index) {
-                var address = controller.listAddress[index];
-                return InkWell(
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (context) {
-                        return ValidationPopUp(
-                          title: "Konfirmasi",
-                          pesan:
-                              "Apakah Anda yakin memilih alamat ${address.address}-${address.city}-${address.province}?",
-                          buttonLabel: "Lanjutkan",
-                          onPressed: () {
-                            Get.back();
-                            Get.back(result: address);
+              Obx(
+                () => ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: controller.listAddress.length,
+                  itemBuilder: (context, index) {
+                    var address = controller.listAddress[index];
+                    return InkWell(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) {
+                            return ValidationPopUp(
+                              title: "Konfirmasi",
+                              pesan:
+                                  "Apakah Anda yakin memilih alamat ${address.address}-${address.city}-${address.province}?",
+                              buttonLabel: "Lanjutkan",
+                              onPressed: () {
+                                Get.back();
+                                Get.back(result: address);
+                              },
+                            );
                           },
                         );
                       },
+                      child: Container(
+                        width: width,
+                        padding: EdgeInsets.all(width * 0.03),
+                        margin: EdgeInsets.all(width * 0.05),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(width * 0.05),
+                        ),
+                        child: ListTile(
+                          title: Text(
+                            "Nama: ${address.name}\nNo.Telp: ${address.phone}",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          subtitle: Text(
+                            "${address.address}/${address.city}/${address.province}",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                            ),
+                          ),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.edit, color: Colors.blue),
+                                onPressed: () {
+                                  controllerName.text = address.name ?? "-";
+                                  controllerPhone.text = address.phone ?? "-";
+                                  controllerAddress.text =
+                                      address.address ?? "-";
+                                  controller.provinsi.value = ModelProvince(
+                                    provinceId: address.provinceId,
+                                    province: address.province,
+                                  );
+                                  controller.kabupaten.value = ModelKabupaten(
+                                    cityId: address.cityId,
+                                    cityName: address.city,
+                                  );
+                                  _showPersistentBottomSheet(
+                                      context, address.id.toString());
+                                },
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.delete, color: Colors.red),
+                                onPressed: () async {
+                                  final token = await TokenManager().getToken();
+                                  final response = await http.delete(
+                                    Uri.parse(
+                                        "$mainUrl/addresses/${address.id}"),
+                                    headers: {
+                                      HttpHeaders.authorizationHeader:
+                                          "Bearer $token",
+                                    },
+                                  );
+                                  debugPrint(response.statusCode.toString());
+                                  debugPrint(response.body);
+                                  var body = jsonDecode(response.body);
+
+                                  if (body['status'] == "success") {
+                                    Get.snackbar(
+                                        "Info", "Success delete address");
+                                    controller.fetchAddress();
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     );
                   },
-                  child: Container(
-                    width: width,
-                    padding: EdgeInsets.all(width * 0.03),
-                    margin: EdgeInsets.all(width * 0.05),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(width * 0.05),
-                    ),
-                    child: ListTile(
-                      title: Text(
-                        "Nama: ${address.name}\nNo.Telp: ${address.phone}",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      subtitle: Text(
-                        "${address.address}/${address.city}/${address.province}",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                        ),
-                      ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: Icon(Icons.edit, color: Colors.blue),
-                            onPressed: () {
-                              controllerName.text = address.name ?? "-";
-                              controllerPhone.text = address.phone ?? "-";
-                              controllerAddress.text = address.address ?? "-";
-                              _showPersistentBottomSheet(
-                                  context, address.id.toString());
-                            },
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.delete, color: Colors.red),
-                            onPressed: () async {
-                              SharedPreferences prefs =
-                                  await SharedPreferences.getInstance();
-                              final response = await http.delete(
-                                Uri.parse("$mainUrl/addresses/${address.id}"),
-                                headers: {
-                                  HttpHeaders.authorizationHeader:
-                                      "Bearer ${prefs.getString("token")}",
-                                },
-                              );
-                              debugPrint(response.statusCode.toString());
-                              debugPrint(response.body);
-                              var body = jsonDecode(response.body);
-
-                              if (body['status'] == "success") {
-                                Get.snackbar("Info", "Success delete address");
-                                controller.fetchAddress();
-                              }
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-          )
-        ],
-      )),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -238,6 +252,9 @@ class AddressView extends GetView<AddressController> {
                 popupProps: PopupProps.menu(
                   showSearchBox: true,
                 ),
+                selectedItem: controller.provinsi.value.province == null
+                    ? ModelProvince(province: "Pilih Provinsi")
+                    : controller.provinsi.value,
                 items: controller.listProvinsi,
                 itemAsString: (item) => item.province!,
                 onChanged: (item) {
@@ -257,6 +274,9 @@ class AddressView extends GetView<AddressController> {
                 popupProps: PopupProps.menu(
                   showSearchBox: true,
                 ),
+                selectedItem: controller.kabupaten.value.cityName == null
+                    ? ModelKabupaten(cityName: "Pilih Kabupaten")
+                    : controller.kabupaten.value,
                 items: controller.listKabupaten,
                 itemAsString: (item) => item.cityName!,
                 onChanged: (item) {
@@ -272,6 +292,10 @@ class AddressView extends GetView<AddressController> {
               ),
               SizedBox(height: 16),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Color(0xff0E803C),
+                ),
                 onPressed: () async {
                   if (controllerName.text.isEmpty ||
                       controllerPhone.text.isEmpty ||
@@ -284,8 +308,7 @@ class AddressView extends GetView<AddressController> {
                   // Proses simpan alamat
                   var provinsi = controller.provinsi.value;
                   var kabupaten = controller.kabupaten.value;
-                  SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
+                  final token = await TokenManager().getToken();
 
                   final response = id == null
                       ? await http.post(
@@ -300,8 +323,7 @@ class AddressView extends GetView<AddressController> {
                             "city_id": kabupaten.cityId,
                           },
                           headers: {
-                            HttpHeaders.authorizationHeader:
-                                "Bearer ${prefs.getString("token")}",
+                            HttpHeaders.authorizationHeader: "Bearer $token",
                           },
                         )
                       : await http.put(
@@ -316,15 +338,15 @@ class AddressView extends GetView<AddressController> {
                             "city_id": kabupaten.cityId,
                           },
                           headers: {
-                            HttpHeaders.authorizationHeader:
-                                "Bearer ${prefs.getString("token")}",
+                            HttpHeaders.authorizationHeader: "Bearer $token",
                           },
                         );
                   var body = jsonDecode(response.body);
+                  print(body['status'] == "success");
                   if (body['status'] == "success") {
+                    Get.back();
                     Get.snackbar("Info", "Berhasil menyimpan alamat.");
                     controller.fetchAddress();
-                    Get.back();
                   }
                 },
                 child: Text("Simpan"),

@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../main.dart';
+import '../../../core/helper/shared_preferences_helper.dart';
 
 List<ModelProvince> modelProvinceFromJson(String str) =>
     List<ModelProvince>.from(
@@ -32,11 +32,11 @@ class ModelProvince {
       };
 
   static Future<List<ModelProvince>> fetchProvince() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = await TokenManager().getToken();
     final response = await http.get(
       Uri.parse("$mainUrl/provinces"),
       headers: {
-        HttpHeaders.authorizationHeader: "Bearer ${prefs.getString("token")}",
+        HttpHeaders.authorizationHeader: "Bearer $token",
       },
     );
     print(response.statusCode);

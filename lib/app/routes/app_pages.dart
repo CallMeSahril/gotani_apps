@@ -1,11 +1,9 @@
 import 'package:get/get.dart';
-import 'package:gotani_apps/app/modules/dashboardpenjual/bindings/dashboardpenjual_binding.dart';
-import 'package:gotani_apps/app/modules/dashboardpenjual/views/dashboardpenjual_view.dart';
-import 'package:gotani_apps/app/modules/detail.product/bindings/detail_product_binding.dart';
-import 'package:gotani_apps/app/modules/detail.product/views/detail_product_view.dart';
-import 'package:gotani_apps/app/modules/detail_product/bindings/detail_product_binding.dart';
-import 'package:gotani_apps/app/modules/detail_product/views/detail_product_view.dart';
 
+import '../modules/address/bindings/address_binding.dart';
+import '../modules/address/bindings/address_binding.dart';
+import '../modules/address/views/address_view.dart';
+import '../modules/address/views/address_view.dart';
 import '../modules/admin_category/category_form/bindings/category_form_binding.dart';
 import '../modules/admin_category/category_form/views/category_form_view.dart';
 import '../modules/admin_category/category_list/bindings/category_list_binding.dart';
@@ -20,28 +18,36 @@ import '../modules/admin_product/form_product/bindings/form_product_binding.dart
 import '../modules/admin_product/form_product/views/form_product_view.dart';
 import '../modules/admin_product/product/bindings/product_binding.dart';
 import '../modules/admin_product/product/views/product_view.dart';
-import '../modules/address/bindings/address_binding.dart';
-import '../modules/address/views/address_view.dart';
 import '../modules/components/bindings/components_binding.dart';
 import '../modules/components/views/components_view.dart';
 import '../modules/dashboard/bindings/dashboard_binding.dart';
 import '../modules/dashboard/views/dashboard_view.dart';
-
+import '../modules/dashboardpenjual/bindings/dashboardpenjual_binding.dart';
+import '../modules/dashboardpenjual/views/dashboardpenjual_view.dart';
 import '../modules/delivery/bindings/delivery_binding.dart';
 import '../modules/delivery/views/delivery_view.dart';
-
+import '../modules/detail.product/bindings/detail_product_binding.dart';
+import '../modules/detail.product/views/detail_product_view.dart';
+import '../modules/detail_product/bindings/detail_product_binding.dart';
+import '../modules/detail_product/views/detail_product_view.dart';
+import '../modules/detail_product_seller/bindings/detail_product_seller_binding.dart';
+import '../modules/detail_product_seller/views/detail_product_seller_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
+import '../modules/search_products/bindings/search_products_binding.dart';
+import '../modules/search_products/views/search_products_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
 import '../modules/splashhome/bindings/splashhome_binding.dart';
 import '../modules/splashhome/views/splashhome_view.dart';
 import '../modules/transaction/bindings/transaction_binding.dart';
 import '../modules/transaction/views/transaction_view.dart';
+import '../modules/transaction_success/bindings/transaction_success_binding.dart';
+import '../modules/transaction_success/views/transaction_success_view.dart';
 
 part 'app_routes.dart';
 
@@ -150,6 +156,21 @@ class AppPages {
       name: _Paths.DASHBOARDPENJUAL,
       page: () => const DashboardpenjualView(),
       binding: DashboardpenjualBinding(),
+    ),
+    GetPage(
+      name: _Paths.DETAIL_PRODUCT_SELLER,
+      page: () => const DetailProductSellerView(),
+      binding: DetailProductSellerBinding(),
+    ),
+    GetPage(
+      name: _Paths.TRANSACTION_SUCCESS,
+      page: () => const TransactionSuccessView(),
+      binding: TransactionSuccessBinding(),
+    ),
+    GetPage(
+      name: _Paths.SEARCH_PRODUCTS,
+      page: () => const SearchProductsView(),
+      binding: SearchProductsBinding(),
     ),
   ];
 }

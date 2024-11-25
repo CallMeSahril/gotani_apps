@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../main.dart';
+import '../../../core/helper/shared_preferences_helper.dart';
 
 List<ModelAddress> modelAddressFromJson(String str) => List<ModelAddress>.from(
     json.decode(str).map((x) => ModelAddress.fromJson(x)));
@@ -72,11 +72,11 @@ class ModelAddress {
       };
 
   static Future<List<ModelAddress>> fetchAddress() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = await TokenManager().getToken();
     final response = await http.get(
       Uri.parse("$mainUrl/addresses"),
       headers: {
-        HttpHeaders.authorizationHeader: "Bearer ${prefs.getString("token")}",
+        HttpHeaders.authorizationHeader: "Bearer $token",
       },
     );
     print(response.statusCode);

@@ -18,29 +18,24 @@ class LoginController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    emailController.text = 'penjual@gmail.com';
-    passwordController.text = "penjual123";
+    emailController.text = 'tajib@gmail.com';
+    passwordController.text = '12345678';
   }
 
   login() async {
     try {
-      isLoading.value = true;
-      await authService.login(emailController.text, passwordController.text).then((val) {
-        if (val != null) {
-          tokenManager.saveToken(val['token']);
-          roleManager.saveRole(val['role']);
-          if (val['role'] == 'seller' || emailController.text == 'penjual1@gmail.com') {
-            isLoading.value = false;
-            Get.offAllNamed(Routes.DASHBOARDPENJUAL);
-          } else if (val['role'] == 'seller' || emailController.text == 'pembeli@gmail.com') {
-            log('Goto dashboard customer');
-            Get.offAllNamed(Routes.DASHBOARD);
-          } else {
-            log('role not found');
-          }
+      authService.login(emailController.text, passwordController.text).then((val) {
+        debugPrint(val.toString());
+        tokenManager.saveToken(val['token']);
+        roleManager.saveRole(val['role']);
+        if (val['role'] == 'seller') {
+          log('Goto dashboard admin');
+          Get.offAllNamed(Routes.DASHBOARDPENJUAL);
+        } else if (val['role'] == 'user') {
+          log('Goto dashboard customer');
+          Get.offAllNamed(Routes.DASHBOARD);
         } else {
-          isLoading.value = false;
-          Get.snackbar('Error', val.toString());
+          log('role not found');
         }
       });
     } catch (e) {

@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../main.dart';
+import '../../../core/helper/shared_preferences_helper.dart';
 
 List<ModelKabupaten> modelKabupatenFromJson(String str) =>
     List<ModelKabupaten>.from(
@@ -48,11 +48,11 @@ class ModelKabupaten {
       };
 
   static Future<List<ModelKabupaten>> fetchKabupaten(String idProv) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final token = await TokenManager().getToken();
     final response = await http.get(
       Uri.parse("$mainUrl/cities/$idProv"),
       headers: {
-        HttpHeaders.authorizationHeader: "Bearer ${prefs.getString("token")}",
+        HttpHeaders.authorizationHeader: "Bearer $token",
       },
     );
     print(response.statusCode);

@@ -1,8 +1,11 @@
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-
-import '../controllers/category_form_controller.dart';
+import 'package:gotani_apps/app/core/constants/colors.dart';
+import 'package:gotani_apps/app/modules/admin_category/category_form/controllers/category_form_controller.dart';
 
 class CategoryFormView extends GetView<CategoryFormController> {
   const CategoryFormView({super.key});
@@ -10,40 +13,44 @@ class CategoryFormView extends GetView<CategoryFormController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Tambah Category',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+      body: GetBuilder(
+          init: CategoryFormController(),
+          builder: (controller) {
+            return SafeArea(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Tambah Category',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      _buildTextField(
+                        label: 'Nama Category',
+                        controller: controller.nameController,
+                      ),
+                      const SizedBox(height: 16),
+                      _buildTextField(
+                        label: 'Stok',
+                        controller: controller.stockController,
+                        keyboardType: TextInputType.number,
+                      ),
+                      const SizedBox(height: 16),
+                      _buildImagePicker(),
+                      const SizedBox(height: 24),
+                      _buildButtons(),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 24),
-                _buildTextField(
-                  label: 'Nama Category',
-                  controller: controller.nameController,
-                ),
-                const SizedBox(height: 16),
-                _buildTextField(
-                  label: 'Stok',
-                  controller: controller.stockController,
-                  keyboardType: TextInputType.number,
-                ),
-                const SizedBox(height: 16),
-                _buildImagePicker(),
-                const SizedBox(height: 24),
-                _buildButtons(),
-              ],
-            ),
-          ),
-        ),
-      ),
+              ),
+            );
+          }),
     );
   }
 
@@ -108,42 +115,77 @@ class CategoryFormView extends GetView<CategoryFormController> {
             fontWeight: FontWeight.w500,
           ),
         ),
-        const SizedBox(height: 8),
-        GetBuilder<CategoryFormController>(
-          builder: (controller) {
-            return Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.1),
-                    spreadRadius: 1,
-                    blurRadius: 2,
-                    offset: const Offset(0, 1),
-                  ),
-                ],
-              ),
-              child: InkWell(
-                onTap: () async {
-                  controller.pickImage();
-                },
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
-                  ),
-                  width: double.infinity,
-                  child: Obx(
-                    () => Text(
-                      controller.selectedImage.value,
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                  ),
-                ),
-              ),
+        Text(
+          '${(controller.compressionProgress.value * 100).toInt()}%',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        ValueListenableBuilder<double>(
+          valueListenable: controller.compressionProgress,
+          builder: (context, value, child) {
+            return LinearProgressIndicator(
+              value: value,
+              backgroundColor: Colors.grey,
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
             );
           },
+        ),
+        GestureDetector(
+          onTap: controller.pickImage,
+          child: Container(
+            height: 54,
+            width: double.infinity,
+            margin: const EdgeInsets.symmetric(vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            decoration: BoxDecoration(
+              color: AppColors.white,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: controller.imagePath == null
+                  ? Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      decoration: BoxDecoration(
+                        color: AppColors.grey,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        'Choose file',
+                        style: TextStyle(
+                          color: AppColors.black,
+                        ),
+                      ),
+                    )
+                  : Row(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: controller.imagePath!.startsWith('https')
+                              ? CachedNetworkImage(
+                                  imageUrl: controller.imagePath!,
+                                  fit: BoxFit.cover,
+                                  height: 32,
+                                  width: 32,
+                                )
+                              : Image.file(
+                                  File(controller.imagePath!),
+                                  height: 32,
+                                  width: 32,
+                                  fit: BoxFit.cover,
+                                ),
+                        ),
+                        const SizedBox(width: 8),
+                        const Text(
+                          'File selected',
+                          style: TextStyle(color: AppColors.black),
+                        ),
+                      ],
+                    ),
+            ),
+          ),
         ),
       ],
     );
@@ -154,7 +196,7 @@ class CategoryFormView extends GetView<CategoryFormController> {
       children: [
         Expanded(
           child: ElevatedButton(
-            onPressed: controller.saveCategory,
+            onPressed: controller.submitCategory,
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.green,
               foregroundColor: Colors.white,

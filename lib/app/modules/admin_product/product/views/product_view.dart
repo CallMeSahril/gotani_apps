@@ -91,6 +91,7 @@ class ProductView extends GetView<ProductController> {
                                         child: ClipRRect(
                                           borderRadius: BorderRadius.circular(8),
                                           child: CachedNetworkImage(
+                                            fit: BoxFit.cover,
                                             imageUrl: controller.products[index]['image_url'] ?? 'https://placehold.co/600x400?text=No+Image',
                                             progressIndicatorBuilder: (context, url, downloadProgress) => Center(
                                               child: SizedBox(

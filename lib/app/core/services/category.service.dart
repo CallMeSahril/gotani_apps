@@ -4,14 +4,14 @@ import 'package:dio/dio.dart';
 
 import 'package:gotani_apps/app/core/services/dio.h.dart';
 
-class ProductService {
-  ProductService() {
+class CategoryService {
+  CategoryService() {
     configureDioWithToken();
   }
 
-  Future<List> getProduct(int productId) async {
+  Future<List> getCategory(int categoryId) async {
     try {
-      final response = await dioCustom.get('products/$productId');
+      final response = await dioCustom.get('category/$categoryId');
 
       if (response.statusCode == 200) {
         print(response.data['data']);
@@ -20,45 +20,27 @@ class ProductService {
         return [];
       }
     } catch (e) {
-      print('Error while fetching product: $e');
+      print('Error while fetching category: $e');
       return [];
     }
   }
 
-  Future<List<dynamic>> postProduct({
-    required int productCategoryId,
+  Future<List<dynamic>> postCategory({
     required String name,
     required int stock,
-    required String description,
     required String imagePath,
-    required int price,
-    int? productId,
   }) async {
     try {
       String fileName = imagePath.split('/').last;
 
       FormData formData = FormData.fromMap({
-        'product_category_id': productCategoryId,
         'name': name,
         'stock': stock,
-        'description': description,
-        'price': price,
         'gambar': await MultipartFile.fromFile(imagePath, filename: fileName),
-        'weight': 0,
       });
-      if (productId != null) {
-        formData = FormData.fromMap({
-          'product_category_id': productCategoryId,
-          'name': name,
-          'stock': stock,
-          'description': description,
-          'price': price,
-        });
-      }
-
       log('imagepath : $imagePath, fileName : $fileName');
       Response response = await dioCustom.post(
-        productId != null ? 'products/$productId' : 'products',
+        'category',
         data: formData,
         options: Options(
           headers: {
@@ -78,14 +60,14 @@ class ProductService {
         ];
       }
     } catch (e) {
-      print('Error uploading product: $e');
+      print('Error uploading category: $e');
       rethrow;
     }
   }
 
-  Future<List> getAllProducts() async {
+  Future<List> getAllCategoriesAdmin() async {
     try {
-      final response = await dioCustom.get('products');
+      final response = await dioCustom.get('category/get/seller');
 
       if (response.statusCode == 200) {
         List<dynamic> data = response.data['data'];
@@ -94,46 +76,30 @@ class ProductService {
         return [];
       }
     } catch (e) {
-      print('Error while fetching products: $e');
+      log('Error while fetching categories: $e');
       return [];
     }
   }
 
-  Future<List> getAllProductsAdmin() async {
+  Future<bool> deleteCategory(int categoryId) async {
     try {
-      final response = await dioCustom.get('products/get/seller');
-
-      if (response.statusCode == 200) {
-        List<dynamic> data = response.data['data'];
-        return data;
-      } else {
-        return [];
-      }
-    } catch (e) {
-      log('Error while fetching products: $e');
-      return [];
-    }
-  }
-
-  Future<bool> deleteProduct(int productId) async {
-    try {
-      final response = await dioCustom.delete('products/$productId');
+      final response = await dioCustom.delete('category/$categoryId');
 
       if (response.statusCode == 200 || response.statusCode == 204) {
-        print('Product deleted successfully');
+        print('Category deleted successfully');
         return true;
       } else {
-        print('Failed to delete product. Status code: ${response.statusCode}');
+        print('Failed to delete Category. Status code: ${response.statusCode}');
         return false;
       }
     } on DioException catch (e) {
-      print('DioError while deleting product: ${e.message}');
+      print('DioError while deleting category: ${e.message}');
       if (e.response != null) {
         print('Response data: ${e.response?.data}');
       }
       return false;
     } catch (e) {
-      print('Error while deleting product: $e');
+      print('Error while deleting category: $e');
       return false;
     }
   }

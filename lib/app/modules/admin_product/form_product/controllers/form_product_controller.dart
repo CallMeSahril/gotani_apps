@@ -13,6 +13,7 @@ class FormProductController extends GetxController {
   final TextEditingController category = TextEditingController();
   final TextEditingController deskripsi = TextEditingController();
   final TextEditingController stok = TextEditingController();
+  int? productId;
 
   final ProductService productService = ProductService();
 
@@ -33,6 +34,7 @@ class FormProductController extends GetxController {
     if (arguments != null) {
       final product = arguments['product'];
       if (product != null) {
+        productId = product['id'];
         namaBarang.text = product['name'];
         harga.text = product['price'].toString();
         category.text = product['category_id'].toString();
@@ -102,6 +104,7 @@ class FormProductController extends GetxController {
         description: deskripsi.text,
         imagePath: imagePath!,
         price: int.parse(harga.text.replaceAll(',', '')),
+        productId: productId,
       );
 
       if (response[0] == 'berhasil') {

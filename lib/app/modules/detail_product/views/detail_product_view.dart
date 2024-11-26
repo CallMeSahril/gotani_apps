@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../main.dart';
+import '../../../core/components/formatter_price.dart';
 import '../../../core/helper/shared_preferences_helper.dart';
 import '../controllers/detail_product_controller.dart';
 
@@ -94,7 +95,8 @@ class DetailProductView extends GetView<DetailProductController> {
                           ),
                         ),
                         Text(
-                          controller.product.value.price.toString(),
+                          Formatter.formatToRupiah(
+                              controller.product.value.price),
                           style: TextStyle(
                             color: Color(0xff472C9D),
                             fontSize: 24,
@@ -110,7 +112,8 @@ class DetailProductView extends GetView<DetailProductController> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          controller.product.value.price.toString(),
+                          Formatter.formatToRupiah(
+                              controller.product.value.price),
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,

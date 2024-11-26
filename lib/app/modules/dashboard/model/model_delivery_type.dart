@@ -46,6 +46,14 @@ class ModelDeliveryType {
     required String destination,
     required String weight,
   }) async {
+    print(
+      {
+        "origin": origin,
+        "destination": destination,
+        "weight": weight,
+        "courier": courier
+      },
+    );
     final token = await TokenManager().getToken();
     final response = await http.post(
       Uri.parse("$mainUrl/check-shipping-cost"),

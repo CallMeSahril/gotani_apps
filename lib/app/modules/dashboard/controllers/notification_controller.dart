@@ -15,12 +15,12 @@ class NotificationController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchTransaction();
   }
 
   @override
   void onReady() {
     super.onReady();
+    fetchTransaction();
   }
 
   @override

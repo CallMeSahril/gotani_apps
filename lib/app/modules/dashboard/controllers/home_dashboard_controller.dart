@@ -1,29 +1,33 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gotani_apps/app/core/assets/assets.gen.dart';
 
+import '../model/model_category.dart';
 import '../model/model_product.dart';
 
 class HomeDashboardController extends GetxController {
-  RxList<Map<String, dynamic>> listCategori = [
-    {
-      "icon": 'assets/images/bibit.png',
-      "name": "Bibit",
-    },
-    {
-      "icon": 'assets/images/pupuk.png',
-      "name": "Pupuk",
-    },
-    {
-      "icon": 'assets/images/racun.png',
-      "name": "Racun",
-    },
-    {
-      "icon": 'assets/images/alat_tani.png',
-      "name": "Alat Tani",
-    }
-  ].obs;
+  TextEditingController controllerSearch = TextEditingController();
+  RxList<ModelCategory> listCategori = <ModelCategory>[].obs;
+  // RxList<Map<String, dynamic>> listCategori = [
+  //   {
+  //     "icon": 'assets/images/bibit.png',
+  //     "name": "Bibit",
+  //   },
+  //   {
+  //     "icon": 'assets/images/pupuk.png',
+  //     "name": "Pupuk",
+  //   },
+  //   {
+  //     "icon": 'assets/images/racun.png',
+  //     "name": "Racun",
+  //   },
+  //   {
+  //     "icon": 'assets/images/alat_tani.png',
+  //     "name": "Alat Tani",
+  //   }
+  // ].obs;
 
   RxList<ModelProduct> listProduct = <ModelProduct>[].obs;
+  RxList<ModelProduct> listPopularProduct = <ModelProduct>[].obs;
 
   @override
   void onInit() {
@@ -31,16 +35,28 @@ class HomeDashboardController extends GetxController {
   }
 
   @override
-  Future<void> onReady() async {
+  void onReady() {
     super.onReady();
-    await ModelProduct.fetchRecords().then((value) {
-      listProduct.value = value;
-      listProduct.refresh();
-    });
+    fetchProducts();
+    fetchCategory();
   }
 
   @override
   void onClose() {
     super.onClose();
+  }
+
+  fetchProducts() {
+    ModelProduct.fetchRecords().then((value) {
+      listProduct.value = value;
+      listProduct.refresh();
+    });
+  }
+
+  fetchCategory() {
+    ModelCategory.fetchCategory().then((value) {
+      listCategori.value = value;
+      listCategori.refresh();
+    });
   }
 }

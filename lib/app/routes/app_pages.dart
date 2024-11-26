@@ -18,6 +18,8 @@ import '../modules/admin_product/form_product/bindings/form_product_binding.dart
 import '../modules/admin_product/form_product/views/form_product_view.dart';
 import '../modules/admin_product/product/bindings/product_binding.dart';
 import '../modules/admin_product/product/views/product_view.dart';
+import '../modules/category_products/bindings/category_products_binding.dart';
+import '../modules/category_products/views/category_products_view.dart';
 import '../modules/components/bindings/components_binding.dart';
 import '../modules/components/views/components_view.dart';
 import '../modules/dashboard/bindings/dashboard_binding.dart';
@@ -32,6 +34,8 @@ import '../modules/detail_product/bindings/detail_product_binding.dart';
 import '../modules/detail_product/views/detail_product_view.dart';
 import '../modules/detail_product_seller/bindings/detail_product_seller_binding.dart';
 import '../modules/detail_product_seller/views/detail_product_seller_view.dart';
+import '../modules/detail_transaction/bindings/detail_transaction_binding.dart';
+import '../modules/detail_transaction/views/detail_transaction_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
@@ -171,6 +175,16 @@ class AppPages {
       name: _Paths.SEARCH_PRODUCTS,
       page: () => const SearchProductsView(),
       binding: SearchProductsBinding(),
+    ),
+    GetPage(
+      name: _Paths.CATEGORY_PRODUCTS,
+      page: () => const CategoryProductsView(),
+      binding: CategoryProductsBinding(),
+    ),
+    GetPage(
+      name: _Paths.DETAIL_TRANSACTION,
+      page: () => const DetailTransactionView(),
+      binding: DetailTransactionBinding(),
     ),
   ];
 }

@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:gotani_apps/app/modules/dashboard/controllers/cart_controller.dart';
 
 import '../../../../../main.dart';
+import '../../../../core/components/formatter_price.dart';
 import '../../../../core/helper/shared_preferences_helper.dart';
 import '../../../../routes/app_pages.dart';
 import '../../model/model_address.dart';
@@ -21,7 +21,7 @@ class CartScreen extends GetView<CartController> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
+    // final height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Keranjang Saya'),
@@ -159,7 +159,8 @@ class CartScreen extends GetView<CartController> {
                       ],
                     ),
                     title: Text(item.product!.name ?? ""),
-                    subtitle: Text('Rp ${item.product!.price.toString()}'),
+                    subtitle: Text(
+                        Formatter.formatToRupiah(item.product!.price ?? 0)),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -282,7 +283,8 @@ class CartScreen extends GetView<CartController> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text('Biaya Pengiriman'),
-                    Obx(() => Text('Rp ${controller.shippingFee}')),
+                    Obx(() => Text(Formatter.formatToRupiah(
+                        controller.shippingFee.value))),
                   ],
                 ),
                 Row(
@@ -291,7 +293,7 @@ class CartScreen extends GetView<CartController> {
                     const Text('Subtotal'),
                     Obx(
                       () => Text(
-                        'Rp ${controller.subtotal}',
+                        Formatter.formatToRupiah(controller.subtotal),
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.orange,
@@ -306,7 +308,7 @@ class CartScreen extends GetView<CartController> {
                     const Text('Total', style: TextStyle(fontSize: 18)),
                     Obx(
                       () => Text(
-                        'Rp ${controller.total}',
+                        Formatter.formatToRupiah(controller.total),
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.green,
@@ -319,20 +321,28 @@ class CartScreen extends GetView<CartController> {
                 const SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: () async {
-                    SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
+                    final token = await TokenManager().getToken();
 
                     if (controller.cartItems
                         .where((item) => item.isSelected == true)
                         .isEmpty) {
                       Get.snackbar("Warning", "Pilih 1 keranjang");
+                      return;
                     } else if (controller.cartItems
                             .where((item) => item.isSelected == true)
                             .length >
                         1) {
                       Get.snackbar("Warning", "Pilih maksimal 1 keranjang");
+                      return;
+                    } else if (controller.address.value.address == null) {
+                      Get.snackbar("Warning", "Pilih Alamat");
+                      return;
+                    } else if (controller.deliveryType.value.service == null) {
+                      Get.snackbar("Warning", "Pilih Pegiriman");
+                      return;
                     } else if (controller.selectedPaymentMethod.value == "") {
                       Get.snackbar("Warning", "Pilih Metode Pembayaran");
+                      return;
                     } else {
                       print({
                         "product_id": controller.cartItems
@@ -362,24 +372,26 @@ class CartScreen extends GetView<CartController> {
                               controller.selectedPaymentMethod.value
                         },
                         headers: {
-                          HttpHeaders.authorizationHeader:
-                              "Bearer ${prefs.getString("token")}",
+                          HttpHeaders.authorizationHeader: "Bearer $token",
                         },
                       );
                       var body = jsonDecode(response.body);
                       if (body['status'] == "success" &&
                           response.statusCode == 200) {
-                        Get.snackbar("Info", "Berhasil menambahkan Keranjang.");
+                        // Get.snackbar("Info", "Berhasil Melakukan Transaksi");
                         Get.offAllNamed(Routes.TRANSACTION_SUCCESS);
                       } else {
-                        Get.snackbar("Info", "Gagal Menambahkan Keranjang.");
+                        Get.snackbar("Info", "Gagal Melakukan Transaksi.");
                       }
                     }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
                   ),
-                  child: const Text('Pesan'),
+                  child: const Text(
+                    'Pesan',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ],
             ),

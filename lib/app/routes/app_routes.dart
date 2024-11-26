@@ -28,6 +28,8 @@ abstract class Routes {
   static const DETAIL_PRODUCT_SELLER = _Paths.DETAIL_PRODUCT_SELLER;
   static const TRANSACTION_SUCCESS = _Paths.TRANSACTION_SUCCESS;
   static const SEARCH_PRODUCTS = _Paths.SEARCH_PRODUCTS;
+  static const CATEGORY_PRODUCTS = _Paths.CATEGORY_PRODUCTS;
+  static const DETAIL_TRANSACTION = _Paths.DETAIL_TRANSACTION;
 }
 
 abstract class _Paths {
@@ -57,4 +59,6 @@ abstract class _Paths {
   static const DETAIL_PRODUCT_SELLER = '/detail-product-seller';
   static const TRANSACTION_SUCCESS = '/transaction-success';
   static const SEARCH_PRODUCTS = '/search-products';
+  static const CATEGORY_PRODUCTS = '/category-products';
+  static const DETAIL_TRANSACTION = '/detail-transaction';
 }

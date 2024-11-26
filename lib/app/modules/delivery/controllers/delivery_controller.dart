@@ -19,11 +19,12 @@ class DeliveryController extends GetxController {
   void fetchproductDetail() {
     ModelProduct.fetchDetailsRecords(id: idProduct.value).then((value) {
       product.value = value;
-      origin.value = value.user!.storeCityId.toString();
+      origin.value =
+          (value.user!.storeCityId == null || value.user!.storeCityId == "")
+              ? "501"
+              : value.user!.storeCityId.toString();
       weight.value = (value.weight! * qty.value).toString();
     });
-
-    print("$origin, $destination, $weight, $courier");
   }
 
   void fetchDeliveryType() {
@@ -34,7 +35,7 @@ class DeliveryController extends GetxController {
 
     ModelDeliveryType.fetchDeliveryType(
       courier: courier.value,
-      origin: "501",
+      origin: origin.value,
       destination: destination.value,
       weight: weight.value,
     ).then((value) {

@@ -13,35 +13,44 @@ class TransactionSuccessView extends GetView<TransactionSuccessController> {
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Center(
-        child: Column(
-          children: [
-            SizedBox(
-              width: width * 0.8,
-              child: Image.asset(
-                "assets/images/transaction_success.png",
-                fit: BoxFit.contain,
-              ),
-            ),
-            SizedBox(
-              height: height * 0.05,
-            ),
-            Text(
-              'Transaction Success',
-              style: TextStyle(fontSize: 20),
-            ),
-            SizedBox(
-              width: width * 0.5,
-              child: ElevatedButton(
-                onPressed: () async {
-                  Get.offAllNamed(Routes.DASHBOARD);
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
+        child: SizedBox(
+          height: height,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: width * 0.8,
+                child: Image.asset(
+                  "assets/images/transaction_success.png",
+                  fit: BoxFit.contain,
                 ),
-                child: const Text('Kembali'),
               ),
-            ),
-          ],
+              SizedBox(
+                height: height * 0.05,
+              ),
+              Text(
+                'Transaction Success',
+                style: TextStyle(fontSize: 20),
+              ),
+              SizedBox(
+                width: width * 0.5,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    Get.offAllNamed(Routes.DASHBOARD);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                  ),
+                  child: const Text(
+                    'Kembali',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

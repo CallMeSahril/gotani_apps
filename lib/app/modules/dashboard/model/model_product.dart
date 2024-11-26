@@ -30,6 +30,7 @@ class ModelProduct {
   String? imageUrl;
   int? rating;
   int? totalRating;
+  int? totalSales;
   int? price;
   int? weight;
   DateTime? createdAt;
@@ -48,6 +49,7 @@ class ModelProduct {
     this.imageUrl,
     this.rating,
     this.totalRating,
+    this.totalSales,
     this.price,
     this.weight,
     this.createdAt,
@@ -67,6 +69,7 @@ class ModelProduct {
         imageUrl: json["image_url"],
         rating: json["rating"],
         totalRating: json["total_rating"],
+        totalSales: json["total_sales"],
         price: json["price"],
         weight: json["weight"],
         createdAt: json["created_at"] == null
@@ -94,6 +97,7 @@ class ModelProduct {
         "image_url": imageUrl,
         "rating": rating,
         "total_rating": totalRating,
+        "total_sales": totalSales,
         "price": price,
         "weight": weight,
         "created_at": createdAt?.toIso8601String(),

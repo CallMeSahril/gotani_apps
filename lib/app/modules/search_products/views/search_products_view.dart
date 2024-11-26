@@ -13,7 +13,7 @@ class SearchProductsView extends GetView<SearchProductsController> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
+    // final height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SingleChildScrollView(
         child: SizedBox(
@@ -21,22 +21,38 @@ class SearchProductsView extends GetView<SearchProductsController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                width: width * 0.9,
-                padding: EdgeInsets.all(width * 0.05),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: CustomTextField(
-                  prefixIcon: Icon(Icons.search),
-                  isBorder: false,
-                  controller: TextEditingController(),
-                  label: "Search",
-                ),
-              ),
               SizedBox(
-                height: height * 0.05,
+                width: width * 0.9,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkWell(
+                      onTap: () => Get.back(),
+                      child: Icon(
+                        Icons.arrow_back_ios_new_rounded,
+                        size: width * 0.05,
+                      ),
+                    ),
+                    Container(
+                      width: width * 0.75,
+                      margin: EdgeInsets.all(width * 0.05),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: CustomTextField(
+                        prefixIcon: Icon(Icons.search),
+                        isBorder: false,
+                        controller: controller.controllerSearch,
+                        onEditingComplete: () {
+                          controller.fetchSearchProduct(
+                              controller.controllerSearch.text);
+                        },
+                        label: "Search",
+                      ),
+                    ),
+                  ],
+                ),
               ),
               Obx(
                 () => Wrap(

@@ -1,14 +1,8 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 
-import '../../../../main.dart';
 import '../../../core/components/formatter_price.dart';
-import '../../../core/helper/shared_preferences_helper.dart';
 import '../controllers/detail_product_controller.dart';
 
 class DetailProductView extends GetView<DetailProductController> {
@@ -211,34 +205,7 @@ class DetailProductView extends GetView<DetailProductController> {
                           ),
                         ),
                         InkWell(
-                          onTap: () async {
-                            final token = await TokenManager().getToken();
-                            final response = await http.post(
-                              Uri.parse("$mainUrl/cart-items"),
-                              body: {
-                                "product_id":
-                                    controller.product.value.id.toString(),
-                                "quantity": controller
-                                    .quantityProductDetail.value
-                                    .toString()
-                              },
-                              headers: {
-                                HttpHeaders.authorizationHeader:
-                                    "Bearer $token",
-                              },
-                            );
-                            print(response.body);
-                            var body = jsonDecode(response.body);
-                            print(body['status'] == "success");
-                            if (body['status'] == "success") {
-                              Get.back();
-                              Get.snackbar(
-                                  "Info", "Berhasil menambahkan Keranjang.");
-                            } else {
-                              Get.snackbar(
-                                  "Info", "Gagal Menambahkan Keranjang.");
-                            }
-                          },
+                          onTap: () async {},
                           child: Container(
                             decoration: BoxDecoration(
                                 color: Color(0xff0E803C),

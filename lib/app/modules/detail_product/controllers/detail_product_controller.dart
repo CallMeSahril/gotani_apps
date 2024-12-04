@@ -1,8 +1,16 @@
-import 'package:get/get.dart';
+import 'dart:convert';
+import 'dart:io';
 
+import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+
+import '../../../../main.dart';
+import '../../../core/helper/shared_preferences_helper.dart';
+import '../../dashboard/controllers/cart_controller.dart';
 import '../../dashboard/model/model_product.dart';
 
 class DetailProductController extends GetxController {
+  CartController cartController = CartController();
   //TODO: Implement DetailProductController
   Rx<ModelProduct> product = ModelProduct().obs;
   RxInt quantityProductDetail = 1.obs;
@@ -33,5 +41,29 @@ class DetailProductController extends GetxController {
       quantityProductDetail--;
       quantityProductDetail.refresh();
     }
+  }
+
+  Future<void> checkout() async {
+    final token = await TokenManager().getToken();
+    final response = await http.post(
+      Uri.parse("$mainUrl/cart-items"),
+      body: {
+        "product_id": product.value.id.toString(),
+        "quantity": quantityProductDetail.value.toString()
+      },
+      headers: {
+        HttpHeaders.authorizationHeader: "Bearer $token",
+      },
+    );
+    print(response.body);
+    var body = jsonDecode(response.body);
+    print(body['status'] == "success");
+    if (body['status'] == "success") {
+      Get.back();
+      Get.snackbar("Info", "Berhasil menambahkan Keranjang.");
+    } else {
+      Get.snackbar("Info", "Gagal Menambahkan Keranjang.");
+    }
+    cartController.fetchCart();
   }
 }

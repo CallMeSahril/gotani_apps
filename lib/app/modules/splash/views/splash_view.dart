@@ -16,7 +16,7 @@ class SplashView extends GetView<SplashController> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color(0xFF439A31),
+              Color(0xFF439Aff),
               Color(0xFF0868AE),
             ],
             begin: Alignment.topCenter,

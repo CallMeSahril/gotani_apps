@@ -1,3 +1,11 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:http/http.dart' as http;
+
+import '../../../../main.dart';
+import '../../../core/helper/shared_preferences_helper.dart';
+
 class ModelProfile {
   int? id;
   String? name;
@@ -72,4 +80,24 @@ class ModelProfile {
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
       };
+
+  static Future<ModelProfile> fetchProfile() async {
+    final token = await TokenManager().getToken();
+    final response = await http.get(
+      Uri.parse("$mainUrl/profile"),
+      headers: {
+        HttpHeaders.authorizationHeader: "Bearer $token",
+      },
+    );
+    print(response.statusCode);
+    var respon = jsonDecode(response.body);
+    print(respon);
+    if (response.statusCode == 200) {
+      Map<String, dynamic> jsonResponse = json.decode(response.body);
+      var hasil = ModelProfile.fromJson(jsonResponse);
+      return hasil;
+    } else {
+      throw Exception('Failed to load profile');
+    }
+  }
 }

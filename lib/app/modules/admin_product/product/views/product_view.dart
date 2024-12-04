@@ -6,6 +6,8 @@ import 'package:gotani_apps/app/core/constants/colors.dart';
 import 'package:gotani_apps/app/modules/admin_product/product/controllers/product_controller.dart';
 import 'package:gotani_apps/app/routes/app_pages.dart';
 
+import '../../../../core/components/formatter_price.dart';
+
 class ProductView extends GetView<ProductController> {
   const ProductView({super.key});
   @override
@@ -25,9 +27,8 @@ class ProductView extends GetView<ProductController> {
               color: AppColors.white,
             ),
             onPressed: () {
-              Get.toNamed(Routes.FORM_PRODUCT, arguments: {
-                'heroTag': 'productFAB'
-              });
+              Get.toNamed(Routes.FORM_PRODUCT,
+                  arguments: {'heroTag': 'productFAB'});
             },
           ),
           body: SafeArea(
@@ -58,7 +59,8 @@ class ProductView extends GetView<ProductController> {
                     child: GridView.builder(
                       padding: const EdgeInsets.all(10),
                       physics: AlwaysScrollableScrollPhysics(),
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         childAspectRatio: 1 / 1.27,
                         crossAxisSpacing: 30,
@@ -87,19 +89,28 @@ class ProductView extends GetView<ProductController> {
                                       AspectRatio(
                                         aspectRatio: 1,
                                         child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(8),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
                                           child: CachedNetworkImage(
-                                            imageUrl: controller.products[index]['image_url'] ?? 'https://placehold.co/600x400?text=No+Image',
-                                            progressIndicatorBuilder: (context, url, downloadProgress) => Center(
+                                            imageUrl: controller.products[index]
+                                                    ['image_url'] ??
+                                                'https://placehold.co/600x400?text=No+Image',
+                                            progressIndicatorBuilder: (context,
+                                                    url, downloadProgress) =>
+                                                Center(
                                               child: SizedBox(
                                                 width: 24,
                                                 height: 24,
-                                                child: CircularProgressIndicator(
-                                                  value: downloadProgress.progress,
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  value:
+                                                      downloadProgress.progress,
                                                 ),
                                               ),
                                             ),
-                                            errorWidget: (context, url, error) => const Icon(Icons.error),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    const Icon(Icons.error),
                                           ),
                                         ),
                                       ),
@@ -114,7 +125,8 @@ class ProductView extends GetView<ProductController> {
                                           ),
                                           decoration: BoxDecoration(
                                             color: Colors.white,
-                                            borderRadius: BorderRadius.circular(12),
+                                            borderRadius:
+                                                BorderRadius.circular(12),
                                           ),
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,
@@ -126,7 +138,9 @@ class ProductView extends GetView<ProductController> {
                                               ),
                                               const SizedBox(width: 4),
                                               Text(
-                                                controller.products[index]['rating'].toString(),
+                                                controller.products[index]
+                                                        ['rating']
+                                                    .toString(),
                                                 style: const TextStyle(
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.bold,
@@ -146,7 +160,11 @@ class ProductView extends GetView<ProductController> {
                                         width: 8,
                                         height: 8,
                                         decoration: BoxDecoration(
-                                          color: controller.products[index]['stock'] > 0 ? Colors.green : Colors.red,
+                                          color: controller.products[index]
+                                                      ['stock'] >
+                                                  0
+                                              ? Colors.green
+                                              : Colors.red,
                                           shape: BoxShape.circle,
                                         ),
                                       ),
@@ -167,7 +185,7 @@ class ProductView extends GetView<ProductController> {
                                   // Price Range
                                   Expanded(
                                     child: Text(
-                                      'Rp ${controller.products[index]['price']}',
+                                      'Rp ${Formatter.formatToRupiah(controller.products[index]['price'])}',
                                       style: const TextStyle(
                                         fontSize: 12,
                                         color: Colors.grey,

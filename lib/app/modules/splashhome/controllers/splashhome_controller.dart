@@ -7,6 +7,7 @@ class SplashhomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    print("object");
   }
 
   @override

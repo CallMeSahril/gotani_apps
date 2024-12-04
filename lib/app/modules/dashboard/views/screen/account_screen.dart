@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../routes/app_pages.dart';
 import '../../controllers/account_controller.dart';
 
 class AccountScreen extends GetView<AccountController> {
@@ -22,67 +23,183 @@ class AccountScreen extends GetView<AccountController> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                CircleAvatar(
-                  radius: 30,
-                  backgroundColor: Colors.grey[300],
-                  child: const Icon(
-                    Icons.person,
-                    color: Colors.grey,
-                    size: 40,
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Obx(() => Text(
-                      controller.name.value,
-                      style: const TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
+        child: controller.role.value == "user"
+            ? Column(
+                children: [
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 30,
+                        backgroundColor: Colors.grey[300],
+                        child: const Icon(
+                          Icons.person,
+                          color: Colors.grey,
+                          size: 40,
+                        ),
                       ),
-                    )),
-              ],
-            ),
-            const Divider(
-              color: Colors.grey,
-              height: 30,
-              thickness: 1,
-            ),
-            Obx(
-              () => _buildAccountInfoItem(
-                'Nama lengkap',
-                controller.name.value,
+                      const SizedBox(width: 16),
+                      Obx(() => Text(
+                            controller.name.value,
+                            style: const TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          )),
+                    ],
+                  ),
+                  const Divider(
+                    color: Colors.grey,
+                    height: 30,
+                    thickness: 1,
+                  ),
+                  Obx(
+                    () => _buildAccountInfoItem(
+                      'Email',
+                      controller.profile.value.email ?? "-",
+                    ),
+                  ),
+                  Obx(
+                    () => _buildAccountInfoItem(
+                      'Nama lengkap',
+                      controller.profile.value.name ?? "-",
+                    ),
+                  ),
+                ],
+              )
+            : Column(
+                children: [
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 30,
+                        backgroundColor: Colors.grey[300],
+                        child: const Icon(
+                          Icons.person,
+                          color: Colors.grey,
+                          size: 40,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Obx(() => Text(
+                            controller.name.value,
+                            style: const TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          )),
+                    ],
+                  ),
+                  const Divider(
+                    color: Colors.grey,
+                    height: 30,
+                    thickness: 1,
+                  ),
+                  Obx(
+                    () => _buildAccountInfoItem(
+                      'Email',
+                      controller.profile.value.email ?? "-",
+                    ),
+                  ),
+                  Obx(
+                    () => _buildAccountInfoItem(
+                      'Nama lengkap',
+                      controller.profile.value.name ?? "-",
+                    ),
+                  ),
+                  Obx(
+                    () => _buildAccountInfoItem(
+                      'Nama Toko',
+                      controller.profile.value.storeName ?? "-",
+                    ),
+                  ),
+                  Obx(
+                    () => _buildAccountInfoItem(
+                      'Alamat Toko',
+                      controller.profile.value.storeAddress ?? "-",
+                    ),
+                  ),
+                  Obx(
+                    () => _buildAccountInfoItem(
+                      'Provinsi',
+                      controller.profile.value.storeProvince ?? "-",
+                    ),
+                  ),
+                  Obx(
+                    () => _buildAccountInfoItem(
+                      'Kabupaten',
+                      controller.profile.value.storeCity ?? "-",
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Get.toNamed(Routes.EDIT_ACCOUNT, arguments: [
+                        controller.profile,
+                        controller.province,
+                        controller.kabupaten
+                      ]);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 12.0),
+                        decoration: BoxDecoration(
+                          color: Color(0xFF439A31),
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Edit",
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Get.toNamed(Routes.EDIT_ACCOUNT, arguments: [
+                        controller.profile,
+                        controller.province,
+                        controller.kabupaten
+                      ]);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 12.0),
+                        decoration: BoxDecoration(
+                          color: Colors.redAccent,
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Keluar",
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                ],
               ),
-            ),
-            Obx(
-              () => _buildAccountInfoItem(
-                'Tambahkan Nomor',
-                controller.phoneStatus.value,
-              ),
-            ),
-            Obx(
-              () => _buildAccountInfoItem(
-                'Ganti e-mail',
-                controller.email.value,
-              ),
-            ),
-            Obx(
-              () => _buildAccountInfoItem(
-                'Jenis Kelamin',
-                controller.genderStatus.value,
-              ),
-            ),
-            Obx(
-              () => _buildAccountInfoItem(
-                'Tanggal Lahir',
-                controller.birthDateStatus.value,
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

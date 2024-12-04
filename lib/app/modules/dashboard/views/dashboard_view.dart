@@ -6,7 +6,6 @@ import 'package:gotani_apps/app/modules/dashboard/views/screen/cart_screen.dart'
 import 'package:gotani_apps/app/modules/dashboard/views/screen/home_dashboard_screen.dart';
 import 'package:gotani_apps/app/modules/dashboard/views/screen/chat_messages_screen.dart';
 import 'package:gotani_apps/app/modules/dashboard/views/screen/notification_screen.dart';
-import 'package:gotani_apps/app/modules/home/views/home_view.dart';
 
 import '../controllers/dashboard_controller.dart';
 

@@ -39,7 +39,7 @@ class AccountController extends GetxController {
     role.value = await RoleManager().getRole() ?? "";
   }
 
-  updateProfile() async {
+  logout() async {
     final token = await TokenManager().getToken();
 
     final response = await http.post(

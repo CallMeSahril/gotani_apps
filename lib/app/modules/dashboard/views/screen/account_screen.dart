@@ -166,13 +166,7 @@ class AccountScreen extends GetView<AccountController> {
                     ),
                   ),
                   InkWell(
-                    onTap: () {
-                      Get.toNamed(Routes.EDIT_ACCOUNT, arguments: [
-                        controller.profile,
-                        controller.province,
-                        controller.kabupaten
-                      ]);
-                    },
+                    onTap: controller.logout,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 4.0),
                       child: Container(

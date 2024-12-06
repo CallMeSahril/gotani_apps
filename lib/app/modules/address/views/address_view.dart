@@ -74,14 +74,12 @@ class AddressView extends GetView<AddressController> {
                       color: Color(0xff0E803C),
                       borderRadius: BorderRadius.circular(width * 0.03)),
                   padding: EdgeInsets.all(width * 0.03),
-                  child: Expanded(
-                    child: Text(
-                      "Add Address",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  child: Text(
+                    "Add Address",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),

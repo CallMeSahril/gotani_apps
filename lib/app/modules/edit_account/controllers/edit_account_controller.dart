@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 
 import '../../../../main.dart';
 import '../../../core/helper/shared_preferences_helper.dart';
@@ -21,10 +22,17 @@ class EditAccountController extends GetxController {
   RxList<ModelKabupaten> listKabupaten = <ModelKabupaten>[].obs;
   Rx<ModelProvince> province = ModelProvince().obs;
   Rx<ModelKabupaten> kabupaten = ModelKabupaten().obs;
+  Rxn<File> isImage = Rxn<File>();
   //TODO: Implement EditAccountController
-
-  fetchProfile() {
-    ModelProfile.fetchProfile().then((value) {
+  Rx<ModelProfile> dataProfile = ModelProfile().obs;
+  // Image picker instance
+  final ImagePicker _picker = ImagePicker();
+  fetchProfile() async {
+    await ModelProfile.fetchProfile().then((value) {
+      dataProfile.value = value;
+      controllerName.text = value.name!;
+      controllerStoreName.text = value.storeName!;
+      controllerAddress.text = value.storeAddress!;
       profile.value = value;
       profile.refresh();
       province.value.province = value.storeProvince;
@@ -32,6 +40,36 @@ class EditAccountController extends GetxController {
       kabupaten.value.cityName = value.storeCity;
       kabupaten.value.cityId = value.storeCityId;
     });
+  }
+
+  /// Update store logo
+  void updateStoreLogo(File imageFile) {
+    try {
+      // Update the image locally (for demonstration)
+      isImage?.value = imageFile;
+      update();
+      // dataProfile.value.storeLogo = imageFile.path;
+
+      // Optionally, upload the image to server here
+      // Example:
+      // await uploadImage(imageFile);
+
+      Get.snackbar("Success", "Foto berhasil diubah!");
+    } catch (e) {
+      Get.snackbar("Error", "Gagal memperbarui foto: $e");
+    }
+  }
+
+  Future<File?> pickImage() async {
+    try {
+      final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+      if (pickedFile != null) {
+        return File(pickedFile.path);
+      }
+    } catch (e) {
+      Get.snackbar("Error", "Gagal mengambil gambar: $e");
+    }
+    return null;
   }
 
   updateProfile() async {
@@ -89,6 +127,7 @@ class EditAccountController extends GetxController {
     province = Get.arguments[1];
     kabupaten = Get.arguments[2];
     fetchProvince();
+    fetchProfile();
   }
 
   @override

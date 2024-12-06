@@ -22,10 +22,12 @@ class AccountController extends GetxController {
   Rx<ModelProfile> profile = ModelProfile().obs;
   Rx<ModelProvince> province = ModelProvince().obs;
   Rx<ModelKabupaten> kabupaten = ModelKabupaten().obs;
+  Rx<ModelProfile> dataProfile = ModelProfile().obs;
   RxString role = "".obs;
 
-  fetchProfile() {
-    ModelProfile.fetchProfile().then((value) {
+  fetchProfile() async {
+    await ModelProfile.fetchProfile().then((value) {
+      dataProfile.value = value;
       profile.value = value;
       profile.refresh();
       province.value.province = value.storeProvince;
@@ -40,20 +42,8 @@ class AccountController extends GetxController {
   }
 
   logout() async {
-    final token = await TokenManager().getToken();
-
-    final response = await http.post(
-      Uri.parse("$mainUrl/logout"),
-      headers: {
-        HttpHeaders.authorizationHeader: "Bearer $token",
-      },
-    );
-
-    var body = jsonDecode(response.body);
-    print(body['status'] == "success");
-    if (body['status'] == "success") {
-      Get.offAllNamed(Routes.SPLASHHOME);
-    }
+    await TokenManager().logout();
+    Get.offAllNamed(Routes.LOGIN);
   }
 
   @override

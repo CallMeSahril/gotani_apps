@@ -1,38 +1,46 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+
+import '../../../../../main.dart';
+import '../../../../core/helper/shared_preferences_helper.dart';
+import '../../../../routes/app_pages.dart';
+import '../../../dashboard/model/model_product.dart';
+import '../../../dashboard/model/model_transaction.dart';
 
 class AdminDetailNotificationsController extends GetxController {
-  final notification = {
-    'id': '#12345',
-    'date': DateTime(2024, 10, 4),
-    'userName': 'halim123',
-    'address': 'Tambon Tunong',
-    'phone': '082367895432',
-    'items': [
-      {'name': 'Pupuk NPK', 'quantity': 5, 'price': 400000},
-      {'name': 'Pupuk Urea', 'quantity': 5, 'price': 1350000},
-    ]
-  }.obs;
-
-  double get totalPrice {
-    Object? items = notification['items'];
-
-    if (items != null && items is List<Map<String, dynamic>>) {
-      return items.fold(0.0, (sum, item) {
-        double quantity = (item['quantity'] ?? 0).toDouble();
-        double price = (item['price'] ?? 0).toDouble();
-
-        return sum + (quantity * price);
-      });
-    }
-
-    return 0.0;
-  }
+  RxList<ModelProduct> product = <ModelProduct>[].obs;
+  Rx<ModelTransaction> transaction = ModelTransaction().obs;
 
   void processOrder() {
-    Get.snackbar('Success', 'Order is being processed');
+    transactionDone() async {
+      final token = await TokenManager().getToken();
+      final response = await http.post(
+        Uri.parse("$mainUrl/transaction/${transaction.value.id}/complete"),
+        headers: {
+          HttpHeaders.authorizationHeader: "Bearer $token",
+        },
+      );
+      var body = jsonDecode(response.body);
+      if (body['status'] == "success" && response.statusCode == 200) {
+        Get.offAllNamed(Routes.DASHBOARD);
+        Get.snackbar('Success', 'Order is being processed');
+      } else {
+        Get.snackbar("Info", "Gagal Melakukan Transaksi.");
+      }
+    }
   }
 
   void cancelOrder() {
     Get.snackbar('Cancelled', 'Order has been cancelled');
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    transaction.value = Get.arguments[0];
+    product.value = Get.arguments[1];
   }
 }

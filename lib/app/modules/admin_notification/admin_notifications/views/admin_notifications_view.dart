@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gotani_apps/app/routes/app_pages.dart';
 
+import '../../../../core/components/formatter_price.dart';
 import '../controllers/admin_notifications_controller.dart';
 
 class AdminNotificationsView extends GetView<AdminNotificationsController> {
@@ -71,7 +72,7 @@ class AdminNotificationsView extends GetView<AdminNotificationsController> {
                   GetBuilder<AdminNotificationsController>(
                     builder: (controller) {
                       return Column(
-                        children: controller.notifications.map((notification) {
+                        children: controller.transaction.map((notification) {
                           return GestureDetector(
                             onTap: () {
                               Get.toNamed(Routes.ADMIN_DETAIL_NOTIFICATIONS);
@@ -88,21 +89,23 @@ class AdminNotificationsView extends GetView<AdminNotificationsController> {
                                   Expanded(
                                     flex: 2,
                                     child: Text(
-                                      notification.date,
+                                      Formatter.formatDate(
+                                          notification.createdAt ??
+                                              DateTime.now()),
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
                                   Expanded(
                                     flex: 2,
                                     child: Text(
-                                      notification.username,
+                                      notification.customer!.name ?? "-",
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
                                   Expanded(
                                     flex: 2,
                                     child: Text(
-                                      notification.status,
+                                      notification.status ?? "-",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         color: notification.status == 'Baru'

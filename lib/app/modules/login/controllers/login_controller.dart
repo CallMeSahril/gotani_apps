@@ -27,6 +27,10 @@ class LoginController extends GetxController {
       authService
           .login(emailController.text, passwordController.text)
           .then((val) {
+        if (val == null) {
+          Get.snackbar("Info", "Login Gagal");
+          return;
+        }
         debugPrint(val.toString());
         tokenManager.saveToken(val['token']);
         roleManager.saveRole(val['role']);

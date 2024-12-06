@@ -28,6 +28,8 @@ class AccountController extends GetxController {
     ModelProfile.fetchProfile().then((value) {
       profile.value = value;
       profile.refresh();
+      print("profile sebelum = ${jsonEncode(value)}");
+      print("profile = ${jsonEncode(profile.value)}");
       province.value.province = value.storeProvince;
       province.value.provinceId = value.storeProvinceId;
       kabupaten.value.cityName = value.storeCity;
@@ -48,10 +50,11 @@ class AccountController extends GetxController {
         HttpHeaders.authorizationHeader: "Bearer $token",
       },
     );
-
     var body = jsonDecode(response.body);
-    print(body['status'] == "success");
-    if (body['status'] == "success") {
+    print(body);
+    if (response.statusCode == 200) {
+      TokenManager().removeToken();
+      RoleManager().removeRole();
       Get.offAllNamed(Routes.SPLASHHOME);
     }
   }
@@ -60,6 +63,7 @@ class AccountController extends GetxController {
   void onInit() {
     super.onInit();
     fetchProfile();
+    getRole();
   }
 
   @override

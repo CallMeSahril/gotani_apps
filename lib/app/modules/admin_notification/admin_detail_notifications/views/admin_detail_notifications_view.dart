@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:gotani_apps/app/modules/admin_notification/admin_detail_notifications/controllers/admin_detail_notifications_controller.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../core/components/formatter_price.dart';
+
 class AdminDetailNotificationsView
     extends GetView<AdminDetailNotificationsController> {
   const AdminDetailNotificationsView({super.key});
@@ -44,18 +46,14 @@ class AdminDetailNotificationsView
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildInfoRow(
-                'Nomor Pesanan', controller.notification['id'].toString()),
+            _buildInfoRow('Nomor Pesanan',
+                controller.transaction.value.orderId.toString()),
             _buildInfoRow(
                 'Tgl Pesanan',
                 DateFormat('dd/MM/yyyy').format(DateTime.parse(
-                    controller.notification['date']?.toString() ?? ''))),
+                    controller.transaction.value.createdAt?.toString() ?? ''))),
             _buildInfoRow('Nama Pengguna',
-                controller.notification['userName']?.toString() ?? ''),
-            _buildInfoRow('Alamat Pengiriman',
-                controller.notification['address']?.toString() ?? ''),
-            _buildInfoRow(
-                'Telepon', controller.notification['phone']?.toString() ?? ''),
+                controller.transaction.value.customer!.name?.toString() ?? ''),
           ],
         ),
       ),
@@ -106,15 +104,12 @@ class AdminDetailNotificationsView
                         style: TextStyle(fontWeight: FontWeight.bold)),
                   ],
                 ),
-                ...(controller.notification['items'] as List<dynamic>)
-                    .map((item) => TableRow(
-                          children: [
-                            Text(item['name']),
-                            Text(item['quantity'].toString()),
-                            Text(
-                                'Rp. ${NumberFormat('#,###').format(item['price'])}'),
-                          ],
-                        )),
+                ...(controller.product).map((item) => TableRow(
+                      children: [
+                        Text(item.id.toString()),
+                        Text("Harga: ${Formatter.formatToRupiah(item.price)}"),
+                      ],
+                    )),
               ],
             ),
           ],
@@ -135,7 +130,7 @@ class AdminDetailNotificationsView
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             Text(
-              'Rp. ${NumberFormat('#,###').format(controller.totalPrice)}',
+              Formatter.formatToRupiah(controller.transaction.value.total),
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ],

@@ -75,7 +75,7 @@ class HomeDashboardScreen extends GetView<HomeDashboardController> {
                 ),
               ),
               Positioned(
-                top: 185,
+                top: 25.h,
                 left: 2,
                 right: 2,
                 child: SizedBox(
@@ -129,7 +129,7 @@ class HomeDashboardScreen extends GetView<HomeDashboardController> {
                 ),
               ),
               Positioned(
-                top: 300,
+                top: 40.h,
                 left: 2,
                 right: 2,
                 child: Column(
@@ -252,7 +252,7 @@ class HomeDashboardScreen extends GetView<HomeDashboardController> {
                 ),
               ),
               Positioned(
-                top: 500,
+                top: 67.h,
                 left: 2,
                 right: 2,
                 child: Column(

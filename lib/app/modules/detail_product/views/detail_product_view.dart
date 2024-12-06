@@ -195,17 +195,20 @@ class DetailProductView extends GetView<DetailProductController> {
                                   color: Colors.white,
                                 ),
                                 VerticalDivider(),
-                                Icon(
-                                  Icons.shopping_cart_sharp,
-                                  size: width * 0.1,
-                                  color: Colors.white,
+                                InkWell(
+                                  onTap: controller.addToCart,
+                                  child: Icon(
+                                    Icons.shopping_cart_sharp,
+                                    size: width * 0.1,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ],
                             ),
                           ),
                         ),
                         InkWell(
-                          onTap: () async {},
+                          onTap: controller.addToCart,
                           child: Container(
                             decoration: BoxDecoration(
                                 color: Color(0xff0E803C),

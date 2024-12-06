@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -60,7 +61,9 @@ class CartController extends GetxController {
 
   Future<void> fetchCart() async {
     await ModelCart.fetchCarts().then((value) {
+      print("ambil data cart lagi");
       cartItems.value = value;
+      print(cartItems.length);
       cartItems.refresh();
     });
   }

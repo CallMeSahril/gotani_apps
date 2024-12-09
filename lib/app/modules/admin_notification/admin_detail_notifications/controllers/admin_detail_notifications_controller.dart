@@ -24,7 +24,7 @@ class AdminDetailNotificationsController extends GetxController {
         },
       );
       var body = jsonDecode(response.body);
-      if (body['status'] == "success" && response.statusCode == 200) {
+      if (response.statusCode == 200) {
         Get.offAllNamed(Routes.DASHBOARD);
         Get.snackbar('Success', 'Order is being processed');
       } else {

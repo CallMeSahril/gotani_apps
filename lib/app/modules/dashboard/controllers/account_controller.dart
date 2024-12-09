@@ -14,11 +14,6 @@ import '../model/model_province.dart';
 
 class AccountController extends GetxController {
   // Sample data, replace with actual data fetching logic
-  var name = 'Annisa'.obs;
-  var email = '@gmail.com'.obs;
-  var phoneStatus = 'Belum Verifikasi'.obs;
-  var genderStatus = 'Belum Verifikasi'.obs;
-  var birthDateStatus = 'Belum Verifikasi'.obs;
   Rx<ModelProfile> profile = ModelProfile().obs;
   Rx<ModelProvince> province = ModelProvince().obs;
   Rx<ModelKabupaten> kabupaten = ModelKabupaten().obs;

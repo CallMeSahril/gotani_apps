@@ -86,7 +86,7 @@ class AccountScreen extends GetView<AccountController> {
                             ),
                             const SizedBox(width: 16),
                             Obx(() => Text(
-                                  controller.name.value,
+                                  controller.profile.value.name ?? "-",
                                   style: const TextStyle(
                                     fontSize: 22,
                                     fontWeight: FontWeight.bold,

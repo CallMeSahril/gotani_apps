@@ -153,18 +153,18 @@ class AdminDetailNotificationsView
             child: Text('Diproses'),
           ),
         ),
-        SizedBox(width: 16),
-        Expanded(
-          child: ElevatedButton(
-            onPressed: controller.cancelOrder,
-            style: ElevatedButton.styleFrom(
-              foregroundColor: Colors.white,
-              backgroundColor: Colors.red,
-              padding: EdgeInsets.symmetric(vertical: 16),
-            ),
-            child: Text('Batalkan Pesanan'),
-          ),
-        ),
+        // SizedBox(width: 16),
+        // Expanded(
+        //   child: ElevatedButton(
+        //     onPressed: controller.cancelOrder,
+        //     style: ElevatedButton.styleFrom(
+        //       foregroundColor: Colors.white,
+        //       backgroundColor: Colors.red,
+        //       padding: EdgeInsets.symmetric(vertical: 16),
+        //     ),
+        //     child: Text('Batalkan Pesanan'),
+        //   ),
+        // ),
       ],
     );
   }

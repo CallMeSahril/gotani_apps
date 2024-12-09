@@ -17,10 +17,12 @@ class AccountController extends GetxController {
   Rx<ModelProfile> profile = ModelProfile().obs;
   Rx<ModelProvince> province = ModelProvince().obs;
   Rx<ModelKabupaten> kabupaten = ModelKabupaten().obs;
+  Rx<ModelProfile> dataProfile = ModelProfile().obs;
   RxString role = "".obs;
 
-  fetchProfile() {
-    ModelProfile.fetchProfile().then((value) {
+  fetchProfile() async {
+    await ModelProfile.fetchProfile().then((value) {
+      dataProfile.value = value;
       profile.value = value;
       profile.refresh();
       print("profile sebelum = ${jsonEncode(value)}");

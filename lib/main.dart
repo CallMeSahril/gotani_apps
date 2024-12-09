@@ -18,6 +18,8 @@ void main() async {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           fontFamily: 'Roboto',
+          brightness: Brightness.light,
+          primaryColor: Colors.blue,
         ),
         title: "Application",
         initialRoute: AppPages.INITIAL,

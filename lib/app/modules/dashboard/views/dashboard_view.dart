@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:gotani_apps/app/modules/dashboard/controllers/account_controller.dart';
 import 'package:gotani_apps/app/modules/dashboard/views/screen/account_screen.dart';
 import 'package:gotani_apps/app/modules/dashboard/views/screen/cart_screen.dart';
 import 'package:gotani_apps/app/modules/dashboard/views/screen/home_dashboard_screen.dart';
@@ -13,6 +14,7 @@ class DashboardView extends GetView<DashboardController> {
   const DashboardView({super.key});
   @override
   Widget build(BuildContext context) {
+    final AccountController accountController = Get.find<AccountController>();
     return Scaffold(
       backgroundColor: Colors.white,
       body: Obx(() {
@@ -32,6 +34,10 @@ class DashboardView extends GetView<DashboardController> {
           currentIndex: controller.selectedIndex.value,
           onTap: (index) {
             controller.selectedIndex.value = index;
+            if (index == 4) {
+              accountController.fetchProfile();
+              accountController.getRole();
+            }
           },
           backgroundColor: Colors.white,
           selectedItemColor:
@@ -44,22 +50,22 @@ class DashboardView extends GetView<DashboardController> {
                 activeIcon: Icon(Icons.home)),
             BottomNavigationBarItem(
               icon: Icon(Icons.message_outlined),
-              label: 'Messages',
+              label: 'Pesan',
               activeIcon: Icon(Icons.message),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.notifications_outlined),
-              label: 'Notifications',
+              label: 'Notifikasi',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.shopping_cart_outlined),
-              label: 'Cart',
+              label: 'Keranjang',
               activeIcon: Icon(Icons.shopping_cart),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.account_circle_outlined),
               activeIcon: Icon(Icons.account_circle),
-              label: 'Account',
+              label: 'Akun',
             ),
           ],
         );

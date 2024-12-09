@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../routes/app_pages.dart';
 import '../../controllers/account_controller.dart';
@@ -10,6 +11,7 @@ class AccountScreen extends GetView<AccountController> {
 
   @override
   Widget build(BuildContext context) {
+    controller.fetchProfile();
     return Scaffold(
       backgroundColor:
           const Color(0xFFEFF5EC), // Warna latar belakang hijau muda

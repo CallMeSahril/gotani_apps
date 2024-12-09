@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:gotani_apps/app/modules/dashboard/model/model_profile.dart';
 
 class HomeController extends GetxController {
   final totalSales = 10000000.obs;
@@ -10,4 +11,17 @@ class HomeController extends GetxController {
     'Pupuk': 80.0,
     'Racun': 50.0,
   }.obs;
+  Rx<ModelProfile> dataProfile = ModelProfile().obs;
+
+  fetchProfile() async {
+    await ModelProfile.fetchProfile().then((value) {
+      dataProfile.value = value;
+    });
+  }
+
+  @override
+  void onInit() {
+    fetchProfile();
+    super.onInit();
+  }
 }

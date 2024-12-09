@@ -24,7 +24,7 @@ class FormProductView extends GetView<FormProductController> {
             appBar: AppBar(
               elevation: 0,
               title: Text(
-                'Tambah Product',
+                'Tambah Produk',
                 style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w400,
@@ -181,18 +181,38 @@ class FormProductView extends GetView<FormProductController> {
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
-                                    TextFormField(
-                                      controller: controller.category,
+                                    DropdownButtonFormField<int>(
+                                      value: controller.selectedCategory.value,
                                       decoration: InputDecoration(
-                                        hintText: '0',
                                         fillColor: Colors.white,
                                         filled: true,
                                         border: border,
                                       ),
-                                      keyboardType: TextInputType.number,
+                                      items: const [
+                                        DropdownMenuItem(
+                                          value: 1,
+                                          child: Text('Bibit'),
+                                        ),
+                                        DropdownMenuItem(
+                                          value: 3,
+                                          child: Text('Pupuk'),
+                                        ),
+                                        DropdownMenuItem(
+                                          value: 4,
+                                          child: Text('Racun'),
+                                        ),
+                                        DropdownMenuItem(
+                                          value: 5,
+                                          child: Text('Alat Tani'),
+                                        ),
+                                      ],
+                                      onChanged: (value) {
+                                        controller.selectedCategory.value =
+                                            value!;
+                                      },
                                       validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Please enter category';
+                                        if (value == null) {
+                                          return 'Please select a category';
                                         }
                                         return null;
                                       },

@@ -9,7 +9,6 @@ import 'package:image_picker/image_picker.dart';
 class FormProductController extends GetxController {
   final TextEditingController namaBarang = TextEditingController();
   final TextEditingController harga = TextEditingController();
-  final TextEditingController category = TextEditingController();
   final TextEditingController deskripsi = TextEditingController();
   final TextEditingController stok = TextEditingController();
   final TextEditingController weight = TextEditingController();
@@ -17,7 +16,7 @@ class FormProductController extends GetxController {
   final ProductService productService = ProductService();
 
   final ImagePicker picker = ImagePicker();
-
+  Rx<int> selectedCategory = 1.obs;
   bool isLoading = false;
 
   File? imageFile;
@@ -33,7 +32,7 @@ class FormProductController extends GetxController {
       if (product != null) {
         namaBarang.text = product['name'];
         harga.text = product['price'].toString();
-        category.text = product['category_id'].toString();
+        selectedCategory.value = product['category_id'];
         deskripsi.text = product['description'];
         stok.text = product['stock'].toString();
         weight.text = product['weight'].toString();
@@ -63,7 +62,7 @@ class FormProductController extends GetxController {
     print('submit');
     update();
     try {
-      print(category.text);
+      print(selectedCategory.value);
       print(namaBarang.text);
       print(stok.text);
       print(deskripsi.text);
@@ -72,7 +71,7 @@ class FormProductController extends GetxController {
       print(weight.text);
       var response = await productService.postProduct(
         context: Get.context!,
-        productCategoryId: int.parse(category.text),
+        productCategoryId: selectedCategory.value,
         name: namaBarang.text,
         stock: int.parse(stok.text),
         description: deskripsi.text,

@@ -8,20 +8,15 @@ class ChatMessagesScreen extends GetView<ChatMessagesController> {
   @override
   Widget build(BuildContext context) {
     final TextEditingController messageController = TextEditingController();
-
-    return Scaffold(
-      backgroundColor: const Color(0xFFEFF5EC),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFEFF5EC),
-        elevation: 0,
-        title: const Text(
-          'Pesan',
-          style: TextStyle(color: Colors.black, fontSize: 18),
-        ),
-        centerTitle: true,
-      ),
-      body: Column(
+    return SafeArea(
+      child: Column(
         children: [
+          Center(
+            child: const Text(
+              'Pesan',
+              style: TextStyle(color: Colors.black, fontSize: 18),
+            ),
+          ),
           Expanded(
             child: Obx(() {
               return ListView.builder(
@@ -106,5 +101,18 @@ class ChatMessagesScreen extends GetView<ChatMessagesController> {
         ],
       ),
     );
+    // return Scaffold(
+    //   backgroundColor: const Color(0xFFEFF5EC),
+    //   appBar: AppBar(
+    //     backgroundColor: const Color(0xFFEFF5EC),
+    //     elevation: 0,
+    //     title: const Text(
+    //       'Pesan',
+    //       style: TextStyle(color: Colors.black, fontSize: 18),
+    //     ),
+    //     centerTitle: true,
+    //   ),
+    //   body:
+    // );
   }
 }

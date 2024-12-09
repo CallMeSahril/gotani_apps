@@ -217,14 +217,12 @@ class DetailProductView extends GetView<DetailProductController> {
                             padding: EdgeInsets.all(width * 0.03),
                             child: SizedBox(
                               height: width * 0.1,
-                              child: Expanded(
-                                child: Text(
-                                  "Add To Cart",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 28,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                              child: Text(
+                                "Add To Cart",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),

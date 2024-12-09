@@ -42,36 +42,36 @@ class HomeDashboardScreen extends GetView<HomeDashboardController> {
                 top: 10.h,
                 left: 16,
                 right: 16,
-                child: Text(
-                  'Hai sobat Gotani, jelajahi peralatan terbaru sesuai kebutuhan tani anda',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 15.sp,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              Positioned(
-                right: 16,
-                left: 16,
-                top: 15.5.h,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: CustomTextField(
-                    prefixIcon: Icon(Icons.search),
-                    isBorder: false,
-                    controller: controller.controllerSearch,
-                    label: "Search",
-                    onEditingComplete: () {
-                      Get.toNamed(
-                        Routes.SEARCH_PRODUCTS,
-                        arguments: controller.controllerSearch.text,
-                      );
-                    },
-                  ),
+                child: Column(
+                  children: [
+                    Text(
+                      'Hai sobat Gotani, jelajahi peralatan terbaru sesuai kebutuhan tani anda',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 15.sp,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(height: 1.h),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: CustomTextField(
+                        prefixIcon: Icon(Icons.search),
+                        isBorder: false,
+                        controller: controller.controllerSearch,
+                        label: "Search",
+                        onEditingComplete: () {
+                          Get.toNamed(
+                            Routes.SEARCH_PRODUCTS,
+                            arguments: controller.controllerSearch.text,
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Positioned(

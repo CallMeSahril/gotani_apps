@@ -70,6 +70,13 @@ class DetailTransactionView extends GetView<DetailTransactionController> {
               'Tanggal Beli: ${Formatter.formatDate(controller.transaction.value.createdAt ?? DateTime.now())}',
               style: TextStyle(fontSize: 18),
             ),
+            controller.transaction.value.status == 'delivered'
+                ? ElevatedButton(
+                    onPressed: () {
+                      controller.transactionDone();
+                    },
+                    child: Text("Pesanan Diterima"))
+                : SizedBox.shrink(),
           ],
         ),
       ),

@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gotani_apps/app/core/services/product.service.dart';
-import 'package:gotani_apps/app/modules/admin_notification/admin_detail_notifications/controllers/admin_detail_notifications_controller.dart';
 import 'package:gotani_apps/app/modules/admin_product/product/controllers/product_controller.dart';
 import 'package:image_picker/image_picker.dart';
 
-class FormProductController extends GetxController {
+class EditProdukController extends GetxController {
+  //TODO: Implement EditProdukController
   final TextEditingController namaBarang = TextEditingController();
   final TextEditingController harga = TextEditingController();
   final TextEditingController deskripsi = TextEditingController();
@@ -21,7 +21,7 @@ class FormProductController extends GetxController {
   Rx<int> selectedCategory = 1.obs;
   bool isLoading = false;
   var isLoadingfetchDataTransactionDetail = false.obs;
-
+  var idProduk = ''.obs;
   File? imageFile;
   XFile? image;
   String? imagePath;
@@ -33,6 +33,7 @@ class FormProductController extends GetxController {
     if (arguments != null) {
       final product = arguments['product_id'];
       if (product != null) {
+        idProduk.value = "$product";
         fetchDataTransactionDetail("$product");
       }
     }
@@ -89,46 +90,6 @@ class FormProductController extends GetxController {
       print(harga.text);
       print(weight.text);
       var response = await productService.postProduct(
-        context: Get.context!,
-        productCategoryId: selectedCategory.value,
-        name: namaBarang.text,
-        stock: int.parse(stok.text),
-        description: deskripsi.text,
-        imagePath: imagePath!,
-        price: int.parse(harga.text),
-        weight: int.parse(weight.text),
-      );
-      if (response[0] == 'berhasil') {
-        Get.back();
-        Get.snackbar('Success', 'Product uploaded successfully');
-        final controller = Get.find<ProductController>();
-        controller.fetchAllProductsAdmin();
-      } else {
-        Get.snackbar('Error', 'Failed to upload product');
-      }
-    } catch (e) {
-      Get.snackbar('Error', e.toString());
-      print(e);
-    } finally {
-      isLoading = false;
-      update();
-    }
-  }
-
-  Future<void> editProduct(String id) async {
-    isLoading = true;
-    print('submit');
-    update();
-    try {
-      print(selectedCategory.value);
-      print(namaBarang.text);
-      print(stok.text);
-      print(deskripsi.text);
-      print(imagePath);
-      print(harga.text);
-      print(weight.text);
-      var response = await productService.putProduct(
-        id: id,
         context: Get.context!,
         productCategoryId: selectedCategory.value,
         name: namaBarang.text,

@@ -40,8 +40,8 @@ class HomeDashboardScreen extends GetView<HomeDashboardController> {
               ),
               Positioned(
                 top: 10.h,
-                left: 16,
-                right: 16,
+                left: 20,
+                right: 20,
                 child: Column(
                   children: [
                     Text(
@@ -75,7 +75,7 @@ class HomeDashboardScreen extends GetView<HomeDashboardController> {
                 ),
               ),
               Positioned(
-                top: 185,
+                top: 24.h,
                 left: 2,
                 right: 2,
                 child: SizedBox(
@@ -129,7 +129,7 @@ class HomeDashboardScreen extends GetView<HomeDashboardController> {
                 ),
               ),
               Positioned(
-                top: 300,
+                top: 38.h,
                 left: 2,
                 right: 2,
                 child: Column(
@@ -248,16 +248,9 @@ class HomeDashboardScreen extends GetView<HomeDashboardController> {
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ),
-              Positioned(
-                top: 500,
-                left: 2,
-                right: 2,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                    SizedBox(
+                      height: 20,
+                    ),
                     SizedBox(
                       height: 18.h,
                       child: Obx(

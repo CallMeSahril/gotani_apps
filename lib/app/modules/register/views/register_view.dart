@@ -27,13 +27,13 @@ class RegisterView extends GetView<RegisterController> {
       Get.snackbar("Warning", "Mohon Isi Seluruh Kolom Yang Ada.");
     }
     final response = await http.post(Uri.parse("$mainUrl/register"), body: {
+      "name": _controllerName.text,
       "email": _controllerEmail.text,
       "password": _controllerPass.text,
-      "name": _controllerName.text
     });
     print(response.body);
     if (response.statusCode == 200) {
-      Get.offAll(Routes.LOGIN);
+      Get.offAllNamed(Routes.LOGIN);
     } else {
       Get.snackbar("Warning", "Gagal Mendaftarkan Akun.");
     }

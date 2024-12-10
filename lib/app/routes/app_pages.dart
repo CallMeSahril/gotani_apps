@@ -38,6 +38,8 @@ import '../modules/detail_transaction/bindings/detail_transaction_binding.dart';
 import '../modules/detail_transaction/views/detail_transaction_view.dart';
 import '../modules/edit_account/bindings/edit_account_binding.dart';
 import '../modules/edit_account/views/edit_account_view.dart';
+import '../modules/edit_produk/bindings/edit_produk_binding.dart';
+import '../modules/edit_produk/views/edit_produk_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
@@ -192,6 +194,11 @@ class AppPages {
       name: _Paths.EDIT_ACCOUNT,
       page: () => const EditAccountView(),
       binding: EditAccountBinding(),
+    ),
+    GetPage(
+      name: _Paths.EDIT_PRODUK,
+      page: () => const EditProdukView(),
+      binding: EditProdukBinding(),
     ),
   ];
 }

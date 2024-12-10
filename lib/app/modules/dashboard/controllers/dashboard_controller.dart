@@ -8,6 +8,9 @@ class DashboardController extends GetxController {
 
   @override
   void onInit() {
+    if (Get.arguments != null) {
+      selectedIndex.value = Get.arguments as int;
+    }
     super.onInit();
   }
 

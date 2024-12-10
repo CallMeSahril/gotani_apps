@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
-
 import 'package:gotani_apps/app/modules/dashboard/controllers/cart_controller.dart';
+import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../../../main.dart';
 import '../../../../core/components/formatter_price.dart';
@@ -20,13 +20,14 @@ class CartScreen extends GetView<CartController> {
 
   @override
   Widget build(BuildContext context) {
+    controller.fetchCart();
     final width = MediaQuery.of(context).size.width;
     // final height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Keranjang Saya'),
       ),
-      body: Column(
+      body: ListView(
         children: [
           Container(
             width: width,
@@ -86,7 +87,7 @@ class CartScreen extends GetView<CartController> {
                             .where((item) => item.isSelected == true)
                             .length >
                         1) {
-                      Get.snackbar("Warning", "Pilih maksimal 1 keranjang");
+                      Get.snackbar("Warning", "Pilih minimal 1 keranjang");
                     } else {
                       final result =
                           await Get.toNamed(Routes.DELIVERY, arguments: [
@@ -140,96 +141,103 @@ class CartScreen extends GetView<CartController> {
               ],
             ),
           ),
-          Expanded(
-            child: Obx(
-              () => ListView.builder(
-                itemCount: controller.cartItems.length,
-                itemBuilder: (context, index) {
-                  final item = controller.cartItems[index];
-                  return ListTile(
-                    leading: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Checkbox(
-                          value: item.isSelected,
-                          onChanged: (value) =>
-                              controller.toggleSelection(index),
+          Obx(
+            () => controller.isloading.value
+                ? Center(child: CircularProgressIndicator())
+                : ListView.builder(
+                    itemCount: controller.cartItems.length,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      final item = controller.cartItems[index];
+                      return ListTile(
+                        leading: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Checkbox(
+                              value: item.isSelected,
+                              onChanged: (value) =>
+                                  controller.toggleSelection(index),
+                            ),
+                            Image.network(item.product!.imageUrl ?? "",
+                                width: 50),
+                          ],
                         ),
-                        Image.network(item.product!.imageUrl ?? "", width: 50),
-                      ],
-                    ),
-                    title: Text(item.product!.name ?? ""),
-                    subtitle: Text(
-                        Formatter.formatToRupiah(item.product!.price ?? 0)),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: Icon(Icons.remove_circle_outline),
-                          onPressed: () => controller.decrementQuantity(
-                            index,
-                            () async {
-                              final token = await TokenManager().getToken();
-                              final response = await http.put(
-                                Uri.parse("$mainUrl/cart-items/${item.id}"),
-                                body: {"quantity": item.quantity.toString()},
-                                headers: {
-                                  HttpHeaders.authorizationHeader:
-                                      "Bearer $token",
+                        title: Text(item.product!.name ?? ""),
+                        subtitle: Text(
+                            Formatter.formatToRupiah(item.product!.price ?? 0)),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: Icon(Icons.remove_circle_outline),
+                              onPressed: () => controller.decrementQuantity(
+                                index,
+                                () async {
+                                  final token = await TokenManager().getToken();
+                                  final response = await http.put(
+                                    Uri.parse("$mainUrl/cart-items/${item.id}"),
+                                    body: {
+                                      "quantity": item.quantity.toString()
+                                    },
+                                    headers: {
+                                      HttpHeaders.authorizationHeader:
+                                          "Bearer $token",
+                                    },
+                                  );
                                 },
-                              );
-                            },
-                          ),
-                        ),
-                        Text(item.quantity.toString()),
-                        IconButton(
-                          icon: Icon(Icons.add_circle_outline),
-                          onPressed: () => controller.incrementQuantity(
-                            index,
-                            () async {
-                              final token = await TokenManager().getToken();
-                              final response = await http.put(
-                                Uri.parse("$mainUrl/cart-items/${item.id}"),
-                                body: {"quantity": item.quantity.toString()},
-                                headers: {
-                                  HttpHeaders.authorizationHeader:
-                                      "Bearer $token",
+                              ),
+                            ),
+                            Text(item.quantity.toString()),
+                            IconButton(
+                              icon: Icon(Icons.add_circle_outline),
+                              onPressed: () => controller.incrementQuantity(
+                                index,
+                                () async {
+                                  final token = await TokenManager().getToken();
+                                  final response = await http.put(
+                                    Uri.parse("$mainUrl/cart-items/${item.id}"),
+                                    body: {
+                                      "quantity": item.quantity.toString()
+                                    },
+                                    headers: {
+                                      HttpHeaders.authorizationHeader:
+                                          "Bearer $token",
+                                    },
+                                  );
                                 },
-                              );
-                            },
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () async {
-                            final token = await TokenManager().getToken();
-                            final response = await http.delete(
-                              Uri.parse("$mainUrl/cart-items/${item.id}"),
-                              headers: {
-                                HttpHeaders.authorizationHeader:
-                                    "Bearer $token",
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () async {
+                                final token = await TokenManager().getToken();
+                                final response = await http.delete(
+                                  Uri.parse("$mainUrl/cart-items/${item.id}"),
+                                  headers: {
+                                    HttpHeaders.authorizationHeader:
+                                        "Bearer $token",
+                                  },
+                                );
+                                print("$mainUrl/cart-items/${item.id}");
+                                print("Bearer $token");
+                                print(response.body);
+                                var body = jsonDecode(response.body);
+                                if (body['status'] == "success") {
+                                  Get.snackbar(
+                                      "Info", "Berhasil Menghapus Keranjang.");
+                                  controller.fetchCart();
+                                } else {
+                                  Get.snackbar(
+                                      "Info", "Gagal Menghapus Keranjang.");
+                                }
                               },
-                            );
-                            print("$mainUrl/cart-items/${item.id}");
-                            print("Bearer $token");
-                            print(response.body);
-                            var body = jsonDecode(response.body);
-                            if (body['status'] == "success") {
-                              Get.snackbar(
-                                  "Info", "Berhasil Menghapus Keranjang.");
-                              controller.fetchCart();
-                            } else {
-                              Get.snackbar(
-                                  "Info", "Gagal Menghapus Keranjang.");
-                            }
-                          },
-                          icon: Icon(Icons.delete),
-                        )
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
+                              icon: Icon(Icons.delete),
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  ),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -330,9 +338,9 @@ class CartScreen extends GetView<CartController> {
                       return;
                     } else if (controller.cartItems
                             .where((item) => item.isSelected == true)
-                            .length >
+                            .length <
                         1) {
-                      Get.snackbar("Warning", "Pilih maksimal 1 keranjang");
+                      Get.snackbar("Warning", "Pilih minimal 1 keranjang");
                       return;
                     } else if (controller.address.value.address == null) {
                       Get.snackbar("Warning", "Pilih Alamat");
@@ -378,8 +386,17 @@ class CartScreen extends GetView<CartController> {
                       var body = jsonDecode(response.body);
                       if (body['status'] == "success" &&
                           response.statusCode == 200) {
-                        // Get.snackbar("Info", "Berhasil Melakukan Transaksi");
-                        Get.offAllNamed(Routes.TRANSACTION_SUCCESS);
+                        print(response.body);
+                        if (body['data']['payment_url'] != null) {
+                          final paymentUrl = body['data']['payment_url'];
+                          if (await canLaunchUrl(Uri.parse(paymentUrl))) {
+                            await launchUrl(Uri.parse(paymentUrl));
+                          } else {
+                            throw 'Could not launch $paymentUrl';
+                          }
+                          print("Payment URL: $paymentUrl");
+                        }
+                        Get.offAllNamed(Routes.DASHBOARD);
                       } else {
                         Get.snackbar("Info", "Gagal Melakukan Transaksi.");
                       }

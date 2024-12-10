@@ -241,7 +241,7 @@ class DetailProductAdminView extends GetView<DetailProductAdminController> {
                                         onPressed: () {
                                           controller.editProduct();
                                         },
-                                        label: "Edit Prdouk",
+                                        label: "Edit Produk",
                                         textColor: Colors.white,
                                         color: AppColors.primary,
                                         fontSize: 18,

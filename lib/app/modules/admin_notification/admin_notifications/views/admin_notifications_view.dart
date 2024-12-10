@@ -71,10 +71,11 @@ class AdminNotificationsView extends GetView<AdminNotificationsController> {
                   GetBuilder<AdminNotificationsController>(
                     builder: (controller) {
                       return Column(
-                        children: controller.notifications.map((notification) {
+                        children: controller.data.map((notification) {
                           return GestureDetector(
                             onTap: () {
-                              Get.toNamed(Routes.ADMIN_DETAIL_NOTIFICATIONS);
+                              Get.toNamed(Routes.ADMIN_DETAIL_NOTIFICATIONS,
+                                  arguments: notification.id);
                             },
                             child: Container(
                               padding: const EdgeInsets.symmetric(vertical: 12),
@@ -88,21 +89,21 @@ class AdminNotificationsView extends GetView<AdminNotificationsController> {
                                   Expanded(
                                     flex: 2,
                                     child: Text(
-                                      notification.date,
+                                      notification.createdAt.toString(),
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
                                   Expanded(
                                     flex: 2,
                                     child: Text(
-                                      notification.username,
+                                      notification.customer?.name ?? "-",
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
                                   Expanded(
                                     flex: 2,
                                     child: Text(
-                                      notification.status,
+                                      notification.status ?? "-",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         color: notification.status == 'Baru'

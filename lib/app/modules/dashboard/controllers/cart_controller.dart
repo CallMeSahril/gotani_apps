@@ -8,11 +8,13 @@ import '../model/model_cart.dart';
 import '../model/model_delivery_type.dart';
 
 class CartController extends GetxController {
-  var cartItems = <ModelCart>[].obs;
+  var cartItems = <Item>[].obs;
+  var kurir = "".obs;
+  var dataCartItems = DataCartScreen().obs;
   Rx<ModelAddress> address = ModelAddress().obs;
   Rx<ModelDeliveryType> deliveryType = ModelDeliveryType().obs;
   var selectedPaymentMethod = "Dana".obs;
-
+  var isloading = false.obs;
   Timer? _debounce;
 
   RxInt shippingFee = 0.obs;
@@ -59,10 +61,13 @@ class CartController extends GetxController {
   }
 
   Future<void> fetchCart() async {
-    await ModelCart.fetchCarts().then((value) {
-      cartItems.value = value;
+    isloading(true);
+    await RepositoriModelCart.fetchCarts().then((value) {
+      dataCartItems.value = value.data?.first ?? DataCartScreen();
+      cartItems.value = value.data!.first.items ?? [];
       cartItems.refresh();
     });
+    isloading(false);
   }
 
   void updatePaymentMethod(String method) {

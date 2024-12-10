@@ -16,9 +16,8 @@ class DetailProductAdminController extends GetxController {
   }
 
   editProduct() {
-    Get.toNamed(Routes.FORM_PRODUCT, arguments: {
-      'product': product,
-      'user': user,
+    Get.toNamed(Routes.EDIT_PRODUK, arguments: {
+      'product_id': product['id'],
     });
   }
 }

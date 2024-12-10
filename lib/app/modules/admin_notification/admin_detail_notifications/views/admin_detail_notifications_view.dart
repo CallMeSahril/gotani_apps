@@ -17,23 +17,27 @@ class AdminDetailNotificationsView
         foregroundColor: Colors.black,
         elevation: 0,
       ),
-      body: Obx(() => SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildInfoCard(),
-                  SizedBox(height: 16),
-                  _buildItemList(),
-                  SizedBox(height: 16),
-                  _buildTotalPrice(),
-                  SizedBox(height: 24),
-                  _buildActionButtons(),
-                ],
+      body: Obx(() => controller.isLoading.value
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildInfoCard(),
+                    SizedBox(height: 16),
+                    _buildItemList(),
+                    SizedBox(height: 16),
+                    _buildTotalPrice(),
+                    SizedBox(height: 24),
+                    _buildActionButtons(),
+                  ],
+                ),
               ),
-            ),
-          )),
+            )),
     );
   }
 
@@ -45,15 +49,14 @@ class AdminDetailNotificationsView
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildInfoRow(
-                'Nomor Pesanan', controller.notification['id'].toString()),
+                'Nomor Pesanan', controller.dataDetail.value?.orderId ?? '-'),
             _buildInfoRow(
                 'Tgl Pesanan',
                 DateFormat('dd/MM/yyyy').format(DateTime.parse(
-                    controller.notification['date']?.toString() ?? ''))),
+                    controller.dataDetail.value?.createdAt.toString() ?? ''))),
             _buildInfoRow('Nama Pengguna',
-                controller.notification['userName']?.toString() ?? ''),
-            _buildInfoRow('Alamat Pengiriman',
-                controller.notification['address']?.toString() ?? ''),
+                controller.dataDetail.value?.customer?.name.toString() ?? ''),
+            _buildInfoRow('Alamat Pengiriman', 'Jakarta Indonesia'),
             _buildInfoRow(
                 'Telepon', controller.notification['phone']?.toString() ?? ''),
           ],
@@ -106,13 +109,13 @@ class AdminDetailNotificationsView
                         style: TextStyle(fontWeight: FontWeight.bold)),
                   ],
                 ),
-                ...(controller.notification['items'] as List<dynamic>)
+                ...(controller.dataDetail.value?.transactionItems ?? [])
                     .map((item) => TableRow(
                           children: [
-                            Text(item['name']),
-                            Text(item['quantity'].toString()),
+                            Text(item.productId.toString() ?? ''),
+                            Text(item.quantity.toString()),
                             Text(
-                                'Rp. ${NumberFormat('#,###').format(item['price'])}'),
+                                'Rp. ${NumberFormat('#,###').format(item.price)}'),
                           ],
                         )),
               ],

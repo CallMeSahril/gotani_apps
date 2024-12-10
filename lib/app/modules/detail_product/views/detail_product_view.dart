@@ -1,7 +1,13 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
+import 'package:gotani_apps/app/core/helper/shared_preferences_helper.dart';
+import 'package:gotani_apps/app/routes/app_pages.dart';
+import 'package:http/http.dart' as http;
 
+import '../../../../main.dart';
 import '../../../core/components/formatter_price.dart';
 import '../controllers/detail_product_controller.dart';
 
@@ -195,17 +201,48 @@ class DetailProductView extends GetView<DetailProductController> {
                                   color: Colors.white,
                                 ),
                                 VerticalDivider(),
-                                Icon(
-                                  Icons.shopping_cart_sharp,
-                                  size: width * 0.1,
-                                  color: Colors.white,
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.offAllNamed(Routes.DASHBOARD,
+                                        arguments: 3);
+                                  },
+                                  child: Icon(
+                                    Icons.shopping_cart_sharp,
+                                    size: width * 0.1,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ],
                             ),
                           ),
                         ),
                         InkWell(
-                          onTap: () async {},
+                          onTap: () async {
+                            final token = await TokenManager().getToken();
+                            final response = await http.post(
+                              Uri.parse('$mainUrl/cart-items'),
+                              headers: {
+                                HttpHeaders.authorizationHeader:
+                                    "Bearer $token",
+                                HttpHeaders.contentTypeHeader:
+                                    "application/json",
+                              },
+                              body: jsonEncode(<String, dynamic>{
+                                'product_id': controller.product.value.id,
+                                'quantity':
+                                    controller.quantityProductDetail.value,
+                              }),
+                            );
+
+                            if (response.statusCode == 200) {
+                              print('Response data: ${response.body}');
+                              Get.snackbar('Success', 'Product added to cart');
+                            } else {
+                              print('Error response data: ${response.body}');
+                              Get.snackbar(
+                                  'Error', 'Failed to add product to cart');
+                            }
+                          },
                           child: Container(
                             decoration: BoxDecoration(
                                 color: Color(0xff0E803C),

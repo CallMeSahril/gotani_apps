@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:gotani_apps/app/core/services/dio.h.dart';
 
 class AuthService {
@@ -25,10 +26,12 @@ class AuthService {
         'password': password,
       });
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 && response.data['status'] == "success") {
         Map<String, dynamic> data = response.data['data'];
         return data;
       } else {
+        print('Error while login');
+        Get.snackbar("Info", "Login Gagal");
         return null;
       }
     } catch (e) {

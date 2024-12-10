@@ -14,11 +14,6 @@ import '../model/model_province.dart';
 
 class AccountController extends GetxController {
   // Sample data, replace with actual data fetching logic
-  var name = 'Annisa'.obs;
-  var email = '@gmail.com'.obs;
-  var phoneStatus = 'Belum Verifikasi'.obs;
-  var genderStatus = 'Belum Verifikasi'.obs;
-  var birthDateStatus = 'Belum Verifikasi'.obs;
   Rx<ModelProfile> profile = ModelProfile().obs;
   Rx<ModelProvince> province = ModelProvince().obs;
   Rx<ModelKabupaten> kabupaten = ModelKabupaten().obs;
@@ -30,6 +25,8 @@ class AccountController extends GetxController {
       dataProfile.value = value;
       profile.value = value;
       profile.refresh();
+      print("profile sebelum = ${jsonEncode(value)}");
+      print("profile = ${jsonEncode(profile.value)}");
       province.value.province = value.storeProvince;
       province.value.provinceId = value.storeProvinceId;
       kabupaten.value.cityName = value.storeCity;
@@ -42,14 +39,28 @@ class AccountController extends GetxController {
   }
 
   logout() async {
-    await TokenManager().logout();
-    Get.offAllNamed(Routes.LOGIN);
+    final token = await TokenManager().getToken();
+
+    final response = await http.post(
+      Uri.parse("$mainUrl/logout"),
+      headers: {
+        HttpHeaders.authorizationHeader: "Bearer $token",
+      },
+    );
+    var body = jsonDecode(response.body);
+    print(body);
+    if (response.statusCode == 200) {
+      TokenManager().removeToken();
+      RoleManager().removeRole();
+      Get.offAllNamed(Routes.SPLASHHOME);
+    }
   }
 
   @override
   void onInit() {
     super.onInit();
     fetchProfile();
+    getRole();
   }
 
   @override

@@ -91,17 +91,16 @@ class ModelTransaction {
         HttpHeaders.authorizationHeader: "Bearer $token",
       },
     );
-    print(response.statusCode);
-    var respon = jsonDecode(response.body);
-    print(respon);
+    // print(response.statusCode);
+    // var respon = jsonDecode(response.body);
+    // print(respon);
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonResponse = json.decode(response.body);
       String transaction = json.encode(jsonResponse['data']);
-      // print(orders);
       var hasil = modelTransactionFromJson(transaction);
       return hasil;
     } else {
-      throw Exception('Failed to load products');
+      throw Exception('Failed to load transactions');
     }
   }
 }

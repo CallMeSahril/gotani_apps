@@ -39,9 +39,9 @@ class ModelProvince {
         HttpHeaders.authorizationHeader: "Bearer $token",
       },
     );
-    print(response.statusCode);
-    var respon = jsonDecode(response.body);
-    print(respon);
+    // print(response.statusCode);
+    // var respon = jsonDecode(response.body);
+    // print(respon);
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonResponse = json.decode(response.body);
       String orders = json.encode(jsonResponse['data']);

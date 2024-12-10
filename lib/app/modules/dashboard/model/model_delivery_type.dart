@@ -67,8 +67,8 @@ class ModelDeliveryType {
         "courier": courier
       },
     );
-    print(response.body);
-    var respon = jsonDecode(response.body);
+    // print(response.body);
+    // var respon = jsonDecode(response.body);
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonResponse = json.decode(response.body);
       String orders = json.encode(jsonResponse['data'][0]['costs']);

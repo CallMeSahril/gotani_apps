@@ -92,10 +92,13 @@ class ModelProfile {
     // print(response.statusCode);
     // var respon = jsonDecode(response.body);
     // print(respon);
+    // print(response.statusCode);
+    // var respon = jsonDecode(response.body);
+    // print(respon);
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonResponse = json.decode(response.body);
-
-      return ModelProfile.fromJson(jsonResponse['data']);
+      var hasil = ModelProfile.fromJson(jsonResponse["data"]);
+      return hasil;
     } else {
       throw Exception('Failed to load profile');
     }

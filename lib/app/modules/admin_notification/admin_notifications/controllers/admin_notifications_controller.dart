@@ -6,6 +6,10 @@ import 'package:gotani_apps/main.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+import '../../../../routes/app_pages.dart';
+import '../../../dashboard/model/model_product.dart';
+import '../../../dashboard/model/model_transaction.dart';
+
 class AdminNotificationsController extends GetxController {
   var data = <Notification>[].obs;
 

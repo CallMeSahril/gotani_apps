@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../routes/app_pages.dart';
 import '../../controllers/account_controller.dart';
@@ -23,231 +24,187 @@ class AccountScreen extends GetView<AccountController> {
         ),
         centerTitle: true,
       ),
-      body: ListView(
+      body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: controller.role.value == "user"
-                ? Column(
-                    children: [
-                      Obx(
-                        () => Row(
+          Obx(
+            () => Padding(
+              padding: EdgeInsets.all(3.w),
+              child: controller.role.value == "user"
+                  ? Column(
+                      children: [
+                        Row(
                           children: [
-                            controller.dataProfile.value.storeLogo == null
-                                ? CircleAvatar(
-                                    radius: 30,
-                                    backgroundColor: Colors.grey[300],
-                                    child: const Icon(
-                                      Icons.person,
-                                      color: Colors.grey,
-                                      size: 40,
-                                    ),
-                                  )
-                                : Image.network(
-                                    controller.dataProfile.value.storeLogo!,
-                                    width: 60,
-                                    height: 60,
-                                    fit: BoxFit.cover,
-                                  ),
-                            const SizedBox(width: 16),
-                            Text(
-                              controller.name.value,
-                              style: const TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
+                            CircleAvatar(
+                              radius: 30,
+                              backgroundColor: Colors.grey[300],
+                              child: const Icon(
+                                Icons.person,
+                                color: Colors.grey,
+                                size: 40,
                               ),
                             ),
+                            const SizedBox(width: 16),
+                            Obx(() => Text(
+                                  controller.profile.value.name ?? "-",
+                                  style: const TextStyle(
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                )),
                           ],
                         ),
-                      ),
-                      const Divider(
-                        color: Colors.grey,
-                        height: 30,
-                        thickness: 1,
-                      ),
-                      Obx(
-                        () => _buildAccountInfoItem(
-                          'Email',
-                          controller.profile.value.email ?? "-",
+                        const Divider(
+                          color: Colors.grey,
+                          height: 30,
+                          thickness: 1,
                         ),
-                      ),
-                      Obx(
-                        () => _buildAccountInfoItem(
-                          'Nama lengkap',
-                          controller.profile.value.name ?? "-",
-                        ),
-                      ),
-                      InkWell(
-                        onTap: controller.logout,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4.0),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16.0, vertical: 12.0),
-                            decoration: BoxDecoration(
-                              color: Colors.redAccent,
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Keluar",
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
-                            ),
+                        Obx(
+                          () => _buildAccountInfoItem(
+                            'Email',
+                            controller.profile.value.email ?? "-",
                           ),
                         ),
-                      )
-                    ],
-                  )
-                : Column(
-                    children: [
-                      Row(
-                        children: [
-                          controller.dataProfile.value.storeLogo == null
-                              ? CircleAvatar(
-                                  radius: 30,
-                                  backgroundColor: Colors.grey[300],
-                                  child: const Icon(
-                                    Icons.person,
-                                    color: Colors.grey,
-                                    size: 40,
+                        Obx(
+                          () => _buildAccountInfoItem(
+                            'Nama lengkap',
+                            controller.profile.value.name ?? "-",
+                          ),
+                        ),
+                      ],
+                    )
+                  : Column(
+                      children: [
+                        Row(
+                          children: [
+                            CircleAvatar(
+                              radius: 30,
+                              backgroundColor: Colors.grey[300],
+                              child: const Icon(
+                                Icons.person,
+                                color: Colors.grey,
+                                size: 40,
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Obx(() => Text(
+                                  controller.profile.value.name ?? "-",
+                                  style: const TextStyle(
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
                                   ),
-                                )
-                              : Container(
-                                  height: 50,
-                                  width: 50,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                    image: DecorationImage(
-                                      image: NetworkImage(controller
-                                          .dataProfile.value.storeLogo!),
-                                      fit: BoxFit.cover,
+                                )),
+                          ],
+                        ),
+                        const Divider(
+                          color: Colors.grey,
+                          height: 30,
+                          thickness: 1,
+                        ),
+                        Obx(
+                          () => _buildAccountInfoItem(
+                            'Email',
+                            controller.profile.value.email ?? "-",
+                          ),
+                        ),
+                        Obx(
+                          () => _buildAccountInfoItem(
+                            'Nama lengkap',
+                            controller.profile.value.name ?? "-",
+                          ),
+                        ),
+                        Obx(
+                          () => _buildAccountInfoItem(
+                            'Nama Toko',
+                            controller.profile.value.storeName ?? "-",
+                          ),
+                        ),
+                        Obx(
+                          () => _buildAccountInfoItem(
+                            'Alamat Toko',
+                            controller.profile.value.storeAddress ?? "-",
+                          ),
+                        ),
+                        Obx(
+                          () => _buildAccountInfoItem(
+                            'Provinsi',
+                            controller.profile.value.storeProvince ?? "-",
+                          ),
+                        ),
+                        Obx(
+                          () => _buildAccountInfoItem(
+                            'Kabupaten',
+                            controller.profile.value.storeCity ?? "-",
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Get.toNamed(Routes.EDIT_ACCOUNT, arguments: [
+                              controller.profile,
+                              controller.province,
+                              controller.kabupaten
+                            ]);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 4.0),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16.0, vertical: 12.0),
+                              decoration: BoxDecoration(
+                                color: Color(0xFF439A31),
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Edit",
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500,
                                     ),
                                   ),
-                                ),
-                          const SizedBox(width: 16),
-                          Obx(() => Text(
-                                controller.name.value,
-                                style: const TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              )),
-                        ],
-                      ),
-                      const Divider(
-                        color: Colors.grey,
-                        height: 30,
-                        thickness: 1,
-                      ),
-                      Obx(
-                        () => _buildAccountInfoItem(
-                          'Email',
-                          controller.profile.value.email ?? "-",
-                        ),
-                      ),
-                      Obx(
-                        () => _buildAccountInfoItem(
-                          'Nama lengkap',
-                          controller.profile.value.name ?? "-",
-                        ),
-                      ),
-                      Obx(
-                        () => _buildAccountInfoItem(
-                          'Nama Toko',
-                          controller.profile.value.storeName ?? "-",
-                        ),
-                      ),
-                      Obx(
-                        () => _buildAccountInfoItem(
-                          'Alamat Toko',
-                          controller.profile.value.storeAddress ?? "-",
-                        ),
-                      ),
-                      Obx(
-                        () => _buildAccountInfoItem(
-                          'Provinsi',
-                          controller.profile.value.storeProvince ?? "-",
-                        ),
-                      ),
-                      Obx(
-                        () => _buildAccountInfoItem(
-                          'Kabupaten',
-                          controller.profile.value.storeCity ?? "-",
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Get.toNamed(Routes.EDIT_ACCOUNT, arguments: [
-                            controller.profile,
-                            controller.province,
-                            controller.kabupaten
-                          ]);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4.0),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16.0, vertical: 12.0),
-                            decoration: BoxDecoration(
-                              color: Color(0xFF439A31),
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Edit",
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      InkWell(
-                        onTap: controller.logout,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4.0),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16.0, vertical: 12.0),
-                            decoration: BoxDecoration(
-                              color: Colors.redAccent,
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Keluar",
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                      ],
+                    ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(3.w),
+            child: InkWell(
+              onTap: controller.logout,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4.0),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 12.0),
+                  decoration: BoxDecoration(
+                    color: Colors.redAccent,
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Keluar",
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
                         ),
-                      )
+                      ),
                     ],
                   ),
-          ),
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );

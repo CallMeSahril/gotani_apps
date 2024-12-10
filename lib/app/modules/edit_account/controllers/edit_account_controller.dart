@@ -35,6 +35,9 @@ class EditAccountController extends GetxController {
       controllerAddress.text = value.storeAddress!;
       profile.value = value;
       profile.refresh();
+      controllerName.text = value.name ?? "";
+      controllerStoreName.text = value.storeName ?? "";
+      controllerAddress.text = value.storeAddress ?? "";
       province.value.province = value.storeProvince;
       province.value.provinceId = value.storeProvinceId;
       kabupaten.value.cityName = value.storeCity;
@@ -126,6 +129,9 @@ class EditAccountController extends GetxController {
     profile = Get.arguments[0];
     province = Get.arguments[1];
     kabupaten = Get.arguments[2];
+    controllerName.text = profile.value.name ?? "";
+    controllerStoreName.text = profile.value.storeName ?? "";
+    controllerAddress.text = profile.value.storeAddress ?? "";
     fetchProvince();
     fetchProfile();
   }

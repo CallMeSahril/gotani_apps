@@ -22,7 +22,7 @@ class DashboardpenjualView extends GetView<DashboardpenjualController> {
           children: [
             HomeView(),
             ProductView(),
-            CategoryListView(),
+            // CategoryListView(),
             AdminNotificationsView(),
             ChatMessagesScreen(),
             AccountScreen(),
@@ -36,20 +36,24 @@ class DashboardpenjualView extends GetView<DashboardpenjualController> {
             controller.selectedIndex.value = index;
           },
           backgroundColor: Colors.white,
-          selectedItemColor: Color(0xff1F6751), // Set the color for the selected item
+          selectedItemColor:
+              Color(0xff1F6751), // Set the color for the selected item
           unselectedItemColor: Colors.grey,
           items: [
-            BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: 'Home', activeIcon: Icon(Icons.home)),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.home_outlined),
+                label: 'Home',
+                activeIcon: Icon(Icons.home)),
             BottomNavigationBarItem(
               icon: Icon(Icons.production_quantity_limits),
               label: 'Produk',
               activeIcon: Icon(Icons.production_quantity_limits),
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.list),
-              label: 'Category',
-              activeIcon: Icon(Icons.list),
-            ),
+            // BottomNavigationBarItem(
+            //   icon: Icon(Icons.list),
+            //   label: 'Category',
+            //   activeIcon: Icon(Icons.list),
+            // ),
             BottomNavigationBarItem(
               icon: Icon(Icons.notifications_outlined),
               label: 'Notifications',

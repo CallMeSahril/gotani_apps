@@ -10,7 +10,7 @@ import '../../dashboard/controllers/cart_controller.dart';
 import '../../dashboard/model/model_product.dart';
 
 class DetailProductController extends GetxController {
-  CartController cartController = CartController();
+  CartController cartController = Get.put(CartController());
   //TODO: Implement DetailProductController
   Rx<ModelProduct> product = ModelProduct().obs;
   RxInt quantityProductDetail = 1.obs;
@@ -43,7 +43,7 @@ class DetailProductController extends GetxController {
     }
   }
 
-  Future<void> checkout() async {
+  Future<void> addToCart() async {
     final token = await TokenManager().getToken();
     final response = await http.post(
       Uri.parse("$mainUrl/cart-items"),
@@ -61,9 +61,9 @@ class DetailProductController extends GetxController {
     if (body['status'] == "success") {
       Get.back();
       Get.snackbar("Info", "Berhasil menambahkan Keranjang.");
+      cartController.fetchCart();
     } else {
       Get.snackbar("Info", "Gagal Menambahkan Keranjang.");
     }
-    cartController.fetchCart();
   }
 }

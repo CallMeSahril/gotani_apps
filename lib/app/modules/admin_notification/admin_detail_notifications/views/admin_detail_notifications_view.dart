@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:gotani_apps/app/modules/admin_notification/admin_detail_notifications/controllers/admin_detail_notifications_controller.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../core/components/formatter_price.dart';
+
 class AdminDetailNotificationsView
     extends GetView<AdminDetailNotificationsController> {
   const AdminDetailNotificationsView({super.key});
@@ -161,18 +163,18 @@ class AdminDetailNotificationsView
             child: Text('Diproses'),
           ),
         ),
-        SizedBox(width: 16),
-        Expanded(
-          child: ElevatedButton(
-            onPressed: controller.cancelOrder,
-            style: ElevatedButton.styleFrom(
-              foregroundColor: Colors.white,
-              backgroundColor: Colors.red,
-              padding: EdgeInsets.symmetric(vertical: 16),
-            ),
-            child: Text('Batalkan Pesanan'),
-          ),
-        ),
+        // SizedBox(width: 16),
+        // Expanded(
+        //   child: ElevatedButton(
+        //     onPressed: controller.cancelOrder,
+        //     style: ElevatedButton.styleFrom(
+        //       foregroundColor: Colors.white,
+        //       backgroundColor: Colors.red,
+        //       padding: EdgeInsets.symmetric(vertical: 16),
+        //     ),
+        //     child: Text('Batalkan Pesanan'),
+        //   ),
+        // ),
       ],
     );
   }

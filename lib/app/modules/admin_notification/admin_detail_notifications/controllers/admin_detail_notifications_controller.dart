@@ -71,6 +71,13 @@ class AdminDetailNotificationsController extends GetxController {
   void cancelOrder() {
     Get.snackbar('Cancelled', 'Order has been cancelled');
   }
+
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   transaction.value = Get.arguments[0];
+  //   product.value = Get.arguments[1];
+  // }
 }
 
 class RepoDetailTransaction {

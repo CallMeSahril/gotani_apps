@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gotani_apps/app/modules/edit_account/repo/repositority_edit.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:dio/dio.dart' as dio;
 
 import '../../../../main.dart';
 import '../../../core/helper/shared_preferences_helper.dart';
@@ -46,18 +48,17 @@ class EditAccountController extends GetxController {
   }
 
   /// Update store logo
-  void updateStoreLogo(File imageFile) {
+  void updateStoreLogo(File imageFile) async {
     try {
-      // Update the image locally (for demonstration)
       isImage?.value = imageFile;
       update();
-      // dataProfile.value.storeLogo = imageFile.path;
 
-      // Optionally, upload the image to server here
-      // Example:
-      // await uploadImage(imageFile);
-
-      Get.snackbar("Success", "Foto berhasil diubah!");
+      final respone = await RepositorityEdit().editPhotoProfile(imageFile.path);
+      if (respone) {
+        Get.snackbar("Success", "Foto berhasil diubah!");
+      } else {
+        Get.snackbar("Error", "Gagal memperbarui foto");
+      }
     } catch (e) {
       Get.snackbar("Error", "Gagal memperbarui foto: $e");
     }
@@ -90,11 +91,11 @@ class EditAccountController extends GetxController {
       body: {
         "name": controllerName.text,
         "store_name": controllerStoreName.text,
-        "address": controllerAddress.text,
-        "province": province.value.province,
-        "province_id": province.value.provinceId,
-        "city": kabupaten.value.cityName,
-        "city_id": kabupaten.value.cityId,
+        "store_address": controllerAddress.text,
+        "store_province": province.value.province,
+        "store_province_id": province.value.provinceId,
+        "store_city": kabupaten.value.cityName,
+        "store_city_id": kabupaten.value.cityId,
       },
       headers: {
         HttpHeaders.authorizationHeader: "Bearer $token",

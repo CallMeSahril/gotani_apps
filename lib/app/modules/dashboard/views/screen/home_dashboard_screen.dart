@@ -8,8 +8,6 @@ import 'package:gotani_apps/app/routes/app_pages.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../core/components/formatter_price.dart';
-import '../../../../routes/app_pages.dart';
-import 'detail_product_screen.dart';
 
 class HomeDashboardScreen extends GetView<HomeDashboardController> {
   const HomeDashboardScreen({

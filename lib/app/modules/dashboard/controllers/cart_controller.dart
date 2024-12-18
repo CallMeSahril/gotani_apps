@@ -71,10 +71,6 @@ class CartController extends GetxController {
     isloading(false);
   }
 
-  void updatePaymentMethod(String method) {
-    selectedPaymentMethod.value = method;
-  }
-
   void updateAddress() {}
 
   @override

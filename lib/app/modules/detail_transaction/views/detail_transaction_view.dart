@@ -12,7 +12,7 @@ class DetailTransactionView extends GetView<DetailTransactionController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Detail Transaction'),
+        title: const Text('Detail Transaksi'),
         centerTitle: true,
       ),
       body: Padding(
@@ -70,13 +70,19 @@ class DetailTransactionView extends GetView<DetailTransactionController> {
               'Tanggal Beli: ${Formatter.formatDate(controller.transaction.value.createdAt ?? DateTime.now())}',
               style: TextStyle(fontSize: 18),
             ),
+            SizedBox(
+              height: 10,
+            ),
             controller.transaction.value.status == 'delivered'
                 ? ElevatedButton(
                     onPressed: () {
                       controller.transactionDone();
                     },
                     child: Text("Pesanan Diterima"))
-                : SizedBox.shrink(),
+                : Text(
+                    'Status: ${controller.transaction.value.status}',
+                    style: TextStyle(fontSize: 18),
+                  ),
           ],
         ),
       ),

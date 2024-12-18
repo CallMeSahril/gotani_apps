@@ -10,8 +10,9 @@ class DeliveryController extends GetxController {
       weight = "0".obs,
       courier = "".obs;
   RxInt qty = 0.obs;
+  var isLoading = false.obs;
   Rx<ModelProduct> product = ModelProduct().obs;
-  RxList<String> listCourier = <String>["jne", "pos", "tiki"].obs;
+  RxList<String> listCourier = <String>["jne", "pos"].obs;
   RxList<ModelDeliveryType> listDelivery = <ModelDeliveryType>[].obs;
   var listDeliveryType = [].obs;
   var idProduct = "".obs;
@@ -27,13 +28,14 @@ class DeliveryController extends GetxController {
     });
   }
 
-  void fetchDeliveryType() {
+  void fetchDeliveryType() async {
+    isLoading.value = true;
     courier.refresh();
     origin.refresh();
     destination.refresh();
     weight.refresh();
 
-    ModelDeliveryType.fetchDeliveryType(
+    await ModelDeliveryType.fetchDeliveryType(
       courier: courier.value,
       origin: origin.value,
       destination: destination.value,
@@ -41,6 +43,7 @@ class DeliveryController extends GetxController {
     ).then((value) {
       listDelivery.value = value;
     });
+    isLoading.value = false;
   }
 
   @override

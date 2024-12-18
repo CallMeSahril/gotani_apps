@@ -37,11 +37,14 @@ class AccountScreen extends GetView<AccountController> {
                             CircleAvatar(
                               radius: 30,
                               backgroundColor: Colors.grey[300],
-                              child: const Icon(
-                                Icons.person,
-                                color: Colors.grey,
-                                size: 40,
-                              ),
+                              child: controller.profile.value.storeLogo != null
+                                  ? Image.network(
+                                      '${controller.profile.value.storeLogo}')
+                                  : Icon(
+                                      Icons.person,
+                                      color: Colors.grey,
+                                      size: 40,
+                                    ),
                             ),
                             const SizedBox(width: 16),
                             Obx(() => Text(
@@ -80,11 +83,16 @@ class AccountScreen extends GetView<AccountController> {
                             CircleAvatar(
                               radius: 30,
                               backgroundColor: Colors.grey[300],
-                              child: const Icon(
-                                Icons.person,
-                                color: Colors.grey,
-                                size: 40,
-                              ),
+                              child: controller.profile.value.storeLogo != null
+                                  ? Image.network(
+                                      '${controller.profile.value.storeLogo}',
+                                      fit: BoxFit.cover,
+                                    )
+                                  : Icon(
+                                      Icons.person,
+                                      color: Colors.grey,
+                                      size: 40,
+                                    ),
                             ),
                             const SizedBox(width: 16),
                             Obx(() => Text(

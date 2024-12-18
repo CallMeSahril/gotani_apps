@@ -8,6 +8,7 @@ class NotificationController extends GetxController {
   Future<void> fetchTransaction() async {
     await ModelTransaction.fetchTransactions().then((value) {
       transaction.value = value;
+      transaction.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
       transaction.refresh();
     });
   }

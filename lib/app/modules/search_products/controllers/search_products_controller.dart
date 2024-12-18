@@ -7,6 +7,7 @@ class SearchProductsController extends GetxController {
   //TODO: Implement SearchProductsController
   TextEditingController controllerSearch = TextEditingController();
   var query = "".obs;
+  var isLoading = false.obs;
   RxList<ModelProduct> listProduct = <ModelProduct>[].obs;
 
   fetchSearchProduct(String query) async {
@@ -20,6 +21,7 @@ class SearchProductsController extends GetxController {
   void onInit() {
     super.onInit();
     query.value = Get.arguments;
+    controllerSearch.text = Get.arguments;
     fetchSearchProduct(query.value);
   }
 

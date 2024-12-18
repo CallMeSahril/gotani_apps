@@ -4,13 +4,38 @@ import '../model/model_transaction.dart';
 
 class NotificationController extends GetxController {
   RxList<ModelTransaction> transaction = <ModelTransaction>[].obs;
+  var isLoading = false.obs;
+  Future<void> fetchTransaction(bool isFlitered) async {
+    isLoading.value = true;
+    final respone = await ModelTransaction.fetchTransactions();
 
-  Future<void> fetchTransaction() async {
-    await ModelTransaction.fetchTransactions().then((value) {
-      transaction.value = value;
+    if (isFlitered) {
+      transaction.value = respone;
       transaction.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
-      transaction.refresh();
-    });
+      transaction.value =
+          transaction.where((tx) => tx.status == selectedStatus.value).toList();
+    } else {
+      transaction.value = respone;
+      transaction.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+    }
+    isLoading.value = false;
+  }
+
+  RxString selectedStatus = 'All'.obs;
+  List<String> statusList = [
+    'All',
+    'pending',
+    'completed',
+    'cancelled',
+    'delivered'
+  ];
+
+  void filterTransactionByStatus() {
+    if (selectedStatus.value == 'All') {
+      fetchTransaction(false);
+    } else {
+      fetchTransaction(true);
+    }
   }
 
   @override
@@ -21,7 +46,7 @@ class NotificationController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    fetchTransaction();
+    filterTransactionByStatus();
   }
 
   @override

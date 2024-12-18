@@ -21,6 +21,8 @@ class ModelTransaction {
   String? orderId;
   int? total;
   String? status;
+  String? paymentUrl;
+
   DateTime? createdAt;
   DateTime? updatedAt;
   ModelProfile? customer;
@@ -33,6 +35,7 @@ class ModelTransaction {
     this.sellerId,
     this.orderId,
     this.total,
+    this.paymentUrl,
     this.status,
     this.createdAt,
     this.updatedAt,
@@ -49,6 +52,7 @@ class ModelTransaction {
         orderId: json["order_id"],
         total: json["total"],
         status: json["status"],
+        paymentUrl: json["payment_url"],
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(json["created_at"]),
@@ -73,6 +77,7 @@ class ModelTransaction {
         "seller_id": sellerId,
         "order_id": orderId,
         "total": total,
+        "payment_url": paymentUrl,
         "status": status,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),

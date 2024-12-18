@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/components/formatter_price.dart';
 import '../controllers/detail_transaction_controller.dart';
@@ -79,9 +80,24 @@ class DetailTransactionView extends GetView<DetailTransactionController> {
                       controller.transactionDone();
                     },
                     child: Text("Pesanan Diterima"))
-                : Text(
-                    'Status: ${controller.transaction.value.status}',
-                    style: TextStyle(fontSize: 18),
+                : Column(
+                    children: [
+                      Text(
+                        'Status: ${controller.transaction.value.status}',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      ElevatedButton(
+                          onPressed: () async {
+                            if (await canLaunchUrl(Uri.parse(
+                                controller.transaction.value.paymentUrl!))) {
+                              await launchUrl(Uri.parse(
+                                  controller.transaction.value.paymentUrl!));
+                            } else {
+                              throw 'Could not launch ${controller.transaction.value.paymentUrl}';
+                            }
+                          },
+                          child: Text("Bayar")),
+                    ],
                   ),
           ],
         ),

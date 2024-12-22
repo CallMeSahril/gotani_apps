@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gotani_apps/app/controller/request_seller_controller.dart';
+import 'package:gotani_apps/app/data/repo/request_seller_repository.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -181,6 +185,68 @@ class AccountScreen extends GetView<AccountController> {
                         ),
                       ],
                     ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(3.w),
+            child: InkWell(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("Konfirmasi"),
+                      content: Text("Apakah Anda yakin ingin menjadi penjual?"),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text("Batalkan"),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            RequestSellerController().requestSeller(
+                                RequestSellerModel(
+                                    storeAddress: "",
+                                    storeCity: "",
+                                    storeLogo: File("path"),
+                                    storeName: "",
+                                    storeProvince: ""));
+                            Navigator.of(context).pop();
+                          },
+                          child: Text("Ya"),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4.0),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 12.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20.0),
+                    border: Border.all(color: Colors.green, width: 2),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Menjadi Penjual",
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
           ),
           Padding(

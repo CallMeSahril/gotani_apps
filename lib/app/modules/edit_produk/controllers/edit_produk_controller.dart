@@ -103,6 +103,7 @@ class EditProdukController extends GetxController {
         Get.back();
         Get.snackbar('Success', 'Product uploaded successfully');
         final controller = Get.find<ProductController>();
+
         controller.fetchAllProductsAdmin();
       } else {
         Get.snackbar('Error', 'Failed to upload product');

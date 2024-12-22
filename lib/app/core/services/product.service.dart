@@ -80,7 +80,7 @@ class ProductService {
     required String name,
     required int stock,
     required String description,
-    required String imagePath,
+    // required String imagePath,
     required int price,
     required int weight,
     required BuildContext context,
@@ -88,7 +88,7 @@ class ProductService {
   }) async {
     try {
       // Konversi imagePath menjadi File
-      File imageFile = File(imagePath);
+      // File imageFile = File(imagePath);
 
       final Map<String, dynamic> data = {
         'product_category_id': productCategoryId.toString(),
@@ -96,7 +96,7 @@ class ProductService {
         'stock': stock.toString(),
         'description': description,
         'price': price.toString(),
-        // 'weight': weight.toString(),
+        'weight': weight.toString(),
         // Jika mengirimkan file tidak didukung dalam x-www-form-urlencoded,
         // file bisa dikirimkan terpisah atau diubah ke mekanisme lain.
         // 'gambar': await MultipartFile.fromFile(imageFile.path,
@@ -106,7 +106,7 @@ class ProductService {
       final response = await dioCustom.put('products/$id', data: data);
 
       if (response.statusCode == 200) {
-        if (response.data['message'] != 'success create data') {
+        if (response.data['message'] != 'Success updated data') {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(response.data['message'].toString())),
           );

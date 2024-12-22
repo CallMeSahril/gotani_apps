@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:gotani_apps/app/core/services/product.service.dart';
 import 'package:gotani_apps/app/modules/admin_notification/admin_detail_notifications/controllers/admin_detail_notifications_controller.dart';
 import 'package:gotani_apps/app/modules/admin_product/product/controllers/product_controller.dart';
+import 'package:gotani_apps/app/modules/edit_produk/controllers/edit_produk_controller.dart';
 import 'package:image_picker/image_picker.dart';
 
 class FormProductController extends GetxController {
@@ -102,6 +103,7 @@ class FormProductController extends GetxController {
         Get.back();
         Get.snackbar('Success', 'Product uploaded successfully');
         final controller = Get.find<ProductController>();
+
         controller.fetchAllProductsAdmin();
       } else {
         Get.snackbar('Error', 'Failed to upload product');
@@ -117,16 +119,8 @@ class FormProductController extends GetxController {
 
   Future<void> editProduct(String id) async {
     isLoading = true;
-    print('submit');
     update();
     try {
-      print(selectedCategory.value);
-      print(namaBarang.text);
-      print(stok.text);
-      print(deskripsi.text);
-      print(imagePath);
-      print(harga.text);
-      print(weight.text);
       var response = await productService.putProduct(
         id: id,
         context: Get.context!,
@@ -134,11 +128,12 @@ class FormProductController extends GetxController {
         name: namaBarang.text,
         stock: int.parse(stok.text),
         description: deskripsi.text,
-        imagePath: imagePath!,
+        // imagePath: imagePath!,
         price: int.parse(harga.text),
         weight: int.parse(weight.text),
       );
       if (response[0] == 'berhasil') {
+        Get.back();
         Get.back();
         Get.snackbar('Success', 'Product uploaded successfully');
         final controller = Get.find<ProductController>();

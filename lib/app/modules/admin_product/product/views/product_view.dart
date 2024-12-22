@@ -185,7 +185,7 @@ class ProductView extends GetView<ProductController> {
                                   // Price Range
                                   Expanded(
                                     child: Text(
-                                      'Rp ${Formatter.formatToRupiah(controller.products[index]['price'])}',
+                                      '${Formatter.formatToRupiah(controller.products[index]['price'])}',
                                       style: const TextStyle(
                                         fontSize: 12,
                                         color: Colors.grey,

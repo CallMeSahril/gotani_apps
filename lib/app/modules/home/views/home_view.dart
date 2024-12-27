@@ -16,6 +16,7 @@ class HomeView extends GetView<HomeController> {
         onRefresh: () {
           controller.fetchProfile();
           controller.getSellerAnalitics();
+          controller.getLaporan();
           return Future.value(true);
         },
         child: SingleChildScrollView(
@@ -258,35 +259,25 @@ class HomeView extends GetView<HomeController> {
                                   ),
                                 ),
                                 SizedBox(height: 20),
-                                DataTable(
-                                  columns: [
-                                    DataColumn(label: Text('Kategori')),
-                                    DataColumn(label: Text('Jumlah')),
-                                    DataColumn(label: Text('Pendapatan')),
-                                  ],
-                                  rows: [
-                                    DataRow(cells: [
-                                      DataCell(Text('Bibit')),
-                                      DataCell(Text('50')),
-                                      DataCell(Text('Rp. 5.000.000')),
-                                    ]),
-                                    DataRow(cells: [
-                                      DataCell(Text('Pupuk')),
-                                      DataCell(Text('30')),
-                                      DataCell(Text('Rp. 3.000.000')),
-                                    ]),
-                                    DataRow(cells: [
-                                      DataCell(Text('Racun')),
-                                      DataCell(Text('20')),
-                                      DataCell(Text('Rp. 2.000.000')),
-                                    ]),
-                                    DataRow(cells: [
-                                      DataCell(Text('Alat Tani')),
-                                      DataCell(Text('10')),
-                                      DataCell(Text('Rp. 1.000.000')),
-                                    ]),
-                                  ],
-                                ),
+                                Obx(() => controller.isloading.value
+                                    ? Center(child: CircularProgressIndicator())
+                                    : DataTable(
+                                        columns: [
+                                          DataColumn(label: Text('Kategori')),
+                                          DataColumn(label: Text('Jumlah')),
+                                          DataColumn(label: Text('Pendapatan')),
+                                        ],
+                                        rows: controller.getAnaliticsCatagory
+                                            .value.data!.transaksi!
+                                            .map((item) {
+                                          return DataRow(cells: [
+                                            DataCell(Text(item.kategori!)),
+                                            DataCell(
+                                                Text(item.jumlah.toString())),
+                                            DataCell(Text(item.pendapatan!)),
+                                          ]);
+                                        }).toList(),
+                                      )),
                               ],
                             ),
                             // child: Column(

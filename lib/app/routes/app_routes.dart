@@ -32,6 +32,7 @@ abstract class Routes {
   static const DETAIL_TRANSACTION = _Paths.DETAIL_TRANSACTION;
   static const EDIT_ACCOUNT = _Paths.EDIT_ACCOUNT;
   static const EDIT_PRODUK = _Paths.EDIT_PRODUK;
+  static const REGISTER_PENJUAL = _Paths.REGISTER_PENJUAL;
 }
 
 abstract class _Paths {
@@ -65,4 +66,5 @@ abstract class _Paths {
   static const DETAIL_TRANSACTION = '/detail-transaction';
   static const EDIT_ACCOUNT = '/edit-account';
   static const EDIT_PRODUK = '/edit-produk';
+  static const REGISTER_PENJUAL = '/register-penjual';
 }

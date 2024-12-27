@@ -128,7 +128,7 @@ class FormProductController extends GetxController {
         name: namaBarang.text,
         stock: int.parse(stok.text),
         description: deskripsi.text,
-        // imagePath: imagePath!,
+        imagePath: imagePath!,
         price: int.parse(harga.text),
         weight: int.parse(weight.text),
       );

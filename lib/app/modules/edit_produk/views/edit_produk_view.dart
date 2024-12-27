@@ -81,46 +81,90 @@ class EditProdukView extends GetView<EditProdukController> {
                                         ),
                                         child: Align(
                                           alignment: Alignment.centerLeft,
-                                          child: formController.image == null
-                                              ? Container(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(horizontal: 8),
-                                                  decoration: BoxDecoration(
-                                                    color: AppColors.grey,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8),
-                                                  ),
-                                                  child: Text(
-                                                    'Choose file',
-                                                    style: TextStyle(
-                                                      color: AppColors.black,
-                                                    ),
-                                                  ),
-                                                )
-                                              : Row(
-                                                  children: [
-                                                    ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8),
-                                                      child: Image.file(
-                                                        File(formController
-                                                            .image!.path),
-                                                        height: 32,
-                                                        width: 32,
-                                                        fit: BoxFit.cover,
+                                          child: formController.imagePath ==
+                                                  null
+                                              ? formController.image == null
+                                                  ? Container(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 8),
+                                                      decoration: BoxDecoration(
+                                                        color: AppColors.grey,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8),
                                                       ),
-                                                    ),
-                                                    const SizedBox(width: 8),
-                                                    const Text(
-                                                      'File selected',
-                                                      style: TextStyle(
+                                                      child: Text(
+                                                        'Choose file',
+                                                        style: TextStyle(
                                                           color:
-                                                              AppColors.black),
+                                                              AppColors.black,
+                                                        ),
+                                                      ),
+                                                    )
+                                                  : Row(
+                                                      children: [
+                                                        ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8),
+                                                          child: Image.file(
+                                                            File(formController
+                                                                .image!.path),
+                                                            height: 32,
+                                                            width: 32,
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                            width: 8),
+                                                        const Text(
+                                                          'File selected',
+                                                          style: TextStyle(
+                                                              color: AppColors
+                                                                  .black),
+                                                        ),
+                                                      ],
+                                                    )
+                                              : formController.image != null
+                                                  ? Row(
+                                                      children: [
+                                                        ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8),
+                                                          child: Image.file(
+                                                            File(formController
+                                                                .image!.path),
+                                                            height: 32,
+                                                            width: 32,
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                            width: 8),
+                                                        const Text(
+                                                          'File selected',
+                                                          style: TextStyle(
+                                                              color: AppColors
+                                                                  .black),
+                                                        ),
+                                                      ],
+                                                    )
+                                                  : Row(
+                                                      children: [
+                                                        Image.network(
+                                                            formController
+                                                                .imagePath!),
+                                                        SizedBox(width: 8),
+                                                        const Text(
+                                                          'File selected',
+                                                          style: TextStyle(
+                                                              color: AppColors
+                                                                  .black),
+                                                        ),
+                                                      ],
                                                     ),
-                                                  ],
-                                                ),
                                         ),
                                       ),
                                     ),

@@ -39,21 +39,48 @@ class AccountController extends GetxController {
   }
 
   logout() async {
-    final token = await TokenManager().getToken();
+    Get.defaultDialog(
+      title: "Keluar",
+      middleText: "Apakah Anda yakin ingin keluar?",
+      textConfirm: "Ya",
+      textCancel: "Tidak",
+      onConfirm: () async {
+        Get.back(); // Tutup dialog
+        final token = await TokenManager().getToken();
 
-    final response = await http.post(
-      Uri.parse("$mainUrl/logout"),
-      headers: {
-        HttpHeaders.authorizationHeader: "Bearer $token",
+        final response = await http.post(
+          Uri.parse("$mainUrl/logout"),
+          headers: {
+            HttpHeaders.authorizationHeader: "Bearer $token",
+          },
+        );
+        var body = jsonDecode(response.body);
+        print(body);
+        if (response.statusCode == 200) {
+          TokenManager().removeToken();
+          RoleManager().removeRole();
+          Get.offAllNamed(Routes.SPLASHHOME);
+        }
+      },
+      onCancel: () {
+        Get.back(); // Tutup dialog
       },
     );
-    var body = jsonDecode(response.body);
-    print(body);
-    if (response.statusCode == 200) {
-      TokenManager().removeToken();
-      RoleManager().removeRole();
-      Get.offAllNamed(Routes.SPLASHHOME);
-    }
+    // final token = await TokenManager().getToken();
+
+    // final response = await http.post(
+    //   Uri.parse("$mainUrl/logout"),
+    //   headers: {
+    //     HttpHeaders.authorizationHeader: "Bearer $token",
+    //   },
+    // );
+    // var body = jsonDecode(response.body);
+    // print(body);
+    // if (response.statusCode == 200) {
+    //   TokenManager().removeToken();
+    //   RoleManager().removeRole();
+    //   Get.offAllNamed(Routes.SPLASHHOME);
+    // }
   }
 
   @override

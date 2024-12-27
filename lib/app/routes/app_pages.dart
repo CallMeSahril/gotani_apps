@@ -46,6 +46,8 @@ import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
+import '../modules/register_penjual/bindings/register_penjual_binding.dart';
+import '../modules/register_penjual/views/register_penjual_view.dart';
 import '../modules/search_products/bindings/search_products_binding.dart';
 import '../modules/search_products/views/search_products_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
@@ -199,6 +201,11 @@ class AppPages {
       name: _Paths.EDIT_PRODUK,
       page: () => const EditProdukView(),
       binding: EditProdukBinding(),
+    ),
+    GetPage(
+      name: _Paths.REGISTER_PENJUAL,
+      page: () => RegisterPenjualView(),
+      binding: RegisterPenjualBinding(),
     ),
   ];
 }

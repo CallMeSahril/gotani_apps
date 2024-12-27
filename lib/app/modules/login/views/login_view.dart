@@ -24,11 +24,16 @@ class LoginView extends GetView<LoginController> {
       padding: const EdgeInsets.all(16),
       child: ListView(
         children: [
-          Row(
-            children: [
-              const Icon(Icons.arrow_back_ios),
-              const Text('Back'),
-            ],
+          GestureDetector(
+            onTap: () {
+              Get.back();
+            },
+            child: Row(
+              children: [
+                const Icon(Icons.arrow_back_ios),
+                const Text('Back'),
+              ],
+            ),
           ),
           SizedBox(
             height: 5.h,

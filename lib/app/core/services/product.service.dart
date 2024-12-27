@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:gotani_apps/app/core/helper/shared_preferences_helper.dart';
 import 'package:gotani_apps/app/core/services/dio.h.dart';
 
 class ProductService {
@@ -80,30 +81,41 @@ class ProductService {
     required String name,
     required int stock,
     required String description,
-    // required String imagePath,
+    required String imagePath,
     required int price,
     required int weight,
     required BuildContext context,
     required String id,
   }) async {
     try {
+      final dio = Dio();
+      TokenManager tokenManager = TokenManager();
+      String? token = await tokenManager.getToken();
       // Konversi imagePath menjadi File
-      // File imageFile = File(imagePath);
-
-      final Map<String, dynamic> data = {
+      File imageFile = File(imagePath);
+      // Membuat FormData untuk mengirim data termasuk file
+      FormData data = FormData.fromMap({
         'product_category_id': productCategoryId.toString(),
         'name': name,
         'stock': stock.toString(),
         'description': description,
         'price': price.toString(),
         'weight': weight.toString(),
-        // Jika mengirimkan file tidak didukung dalam x-www-form-urlencoded,
-        // file bisa dikirimkan terpisah atau diubah ke mekanisme lain.
-        // 'gambar': await MultipartFile.fromFile(imageFile.path,
-        //     filename: 'image.jpg'), // Contoh placeholder untuk nama file
-      };
+        if (imagePath.contains("http")) ...{
+          'image_url': imagePath,
+        },
+        if (!imagePath.contains("http")) ...{
+          'image_url': await MultipartFile.fromFile(imageFile.path,
+              filename: 'image.jpg'),
+        }
+      });
       // Melakukan POST request
-      final response = await dioCustom.put('products/$id', data: data);
+      final response =
+          await dio.post('https://gotani.entitas.biz.id/api/products/$id',
+              data: data,
+              options: Options(headers: {
+                'Authorization': 'Bearer $token',
+              }));
 
       if (response.statusCode == 200) {
         if (response.data['message'] != 'Success updated data') {

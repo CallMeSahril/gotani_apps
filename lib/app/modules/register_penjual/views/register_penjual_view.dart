@@ -1,6 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
+import 'package:gotani_apps/app/data/repo/auth/auth_repo.dart';
+import 'package:gotani_apps/app/modules/register_penjual/controllers/register_penjual_controller.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:get/get.dart';
@@ -12,10 +16,8 @@ import 'package:gotani_apps/app/routes/app_pages.dart';
 import 'package:gotani_apps/main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../controllers/register_controller.dart';
-
-class RegisterView extends GetView<RegisterController> {
-  RegisterView({super.key});
+class RegisterPenjualView extends GetView<RegisterPenjualController> {
+  RegisterPenjualView({super.key});
   final TextEditingController _controllerName = TextEditingController();
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPass = TextEditingController();
@@ -59,6 +61,38 @@ class RegisterView extends GetView<RegisterController> {
                 fontWeight: FontWeight.w800,
               ),
             ),
+            GestureDetector(
+              onTap: () async {
+                await controller.pickImage();
+              },
+              child: Obx(
+                () => controller.isImage.value == null
+                    ? Center(
+                        child: Container(
+                          height: 100,
+                          width: 100,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            color: Colors.grey,
+                          ),
+                          child: Icon(Icons.camera_alt, color: Colors.white),
+                        ),
+                      )
+                    : Center(
+                        child: Container(
+                          height: 100,
+                          width: 100,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            image: DecorationImage(
+                              image: FileImage(controller.isImage.value!),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),
+              ),
+            ),
             SpaceHeight(10),
             CustomTextField(
               controller: _controllerName,
@@ -86,17 +120,50 @@ class RegisterView extends GetView<RegisterController> {
                   ),
                 )),
             SpaceHeight(10),
+            CustomTextField(
+              controller: _controllerEmail,
+              label: "Nama Toko",
+            ),
+            SpaceHeight(10),
+            CustomTextField(
+              controller: _controllerEmail,
+              label: "Alamat Toko",
+            ),
+            SpaceHeight(10),
+            CustomTextField(
+              controller: _controllerEmail,
+              label: "Provinsi Toko",
+            ),
+            SpaceHeight(10),
+            CustomTextField(
+              controller: _controllerEmail,
+              label: "Kota Toko",
+            ),
+            SpaceHeight(10),
+            CustomTextField(
+              controller: TextEditingController(),
+              label: "Upload Foto Toko",
+              readOnly: true,
+              // onTap: () async {
+              //   final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+              //   if (pickedFile != null) {
+              //     // Handle the selected image file
+              //   }
+              // },
+              suffixIcon: Icon(Icons.upload_file),
+            ),
+            SpaceHeight(10),
             Row(
               children: [
                 Text(
-                  "Register Sebagai Penjual ? ",
+                  "Register Sebagai Pembeli ? ",
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
                   ),
                 ),
                 GestureDetector(
                   onTap: () {
-                    Get.toNamed(Routes.REGISTER_PENJUAL);
+                    Get.toNamed(Routes.REGISTER);
                   },
                   child: Text(
                     "Daftarkan Disini",
@@ -112,7 +179,19 @@ class RegisterView extends GetView<RegisterController> {
             Button.filled(
               color: Color(0xff00AA13),
               onPressed: () {
-                save();
+                final userData = UploadUser(
+                  name: "coba3",
+                  email: "coba3gmail.com",
+                  password: "tes123",
+                  storeName: "seller baru",
+                  storeAddress: "jalan seller baru",
+                  storeProvince: "Bali",
+                  storeProvinceId: '1',
+                  storeCity: "Badung",
+                  storeCityId: '1',
+                  storeLogoUpload: controller.isImage.value,
+                );
+                controller.authController.register(userData);
               },
               label: "Register",
             ),

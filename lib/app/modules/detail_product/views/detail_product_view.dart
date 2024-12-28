@@ -111,6 +111,21 @@ class DetailProductView extends GetView<DetailProductController> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        Text("Stok Tersedia",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                            )),
+                        Text("${controller.product.value.stock}pcs",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                            )),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
                         Text(
                           Formatter.formatToRupiah(
                               controller.product.value.price),

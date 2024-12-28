@@ -40,6 +40,8 @@ import '../modules/edit_account/bindings/edit_account_binding.dart';
 import '../modules/edit_account/views/edit_account_view.dart';
 import '../modules/edit_produk/bindings/edit_produk_binding.dart';
 import '../modules/edit_produk/views/edit_produk_view.dart';
+import '../modules/history_penjual/bindings/history_penjual_binding.dart';
+import '../modules/history_penjual/views/history_penjual_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
@@ -206,6 +208,11 @@ class AppPages {
       name: _Paths.REGISTER_PENJUAL,
       page: () => RegisterPenjualView(),
       binding: RegisterPenjualBinding(),
+    ),
+    GetPage(
+      name: _Paths.HISTORY_PENJUAL,
+      page: () => const HistoryPenjualView(),
+      binding: HistoryPenjualBinding(),
     ),
   ];
 }

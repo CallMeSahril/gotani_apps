@@ -15,20 +15,40 @@ class DashboardView extends GetView<DashboardController> {
   @override
   Widget build(BuildContext context) {
     final AccountController accountController = Get.find<AccountController>();
+    DateTime? currentBackPressTime;
+
+    Future<bool> onWillPop() {
+      DateTime now = DateTime.now();
+      if (currentBackPressTime == null ||
+          now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
+        currentBackPressTime = now;
+        Get.snackbar(
+          "Alert",
+          "Silahkan klik lagi untuk keluar",
+          snackPosition: SnackPosition.TOP,
+        );
+        return Future.value(false);
+      }
+      return Future.value(true);
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Obx(() {
-        return IndexedStack(
-          index: controller.selectedIndex.value,
-          children: [
-            HomeDashboardScreen(),
-            ChatMessagesScreen(),
-            NotificationScreen(),
-            CartScreen(),
-            AccountScreen(),
-          ],
-        );
-      }),
+      body: WillPopScope(
+        onWillPop: onWillPop,
+        child: Obx(() {
+          return IndexedStack(
+            index: controller.selectedIndex.value,
+            children: [
+              HomeDashboardScreen(),
+              ChatMessagesScreen(),
+              NotificationScreen(),
+              CartScreen(),
+              AccountScreen(),
+            ],
+          );
+        }),
+      ),
       bottomNavigationBar: Obx(() {
         return BottomNavigationBar(
           currentIndex: controller.selectedIndex.value,

@@ -1,9 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:gotani_apps/app/data/repo/auth/auth_repo.dart';
+import 'package:gotani_apps/app/modules/dashboard/model/model_kabupaten.dart';
+import 'package:gotani_apps/app/modules/dashboard/model/model_province.dart';
 import 'package:gotani_apps/app/modules/register_penjual/controllers/register_penjual_controller.dart';
 import 'package:http/http.dart' as http;
 
@@ -18,28 +21,6 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 class RegisterPenjualView extends GetView<RegisterPenjualController> {
   RegisterPenjualView({super.key});
-  final TextEditingController _controllerName = TextEditingController();
-  final TextEditingController _controllerEmail = TextEditingController();
-  final TextEditingController _controllerPass = TextEditingController();
-
-  save() async {
-    if (_controllerEmail.text == "" ||
-        _controllerPass.text == "" ||
-        _controllerName.text == "") {
-      Get.snackbar("Warning", "Mohon Isi Seluruh Kolom Yang Ada.");
-    }
-    final response = await http.post(Uri.parse("$mainUrl/register"), body: {
-      "name": _controllerName.text,
-      "email": _controllerEmail.text,
-      "password": _controllerPass.text,
-    });
-    print(response.body);
-    if (response.statusCode == 200) {
-      Get.offAllNamed(Routes.LOGIN);
-    } else {
-      Get.snackbar("Warning", "Gagal Mendaftarkan Akun.");
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,23 +75,26 @@ class RegisterPenjualView extends GetView<RegisterPenjualController> {
               ),
             ),
             SpaceHeight(10),
+            Text("Username"),
             CustomTextField(
-              controller: _controllerName,
+              controller: controller.controllerName,
               label: "Username",
             ),
             SpaceHeight(10),
+            Text("email"),
             CustomTextField(
-              controller: _controllerEmail,
+              controller: controller.controllerEmail,
               label: "Email",
             ),
             SpaceHeight(10),
+            Text("Password"),
             Obx(() => CustomTextField(
-                  controller: _controllerPass,
+                  controller: controller.controllerPass,
                   label: "Password",
-                  obscureText: true,
+                  obscureText: controller.isEyes.value ,
                   suffixIcon: IconButton(
                     icon: Icon(
-                      controller.isEyes.value
+                      !controller.isEyes.value
                           ? Icons.visibility
                           : Icons.visibility_off,
                     ),
@@ -120,38 +104,69 @@ class RegisterPenjualView extends GetView<RegisterPenjualController> {
                   ),
                 )),
             SpaceHeight(10),
+            Text("Nama Toko"),
             CustomTextField(
-              controller: _controllerEmail,
+              controller: controller.controllerNamaToko,
               label: "Nama Toko",
             ),
             SpaceHeight(10),
+            Text('Alamat Toko'),
             CustomTextField(
-              controller: _controllerEmail,
+              controller: controller.controllerAlamatToko,
               label: "Alamat Toko",
             ),
             SpaceHeight(10),
-            CustomTextField(
-              controller: _controllerEmail,
-              label: "Provinsi Toko",
+            Text("Provinsi"),
+            DropdownSearch<ModelProvince>(
+              popupProps: PopupProps.menu(
+                showSearchBox: true,
+              ),
+              selectedItem: controller.province.value.province == null
+                  ? ModelProvince(province: "Pilih Provinsi")
+                  : controller.province.value,
+              items: controller.listProvinsi,
+              itemAsString: (item) => item.province!,
+              onChanged: (item) {
+                controller.province.value = item!;
+                controller.fetchKabupaten(item.provinceId!);
+              },
+              dropdownDecoratorProps: DropDownDecoratorProps(
+                baseStyle: TextStyle(fontSize: 16),
+                dropdownSearchDecoration: InputDecoration(
+                  hintText: "Pilih Provinsi",
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+            SizedBox(height: 16),
+            Text("Kabupaten"),
+            Obx(
+              () => controller.isLoading.value
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : DropdownSearch<ModelKabupaten>(
+                      popupProps: PopupProps.menu(
+                        showSearchBox: true,
+                      ),
+                      selectedItem: controller.kabupaten.value.cityName == null
+                          ? ModelKabupaten(cityName: "Pilih Kabupaten")
+                          : controller.kabupaten.value,
+                      items: controller.listKabupaten,
+                      itemAsString: (item) => item.cityName!,
+                      onChanged: (item) {
+                        controller.kabupaten.value = item!;
+                      },
+                      dropdownDecoratorProps: DropDownDecoratorProps(
+                        baseStyle: TextStyle(fontSize: 16),
+                        dropdownSearchDecoration: InputDecoration(
+                          hintText: "Pilih Kabupaten",
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
             ),
             SpaceHeight(10),
-            CustomTextField(
-              controller: _controllerEmail,
-              label: "Kota Toko",
-            ),
-            SpaceHeight(10),
-            CustomTextField(
-              controller: TextEditingController(),
-              label: "Upload Foto Toko",
-              readOnly: true,
-              // onTap: () async {
-              //   final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-              //   if (pickedFile != null) {
-              //     // Handle the selected image file
-              //   }
-              // },
-              suffixIcon: Icon(Icons.upload_file),
-            ),
             SpaceHeight(10),
             Row(
               children: [
@@ -179,19 +194,7 @@ class RegisterPenjualView extends GetView<RegisterPenjualController> {
             Button.filled(
               color: Color(0xff00AA13),
               onPressed: () {
-                final userData = UploadUser(
-                  name: "coba3",
-                  email: "coba3gmail.com",
-                  password: "tes123",
-                  storeName: "seller baru",
-                  storeAddress: "jalan seller baru",
-                  storeProvince: "Bali",
-                  storeProvinceId: '1',
-                  storeCity: "Badung",
-                  storeCityId: '1',
-                  storeLogoUpload: controller.isImage.value,
-                );
-                controller.authController.register(userData);
+                controller.isregister();
               },
               label: "Register",
             ),

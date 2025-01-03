@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:gotani_apps/app/core/components/buttons.dart';
 import 'package:gotani_apps/app/core/components/custom_text_field.dart';
 import 'package:gotani_apps/app/core/components/spaces.dart';
+import 'package:gotani_apps/app/routes/app_pages.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import 'package:http/http.dart' as http;
@@ -26,7 +27,7 @@ class LoginView extends GetView<LoginController> {
         children: [
           GestureDetector(
             onTap: () {
-              Get.back();
+            Get.offAllNamed(Routes.SPLASHHOME);
             },
             child: Row(
               children: [

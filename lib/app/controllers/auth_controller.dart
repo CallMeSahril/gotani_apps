@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:gotani_apps/app/data/repo/auth/auth_repo.dart';
+import 'package:gotani_apps/app/routes/app_pages.dart';
 
 class AuthController extends GetxController {
   final AuthRepo _authRepo = AuthRepo();
@@ -7,25 +8,25 @@ class AuthController extends GetxController {
 
   Future<void> register(UploadUser UploadUser) async {
     final resp = await _authRepo.register(UploadUser);
-    // if (resp.isEmpty) {
-    //   Get.defaultDialog(
-    //     title: "Registrasi Gagal",
-    //     middleText: "Silakan coba lagi.",
-    //     textConfirm: "OK",
-    //     onConfirm: () {
-    //       Get.back();
-    //     },
-    //   );
-    // } else {
-    //   Get.defaultDialog(
-    //     title: "Registrasi Berhasil",
-    //     middleText: "Silakan coba lagi.",
-    //     textConfirm: "OK",
-    //     onConfirm: () {
-    //       Get.back();
-    //     },
-    //   );
-    // }
+    if (resp.isEmpty) {
+      Get.defaultDialog(
+        title: "Registrasi Gagal",
+        middleText: "Silakan coba lagi.",
+        textConfirm: "OK",
+        onConfirm: () {
+          Get.back();
+        },
+      );
+    } else {
+      Get.defaultDialog(
+        title: "Registrasi Berhasil",
+        middleText: "Silakan Login",
+        textConfirm: "OK",
+        onConfirm: () {
+          Get.offAllNamed(Routes.LOGIN);
+        },
+      );
+    }
   }
 
 //   final count = 0.obs;

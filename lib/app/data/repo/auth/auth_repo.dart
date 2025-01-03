@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:gotani_apps/main.dart';
 
 class AuthRepo {
-  Future<void> register(UploadUser data) async {
+  Future<List> register(UploadUser data) async {
     final dio = Dio();
 
     // Create FormData with the necessary fields
@@ -28,10 +28,17 @@ class AuthRepo {
       final response =
           await dio.post('$mainUrl/register-seller', data: formData);
 
-      // Handle the response
-      print(response.statusCode);
-      print(response.data);
+      if (response.statusCode == 200) {
+        if (response.data['status'] == 'success') {
+          return ['success'];
+        } else {
+          return [];
+        }
+      } else {
+        return [];
+      }
     } catch (e) {
+      return [];
       print('Error occurred: $e');
     }
   }

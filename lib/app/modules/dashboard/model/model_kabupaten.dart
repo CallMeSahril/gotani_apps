@@ -48,12 +48,9 @@ class ModelKabupaten {
       };
 
   static Future<List<ModelKabupaten>> fetchKabupaten(String idProv) async {
-    final token = await TokenManager().getToken();
     final response = await http.get(
-      Uri.parse("$mainUrl/cities/$idProv"),
-      headers: {
-        HttpHeaders.authorizationHeader: "Bearer $token",
-      },
+      Uri.parse("https://gotani.ahatest.my.id/api/cities/$idProv"),
+    
     );
     // print(response.statusCode);
     // var respon = jsonDecode(response.body);

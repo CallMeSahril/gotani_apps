@@ -32,12 +32,9 @@ class ModelProvince {
       };
 
   static Future<List<ModelProvince>> fetchProvince() async {
-    final token = await TokenManager().getToken();
     final response = await http.get(
-      Uri.parse("$mainUrl/provinces"),
-      headers: {
-        HttpHeaders.authorizationHeader: "Bearer $token",
-      },
+      Uri.parse("https://gotani.ahatest.my.id/api/provinces"),
+
     );
     // print(response.statusCode);
     // var respon = jsonDecode(response.body);

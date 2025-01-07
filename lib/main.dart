@@ -7,7 +7,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'app/routes/app_pages.dart';
 
 // main url
-String mainUrl = "https://gotani.entitas.biz.id/api";
+String mainUrl = "https://gotani.ahatest.my.id/api";
 
 void main() async {
   await dotenv.load(fileName: '.env');

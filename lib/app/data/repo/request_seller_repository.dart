@@ -22,7 +22,7 @@ class RequestSellerRepository {
 
     try {
       final response = await dio.post(
-        'https://gotani.entitas.biz.id/api/request-sellers',
+        'https://gotani.ahatest.my.id/api/request-sellers',
         data: formData,
       );
       if (response.statusCode == 200) {

@@ -111,7 +111,7 @@ class ProductService {
       });
       // Melakukan POST request
       final response =
-          await dio.post('https://gotani.entitas.biz.id/api/products/$id',
+          await dio.post('https://gotani.ahatest.my.id/api/products/$id',
               data: data,
               options: Options(headers: {
                 'Authorization': 'Bearer $token',
